@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Show;
+use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class ShowRepository extends ServiceEntityRepository
+class TricksRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Show::class);
+        parent::__construct($registry, Tricks::class);
     }
 
     /*
     public function findBySomething($value)
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.something = :value')->setParameter('value', $value)
-            ->orderBy('s.id', 'ASC')
+        return $this->createQueryBuilder('t')
+            ->where('t.something = :value')->setParameter('value', $value)
+            ->orderBy('t.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
