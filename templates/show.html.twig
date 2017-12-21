@@ -1,0 +1,44 @@
+{# templates/show.html.twig #}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% block body %}
+
+
+
+
+
+    <p>{{ trick.id }}</p>
+    <p>{{ trick.name }}</p>
+    <p>{{ trick.description }}</p>
+    <p>{{ trick.groupe }}</p>
+
+
+
+
+    <div>
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <p>Message flash : {{ message }}</p>
+        {% endfor %}
+    </div>
+
+
+    <img
+            src="{{ asset(trick.image.url) }}"
+            alt="{{ trick.image.alt }}"
+
+    />
+
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+

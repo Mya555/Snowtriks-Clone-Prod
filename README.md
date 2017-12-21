@@ -127,3 +127,34 @@ Pour installer le projet sur le client vous devez vous rendre sur le lien suivan
     {
         $this->dateCreation = $dateCreation;
     }
+
+
+
+
+
+
+
+class TricksController extends Controller
+{
+    /**
+     * @Route("/accueil", name="tricks")
+     */
+    public function show()
+
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $trick = new Tricks();
+        $trick->setName('Figure de ouf!');
+        $trick->setDescription('description');
+        $trick->setGroup('group');
+        $trick->getId();
+        $trick->setDateCreation('now');
+
+
+        $em->persist($trick);
+        $em->flush();
+
+        return new Response($trick->getName());
+    }
+}return new Response('Le nom est - ' .$trick->getName(). ' <br/>La description est - ' .$trick->getDescription(). '<br/>Le groupe est - ' .$trick->getGroupe(). '<br/> ');

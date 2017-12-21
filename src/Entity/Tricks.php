@@ -4,55 +4,24 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
  */
 class Tricks
 {
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+     */
+
+    private $image;
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-
-
-
-    /**
-     * @ORM\Column(type="string", length=100, name="name")
-     */
-    private $name;
-
-
-
-    /**
-     * @ORM\Column(type="string", length=255, name="group")
-     */
-    private $group;
-
-
-
-    /**
-     * @ORM\Column(type="string", length=1000, name="description")
-     */
-    private $description;
-
-
-
-    /**
-     * @ORM\Column(type="datetime", name="date_creation")
-     */
-    private $dateCreation;
-
-
-
-    /**
-     * ORM\Column(type="simple_array", type="string", name="picture")
-     */
-    private $picture;
-
-
-
 
     /**
      * @return mixed
@@ -70,6 +39,16 @@ class Tricks
         $this->id = $id;
     }
 
+
+
+
+
+    /**
+     * Nom de la figure
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     /**
      * @return mixed
      */
@@ -86,21 +65,16 @@ class Tricks
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
+
+
+
 
     /**
-     * @param mixed $group
+     * La description de la figure
+     * @ORM\Column(type="text")
      */
-    public function setGroup($group)
-    {
-        $this->group = $group;
-    }
+
+    private $description;
 
     /**
      * @return mixed
@@ -118,36 +92,104 @@ class Tricks
         $this->description = $description;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
+
+
+
 
     /**
-     * @param mixed $dateCreation
+     * Le groupe de la figure
+     * @ORM\Column(type="string", length=255)
      */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    }
+    private $groupe;
 
     /**
      * @return mixed
      */
-    public function getPicture()
+    public function getGroupe()
     {
-        return $this->picture;
+        return $this->groupe;
     }
 
     /**
-     * @param mixed $picture
+     * @param mixed $groupe
      */
-    public function setPicture($picture)
+    public function setGroupe($groupe)
     {
-        $this->picture = $picture;
+        $this->groupe = $groupe;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+
+
+    /**
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+    }
+
+    /**
+     * * @ORM\Column(type="string", length=255, name="user")
+     */
+    private $user;
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
+
+
+
+
+
+
+
 
 }

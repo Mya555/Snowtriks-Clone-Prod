@@ -1,0 +1,25 @@
+
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+<h1>ADD</h1>
+
+{% block body %}
+
+
+{{ form(form) }}
+
+
+{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

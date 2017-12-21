@@ -2,18 +2,109 @@
 
 namespace App\Controller;
 
+use App\Entity\Tricks;
+use App\Form\TricksType;
+use App\Form\TricksEditType;
+use App\Form\ImageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TricksController extends Controller
 {
     /**
-     * @Route("/tricks", name="tricks")
+     * Affichage d'une figure
+     * @Route("/figure/{id}", name="show")
      */
-    public function index()
+    public function show($id)
+
     {
-        // replace this line with your own code!
-        return $this->render('@Maker/demoPage.html.twig', [ 'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__) ]);
+
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Tricks::class);
+
+
+        $trick = $repository->find($id);
+
+
+
+        if (!$trick) {
+
+            throw new NotFoundHttpException(
+                'Aucun résultat ne correspond à votre recherche'
+            );
+        }
+
+
+
+
+
+        return $this->render('show.html.twig', array('trick' => $trick));
     }
+
+
+    /**
+     * Addition d'une figure
+     * @Route("/ajout", name="add")
+     */
+    public function add(Request $request)
+    {
+        $trick = new Tricks();
+        $form   = $this->get('form.factory')->create(TricksType::class, $trick);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+
+            return $this->redirectToRoute('show', array('id' => $trick->getId()));
+        }
+
+        return $this->render('add.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+
+
+    /**
+     * Edition d'une figure
+     * @Route("/editer/{id}", name="edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $trick = $em->getRepository(Tricks::class)->find($id);
+
+        if (null === $trick) {
+            throw new NotFoundHttpException("Cette page n'existe pas");
+        }
+
+        $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+
+            return $this->redirectToRoute('show', array('id' => $trick->getId()));
+        }
+
+        return $this->render('edit.html.twig', array(
+            'trick' => $trick,
+            'form'   => $form->createView(),
+        ));
+    }
+
+
+
+
 }
