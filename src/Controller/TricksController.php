@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Tricks;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
-use App\Form\ImageType;
+use App\src\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +51,7 @@ class TricksController extends Controller
      * Addition d'une figure
      * @Route("/ajout", name="add")
      */
-    public function add(Request $request)
+    public function add(Request $request, FileUploader $fileUploader)
     {
         $trick = new Tricks();
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
@@ -63,9 +63,17 @@ class TricksController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('show', array('id' => $trick->getId()));
-        }
 
+        if ($form->isSubmitted() && $form->isValid()) {
+        $file = $trick->getImage();
+        $fileName = $fileUploader->upload($file);
+
+        $trick->setImage($fileName);
+
+
+        return $this->redirectToRoute('show', array('id' => $trick->getId()));
+    }
+        }
         return $this->render('add.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -10,11 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tricks
 {
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"})
-     */
-
-    private $image;
 
     /**
      * @ORM\Id
@@ -118,21 +113,6 @@ class Tricks
         $this->groupe = $groupe;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param mixed $image
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
 
 
 
@@ -181,6 +161,30 @@ class Tricks
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400
+     * )
+     */
+    private $image;
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
     }
 
 
