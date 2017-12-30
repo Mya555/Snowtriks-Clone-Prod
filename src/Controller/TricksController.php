@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\Entity\Tricks;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
-use App\src\Service\FileUploader;
+use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\File\File;
 
 class TricksController extends Controller
 {
@@ -57,6 +58,8 @@ class TricksController extends Controller
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();
@@ -64,16 +67,12 @@ class TricksController extends Controller
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-        $file = $trick->getImage();
-        $fileName = $fileUploader->upload($file);
-
-        $trick->setImage($fileName);
 
 
-        return $this->redirectToRoute('show', array('id' => $trick->getId()));
-    }
+            return $this->redirectToRoute('show', array('id' => $trick->getId()));
+
         }
+
         return $this->render('add.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -94,6 +93,16 @@ class TricksController extends Controller
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");
         }
+
+        $images = [];
+
+        foreach ($trick->getImages() as $image) {
+            $images[] = new File($this->getParameter('uploads').'/'.$image);
+        }
+
+        $trick->setImages(
+            $images
+        );
 
         $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 

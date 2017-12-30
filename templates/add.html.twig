@@ -1,6 +1,6 @@
+{% extends 'base.html.twig' %}
 
 
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 <!DOCTYPE html>
 <html>
@@ -17,9 +17,9 @@
 
 
     {{ form_start(form) }}
-    {# ... #}
+    {{ form_widget(form) }}
+    {{ form_label(form) }}
 
-    {{ form_row(form.image) }}
     {{ form_end(form) }}
 
 

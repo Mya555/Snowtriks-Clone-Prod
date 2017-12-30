@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -10,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tricks
 {
+
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+
+
+    }
 
     /**
      * @ORM\Id
@@ -137,10 +145,7 @@ class Tricks
         $this->date = $date;
     }
 
-    public function __construct()
-    {
-        $this->date = new \Datetime();
-    }
+
 
     /**
      * * @ORM\Column(type="string", length=255, name="user")
@@ -164,25 +169,19 @@ class Tricks
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="simple_array", name="images", nullable=true)
      *
-     * @Assert\Image(
-     *     minWidth = 200,
-     *     maxWidth = 400,
-     *     minHeight = 200,
-     *     maxHeight = 400
-     * )
      */
-    private $image;
+    private $images;
 
-    public function getImage()
+    public function getImages()
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage($image)
+    public function setImages($images)
     {
-        $this->image = $image;
+        $this->images = $images;
 
         return $this;
     }
