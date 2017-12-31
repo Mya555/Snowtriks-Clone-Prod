@@ -1,29 +1,36 @@
 {% extends 'base.html.twig' %}
 
+{% block jumbotron %}
 
+    <div class="jumbotron">
+         <div class="col-sm-8 mx-auto">
+             <div class="well">
+                <p class="lead">
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-</head>
-<body>
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-<h1>ADD</h1>
+                    {{ form_errors(form) }}
 
-{% block body %}
+                        {% block form_row %}
+                                {% spaceless %}
+                                    <div class="form_row">
+                                        {{ form_label(form) }}
+                                        {{ form_errors(form) }}
+                                        {{ form_widget(form) }}
+                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-secondary'}}) }}
+                                    </div>
+                                {% endspaceless %}
+                            {% endblock form_row %}
 
+                    {{ form_rest(form) }}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_label(form) }}
+                    {{ form_end(form) }}
+                </p>
 
-    {{ form_end(form) }}
+            </div>
+         </div>
+    </div>
+
 
 
 {% endblock %}
-{% block javascripts %}{% endblock %}
-</body>
-</html>

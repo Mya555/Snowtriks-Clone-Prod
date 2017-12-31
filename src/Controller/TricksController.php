@@ -94,7 +94,7 @@ class TricksController extends Controller
             throw new NotFoundHttpException("Cette page n'existe pas");
         }
 
-        $images = [];
+        /**$images = [];
 
         foreach ($trick->getImages() as $image) {
             $images[] = new File($this->getParameter('uploads').'/'.$image);
@@ -103,6 +103,7 @@ class TricksController extends Controller
         $trick->setImages(
             $images
         );
+         **/
 
         $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 
