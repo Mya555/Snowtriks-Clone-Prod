@@ -1,36 +1,31 @@
+
 {% extends 'base.html.twig' %}
 
-{% block jumbotron %}
+{% block content %}
 
-    <div class="jumbotron">
-         <div class="col-sm-8 mx-auto">
-             <div class="well">
-                <p class="lead">
+        <section class="page-section about-heading">
+            <div class="container">
+                    <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0"  src="{{ asset('img/sky.jpg') }}" alt="">
+                    <div class="about-heading-content">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-10 mx-auto">
+                                <div class="bg-faded rounded p-5">
+                                    <h2 class="section-heading mb-4">
+                                        <span class="section-heading-upper">Ajoute ta</span>
+                                        <span class="section-heading-lower">Figure</span>
+                                    </h2>
 
-                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-
-                    {{ form_errors(form) }}
-
-                        {% block form_row %}
-                                {% spaceless %}
-                                    <div class="form_row">
-                                        {{ form_label(form) }}
+                                     <div class="form_row ">
+                                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                                         {{ form_errors(form) }}
                                         {{ form_widget(form) }}
-                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-secondary'}}) }}
+                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                                        {{ form_end(form) }}
                                     </div>
-                                {% endspaceless %}
-                            {% endblock form_row %}
-
-                    {{ form_rest(form) }}
-
-                    {{ form_end(form) }}
-                </p>
-
+                               </div>
+                           </div>
+                        </div>
+                    </div>
             </div>
-         </div>
-    </div>
-
-
-
+       </section>
 {% endblock %}

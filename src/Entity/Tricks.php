@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tricks
 {
+    //constructeur des figures
 
     public function __construct()
     {
@@ -41,7 +42,6 @@ class Tricks
     {
         $this->id = $id;
     }
-
 
 
 
@@ -125,6 +125,7 @@ class Tricks
 
 
     /**
+     * Date de la creation de la figure
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -148,6 +149,7 @@ class Tricks
 
 
     /**
+     * Auteur de la figure
      * * @ORM\Column(type="string", length=255, name="user")
      */
     private $user;
@@ -168,7 +170,11 @@ class Tricks
         $this->user = $user;
     }
 
+
+
+
     /**
+     * Image représentant la figure
      * @ORM\Column(type="simple_array", name="images", nullable=true)
      *
      */
@@ -185,6 +191,33 @@ class Tricks
 
         return $this;
     }
+
+
+
+
+    /**
+     * Video représentant la figure
+     * @ORM\Column(type="simple_array", name="video", nullable=true)
+     */
+    private $videos;
+
+    /**
+     * @return mixed
+     */
+    public function getVideos()
+    {
+        return $this->videos;
+    }
+
+    /**
+     * @param mixed $videos
+     */
+    public function setVideos($videos): void
+    {
+        $this->videos = $videos;
+    }
+
+
 
 
 

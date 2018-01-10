@@ -1,37 +1,106 @@
-{# templates/show.html.twig #}
 
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}
+   {% extends 'base.html.twig' %}
 
-            <p>{{ trick.id }}</p>
-            <p>{{ trick.name }}</p>
-            <p>{{ trick.description }}</p>
-            <p>{{ trick.groupe }}</p>
+       {% block content %}
 
-            <div>
-                {% for message in app.session.flashbag.get('notice') %}
-                    <p>Message flash : {{ message }}</p>
-                {% endfor %}
-            </div>
+              <section class="page-section about-heading">
+               <div class="container">
+                   <div class="row" id="box-search">
+                       <div class="thumbnail text-center">
 
-            {% for image in trick.images %}
+                           <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/sky.jpg') }}" alt=""/>
 
-                <img src="{{ asset('uploads/'~image) }}"/>
+                           <div class="caption">
+                               <h2 class="section-heading mb-4">
+                                   <span class="section-heading-upper">Figure</span>
+                                   <span class="titre section-heading-lower">{{ trick.name }}</span>
+                               </h2>
+                           </div>
+                           {# Bouton d'édition visible uniquement aux inscrits #}
+                           <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
+                               <button type="button" class="btn btn-default" aria-label="right Align">
+                                   <i class="fa fa-pencil" aria-hidden="true"></i>
+                               </button>
+                               <button type="button" class="btn btn-default" aria-label="right Align">
+                                   <i class="fa fa-trash-o" aria-hidden="true"></i>
+                               </button>
+                           </div>
 
-            {% endfor %}
+                       </div>
+                   </div>
+                   <div class="about-heading-content">
+                       <div class="row">
+                           <div class="col-xl-10 col-lg-11 mx-auto">
+                               <div class="bg-faded rounded p-5">
+                                   <div class="album">
+                                       <div class="container">
+                                           <div class="row jumbotron">
 
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+                                                   {% for image in trick.images %}
+
+                                                   <div class="petite  card col-lg-3">
+                                                       <img src="{{ asset('uploads/'~image) }}"/>
+                                                   </div>
+
+                                                   {% endfor %}
+                                                   {% for video in trick.videos %}
+                                                       <div class="card col-lg-3">
+                                                           <iframe src="{{ video }}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                                                       </div>
+                                                   {% endfor %}
+
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <div class="form_row">
+                                       <div class="row jumbotron text-center">
+                                           <div class="col-lg-12">{{ trick.description }}</div>
+                                       </div>
+                                       <div class="row section-heading mb-4 text-center">
+                                           <div class="col-lg-4"><span class="section-heading-upper">{{ trick.groupe }}</span></div>
+                                           <div class="col-lg-4"><span class="section-heading-upper">Date de modification</span></div>
+                                           <div class="col-lg-4"><span class="section-heading-upper">Date de creation</span></div>
+                                       </div>
+
+                                       <div class="jumbotron">
+
+                                           <div class="form-group">
+                                               <label for="comment">Laisse ton commentaire:</label>
+                                               <textarea class="form-control" rows="5" id="comment"></textarea>
+                                           </div>
+                                               <button class="btn btn-outline-primary my-2 my-sm-0 float-right" type="submit">Envoyer</button>
+
+                                       </div>
+                                       <div class="jumbotron text-center">
+
+                                           {% for image in trick.images %}
+
+                                               <img src="{{ asset('uploads/'~image) }}"/>
+
+                                           {% endfor %}
+
+
+                                           <div>
+                                               {% for message in app.session.flashbag.get('notice') %}
+                                                   <p>Message flash : {{ message }}</p>
+                                               {% endfor %}
+                                           </div>
+
+                                           <i class="fa fa-refresh fa-spin"></i>
+
+
+
+
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </section>
+       {% endblock %}
+
+
 

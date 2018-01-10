@@ -1,10 +1,13 @@
 body {
   font-family: 'Lora';
-  background: linear-gradient(rgba(47, 23, 15, 0.65), rgba(47, 23, 15, 0.65)), url("../img/bg.jpg");
+  background: linear-gradient(rgba(5, 15, 47, 0.65), rgba(6, 21, 47, 0.65)), url("../img/bg.jpg");
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+
 }
+
+
 
 h1,
 h2,
@@ -14,7 +17,35 @@ h5,
 h6 {
   font-family: 'Raleway';
 }
+.titre
+{
+    font-weight: bold;
+    color: whitesmoke;
+    
+}
+.thumbnail {
+    position: relative;
+}
 
+.caption {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    width: 100%;
+}
+.caption_button
+{
+    position:absolute;
+    float:right;
+    top:1%;
+    right:0;
+    width:5.5%;
+}
+.petite img
+{
+  width: 100%;
+  margin: auto;
+}
 p {
   line-height: 1.75;
 }
@@ -69,12 +100,12 @@ p {
 }
 
 #mainNav {
-  background-color: rgba(47, 23, 15, 0.9);
+  background-color: rgba(13, 25, 47, 0.9);
   font-family: 'Raleway';
 }
 
 #mainNav .navbar-brand {
-  color: #e6a756;
+  color: #8ae6e3;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
@@ -83,7 +114,7 @@ p {
 }
 
 #mainNav .navbar-nav .nav-item.active .nav-link {
-  color: #e6a756;
+  color: #77e6d5;
 }
 
 @media (min-width: 992px) {
@@ -94,7 +125,7 @@ p {
     color: rgba(255, 255, 255, 0.4);
   }
   #mainNav .navbar-nav .nav-item.active .nav-link:hover {
-    color: #e6a756;
+    color: #3bd4e6;
   }
 }
 
@@ -139,7 +170,7 @@ p {
 .cta {
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background-color: rgba(230, 167, 86, 0.9);
+  background-color: rgba(62, 209, 230, 0.9);
 }
 
 .cta .cta-inner {
@@ -196,7 +227,7 @@ p {
 }
 
 .list-hours .list-hours-item {
-  border-bottom: 1px solid rgba(230, 167, 86, 0.5);
+  border-bottom: 1px solid rgba(46, 230, 221, 0.5);
   padding-bottom: .25rem;
   margin-bottom: 1rem;
   font-style: italic;
@@ -204,7 +235,7 @@ p {
 
 .list-hours .list-hours-item.today {
   font-weight: bold;
-  color: #e6a756;
+  color: #59c0e6;
 }
 
 @media (min-width: 992px) {
@@ -219,15 +250,15 @@ p {
 }
 
 .footer {
-  background-color: rgba(47, 23, 15, 0.9);
+  background-color: rgba(8, 24, 47, 0.9);
 }
 
 .text-primary {
-  color: #e6a756 !important;
+  color: #2bbee6 !important;
 }
 
 .bg-primary {
-  background-color: #e6a756 !important;
+  background-color: #326ee6 !important;
 }
 
 .btn {
@@ -235,13 +266,13 @@ p {
 }
 
 .btn-primary {
-  background-color: #e6a756;
-  border-color: #e6a756;
+  background-color: #0076e6;
+  border-color: #1b70e6;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background-color: #df902a;
-  border-color: #df902a;
+  background-color: #1d7bdf;
+  border-color: #2a88df;
 }
 
 .font-weight-light {
