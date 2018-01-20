@@ -33,16 +33,16 @@ class TricksType extends AbstractType
     {
         $builder
             //->add('date',       DateTimeType::class)
-            ->add('name',       TextType::class)
+            ->add('name',        TextType::class)
             ->add('user',       TextType::class)
-            ->add('description', TextType::class)
-            ->add('videos', TextType::class)
+            ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))
+            ->add('images',      CollectionType::class, [
+             'entry_type' => FileType::class, 'data_class' => null, 'allow_add' => true, 'by_reference' => false,
+                ])
+            ->add('videos',      CollectionType::class, [
 
-            //->add('images',      CollectionType::class, [
-             //   'entry_type' => FileType::class
-               // ]
+                ])
 
-            //)
             ->add('groupe',      TextType::class)
             ->add('save',       SubmitType::class);
 

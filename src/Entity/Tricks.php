@@ -4,21 +4,18 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\Image;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Tricks
 {
-    //constructeur des figures
 
-    public function __construct()
-    {
-        $this->date = new \Datetime();
-
-
-    }
 
     /**
      * @ORM\Id
@@ -178,11 +175,30 @@ class Tricks
      * @ORM\Column(type="simple_array", name="images", nullable=true)
      *
      */
-    private $images;
 
+
+    protected $images = [];
+
+
+// Cela renvoi un tableau contenant des objets file
     public function getImages()
     {
-        return $this->images;
+        $images =[];
+
+
+
+        foreach ($this->images as $image)
+        {
+            if (!$image instanceof UploadedFile){
+            $images[]= new File(__DIR__.'\..\..\public\uploads\\' . $image);
+            }
+            else
+            {
+                $images[]= $image;
+            }
+        }
+
+        return $images;
     }
 
     public function setImages($images)
@@ -218,6 +234,23 @@ class Tricks
     }
 
 
+    /**
+     * Commentaires
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist"})
+     */
+    protected $comments;
+
+    /**
+     * @return mixed
+     */
+
+    //constructeur des figures
+
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+
+        $this->comments = new ArrayCollection();
 
 
 
@@ -226,6 +259,45 @@ class Tricks
 
 
 
+
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    public function addTrick(Tricks $tricks)
+    {
+        if (!$this->->contains($tricks)) {
+            $this->tricks->add($tricks);
+        }
+    }
+
+    public function addImage(Tricks $images)
+    {
+        $images->addTricks($this);
+
+        $this->images->add($images);
+    }
+
+    public function removeImages(Tricks $images)
+    {
+
+    }
 
 
 }

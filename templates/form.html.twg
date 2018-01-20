@@ -1,0 +1,7 @@
+<form action="{{ path('comment_create', {'trick_id' : comment.tricks.id}) }}" method="post" {{ form_enctype(form) }}
+ class="tricks">
+    {{ form_widget(form) }}
+    <p>
+        <input type="submit" value="Submit">
+    </p>
+</form>

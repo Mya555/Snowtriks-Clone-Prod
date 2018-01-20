@@ -19,12 +19,17 @@
                            </div>
                            {# Bouton d'édition visible uniquement aux inscrits #}
                            <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
+
                                <button type="button" class="btn btn-default" aria-label="right Align">
-                                   <i class="fa fa-pencil" aria-hidden="true"></i>
+                                   <a href="{{ path('edit', {'id': trick.id}) }}" class="btn btn-default">
+                                       <i class="fa fa-pencil" aria-hidden="true"></i></a>
                                </button>
-                               <button type="button" class="btn btn-default" aria-label="right Align">
-                                   <i class="fa fa-trash-o" aria-hidden="true"></i>
-                               </button>
+                              {#<a href="{{ path('', {'id': trick.id}) }}" class="btn btn-default">#}
+
+                                <button type="button" class="btn btn-default" aria-label="right Align">
+                                    <a href="">  <i class="fa fa-trash-o" aria-hidden="true"> </i></a>
+                                   </button>
+
                            </div>
 
                        </div>
@@ -40,7 +45,7 @@
                                                    {% for image in trick.images %}
 
                                                    <div class="petite  card col-lg-3">
-                                                       <img src="{{ asset('uploads/'~image) }}"/>
+                                                       <img src="{{ asset('uploads/'~image.filename) }}"/>
                                                    </div>
 
                                                    {% endfor %}
@@ -58,12 +63,13 @@
                                        <div class="row jumbotron text-center">
                                            <div class="col-lg-12">{{ trick.description }}</div>
                                        </div>
-                                       <div class="row section-heading mb-4 text-center">
-                                           <div class="col-lg-4"><span class="section-heading-upper">{{ trick.groupe }}</span></div>
-                                           <div class="col-lg-4"><span class="section-heading-upper">Date de modification</span></div>
-                                           <div class="col-lg-4"><span class="section-heading-upper">Date de creation</span></div>
+                                       <div class="row section-heading mb-4 text-center center-div">
+                                            <div class="col-lg-12">
+                                               <span class="col-lg-3 badge badge-primary">{{ trick.groupe }}</span>
+                                               <span class="col-lg-3 badge badge-success">Créé le 10/10/2018</span>
+                                               <span class="col-lg-3 badge badge-warning">Modifié le 11/10/2018</span>
+                                            </div>
                                        </div>
-
                                        <div class="jumbotron">
 
                                            <div class="form-group">
@@ -73,13 +79,20 @@
                                                <button class="btn btn-outline-primary my-2 my-sm-0 float-right" type="submit">Envoyer</button>
 
                                        </div>
-                                       <div class="jumbotron text-center">
+                                       <div class="jumbotron text-center center-div">
 
-                                           {% for image in trick.images %}
 
-                                               <img src="{{ asset('uploads/'~image) }}"/>
 
-                                           {% endfor %}
+                                               <section class="comments" id="comments">
+
+                                                   <h3>Ajoute un commentaire</h3>
+
+                                                {# {{  render(controller('App\\Controller\\CommentController::new', {'trick_id' : trick.id})) }}
+                                                   #}
+
+                                               </section>
+
+
 
 
                                            <div>

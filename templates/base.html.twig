@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li class="nav-item px-lg-4">
-                                <a class="nav-link text-uppercase text-expanded" href="about.html">Tricks</a>
+                                <a class="nav-link text-uppercase text-expanded" href="/liste">Tricks</a>
                             </li>
                             <li class="nav-item px-lg-4">
                                 <a class="nav-link text-uppercase text-expanded" href="products.html">Sign In</a>
@@ -71,15 +71,15 @@
 
 
         {% block javascripts %}
-            <!-- Les flocons de neiges -->
-        <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
-        <script type="text/javascript">
-            window.onload = function(){
-                snow.init(30);
-            };
-        </script>
+                <!-- Les flocons de neiges -->
+            <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
+            <script type="text/javascript">window.onload = function(){snow.init(30);};</script>
 
+                <!--Les tags-->
+            <script type="text/javascript" src="{{ asset('vendor/jquery/images.js') }}"></script>
 
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
             <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         {% endblock %}

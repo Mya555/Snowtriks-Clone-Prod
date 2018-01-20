@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TricksController extends Controller
 {
@@ -23,11 +25,13 @@ class TricksController extends Controller
 
     {
 
-        $repository = $this
+
+
+
+        $comments = $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Tricks::class);
-
 
         $trick = $repository->find($id);
 
@@ -43,8 +47,40 @@ class TricksController extends Controller
 
 
 
+        return $this->render('show.html.twig', array('trick' => $trick, 'comments' => $comments));
+    }
 
-        return $this->render('show.html.twig', array('trick' => $trick));
+
+
+    /**
+     * Affichage de toutes les figures
+     * @Route("/liste", name="list")
+     */
+
+        public function list()
+    {
+
+
+
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Tricks::class)
+            ->findAll();
+
+
+
+        foreach ($repository as $tricks) {
+
+            $tricks->getName();
+
+            $url = $this->generateUrl('show', array('id' => $tricks->getId()));
+
+        }
+
+
+
+        return $this->render('list.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
 
@@ -121,6 +157,8 @@ class TricksController extends Controller
             'form'   => $form->createView(),
         ));
     }
+
+
 
 
 
