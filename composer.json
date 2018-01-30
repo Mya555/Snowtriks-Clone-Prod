@@ -20,7 +20,8 @@
         "twig/twig": "^2.4"
     },
     "require-dev": {
-        "symfony/dotenv": "^4.0"
+        "symfony/dotenv": "^4.0",
+        "symfony/web-server-bundle": "^4.0"
     },
     "config": {
         "preferred-install": {

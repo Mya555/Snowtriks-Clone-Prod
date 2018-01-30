@@ -25,13 +25,11 @@ class TricksController extends Controller
 
     {
 
-
-
-
-        $comments = $repository = $this
+        $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Tricks::class);
+
 
         $trick = $repository->find($id);
 
@@ -47,7 +45,7 @@ class TricksController extends Controller
 
 
 
-        return $this->render('show.html.twig', array('trick' => $trick, 'comments' => $comments));
+        return $this->render('show.html.twig', array('trick' => $trick));
     }
 
 

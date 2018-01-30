@@ -234,16 +234,6 @@ class Tricks
     }
 
 
-    /**
-     * Commentaires
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist"})
-     */
-    protected $comments;
-
-    /**
-     * @return mixed
-     */
-
     //constructeur des figures
 
     public function __construct()
@@ -254,38 +244,13 @@ class Tricks
 
 
 
-
-
-
-
-
-
     }
 
 
 
-    /**
-     * @return mixed
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
 
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments): void
-    {
-        $this->comments = $comments;
-    }
 
-    public function addTrick(Tricks $tricks)
-    {
-        if (!$this->->contains($tricks)) {
-            $this->tricks->add($tricks);
-        }
-    }
+
 
     public function addImage(Tricks $images)
     {

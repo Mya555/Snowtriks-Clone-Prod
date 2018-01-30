@@ -14,15 +14,15 @@ class TricksRepository extends ServiceEntityRepository
     }
 
     /*
-    public function findBySomething($value)
+    public function findAllTricks()
     {
         return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
     */
+
 }

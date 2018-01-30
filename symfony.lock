@@ -188,6 +188,9 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
+    "symfony/process": {
+        "version": "v4.0.4"
+    },
     "symfony/property-access": {
         "version": "v4.0.2"
     },
@@ -223,6 +226,15 @@
     },
     "symfony/validator": {
         "version": "v4.0.2"
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "c72d107d077f1654428edaed69415d0228c1aefe"
+        }
     },
     "symfony/webpack-encore-pack": {
         "version": "1.0",

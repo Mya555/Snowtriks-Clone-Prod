@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9785316da20591b0632f46e138507c5e",
+    "content-hash": "11694d0454ea803994e00c6153c6ff54",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1409,16 +1409,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.1.6",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30"
+                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/387b6a3b723ba35588b33d5f8d14e28ed608bd30",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
+                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
                 "shasum": ""
             },
             "require": {
@@ -1450,7 +1450,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-10-29T18:48:08+00:00"
+            "time": "2018-01-11T05:54:03+00:00"
         },
         {
             "name": "symfony/asset",
@@ -3708,6 +3708,113 @@
                 "environment"
             ],
             "time": "2017-12-08T15:46:13+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "e1712002d81de6f39f854bc5bbd9e9f4bb6345b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/e1712002d81de6f39f854bc5bbd9e9f4bb6345b4",
+                "reference": "e1712002d81de6f39f854bc5bbd9e9f4bb6345b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-01-29T09:06:29+00:00"
+        },
+        {
+            "name": "symfony/web-server-bundle",
+            "version": "v4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/web-server-bundle.git",
+                "reference": "20ad52df8164d2eae029e6bb24356956c52380be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/20ad52df8164d2eae029e6bb24356956c52380be",
+                "reference": "20ad52df8164d2eae029e6bb24356956c52380be",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/config": "~3.4|~4.0",
+                "symfony/console": "~3.4|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/http-kernel": "~3.4|~4.0",
+                "symfony/process": "^3.4.2|^4.0.2"
+            },
+            "suggest": {
+                "symfony/expression-language": "For using the filter option of the log server.",
+                "symfony/monolog-bridge": "For using the log server."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bundle\\WebServerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony WebServerBundle",
+            "homepage": "https://symfony.com",
+            "time": "2018-01-03T17:15:19+00:00"
         }
     ],
     "aliases": [],
