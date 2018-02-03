@@ -1,0 +1,36 @@
+<section>
+
+    <h5 class="comment">Commentaires</h5>
+
+    {% for commentaire in trick.comments %}
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <div class="container comment">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-white post panel-shadow">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>{{ commentaire.author }}</b></a>
+
+                            </div>
+                            <h6 class="text-muted time">1 il y a 1 min</h6>
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        <p>{{ commentaire.comment}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+</section>
+
+

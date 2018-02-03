@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints\Image;
 
 
@@ -15,6 +16,34 @@ use Symfony\Component\Validator\Constraints\Image;
  */
 class Tricks
 {
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks")
+     */
+    private $comments;
+
+    //constructeur des figures
+
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+
+        $this->comments = new ArrayCollection();
+
+    }
+
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+
+
+
+
 
 
     /**
@@ -39,7 +68,6 @@ class Tricks
     {
         $this->id = $id;
     }
-
 
 
 
@@ -234,17 +262,6 @@ class Tricks
     }
 
 
-    //constructeur des figures
-
-    public function __construct()
-    {
-        $this->date = new \Datetime();
-
-        $this->comments = new ArrayCollection();
-
-
-
-    }
 
 
 
@@ -263,6 +280,9 @@ class Tricks
     {
 
     }
+
+
+
 
 
 }

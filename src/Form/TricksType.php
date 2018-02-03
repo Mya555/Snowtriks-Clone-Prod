@@ -39,12 +39,14 @@ class TricksType extends AbstractType
             ->add('images',      CollectionType::class, [
              'entry_type' => FileType::class, 'data_class' => null, 'allow_add' => true, 'by_reference' => false,
                 ])
-            ->add('videos',      CollectionType::class, [
-
-                ])
+            ->add('videos',      CollectionType::class, [])
 
             ->add('groupe',      TextType::class)
-            ->add('save',       SubmitType::class);
+            ->add('save',       SubmitType::class)
+            ->add('comments', TextareaType::class, array(
+            'entry_type' => CommentType::class,
+            'entry_options' => array('attr' => array('rows' => 6)),
+        ));
 
 
     }

@@ -24,16 +24,12 @@ class TricksController extends Controller
     public function show($id)
 
     {
+        $trick = $repository = $this
 
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Tricks::class);
-
-
-        $trick = $repository->find($id);
-
-
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(Tricks::class)
+                ->find($id);
 
         if (!$trick) {
 
@@ -44,10 +40,8 @@ class TricksController extends Controller
 
 
 
-
         return $this->render('show.html.twig', array('trick' => $trick));
     }
-
 
 
     /**
@@ -57,9 +51,6 @@ class TricksController extends Controller
 
         public function list()
     {
-
-
-
         $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -67,17 +58,13 @@ class TricksController extends Controller
             ->findAll();
 
 
-
         foreach ($repository as $tricks) {
 
-            $tricks->getName();
+
 
             $url = $this->generateUrl('show', array('id' => $tricks->getId()));
 
         }
-
-
-
         return $this->render('list.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
