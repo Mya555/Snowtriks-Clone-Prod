@@ -42,11 +42,7 @@ class TricksType extends AbstractType
             ->add('videos',      CollectionType::class, [])
 
             ->add('groupe',      TextType::class)
-            ->add('save',       SubmitType::class)
-            ->add('comments', TextareaType::class, array(
-            'entry_type' => CommentType::class,
-            'entry_options' => array('attr' => array('rows' => 6)),
-        ));
+            ->add('save',       SubmitType::class);
 
 
     }
