@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Tricks;
+use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
 use App\Service\FileUploader;
@@ -21,10 +22,23 @@ class TricksController extends Controller
      * Affichage d'une figure
      * @Route("/figure/{id}", name="show")
      */
-    public function show($id)
+    public function show($id, Request $request)
 
     {
-        $trick = $repository = $this
+        $comment = new Comment();
+        $form = $this->get('form.factory')->create(CommentType::class, $comment);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+            return $this->redirectToRoute('show', array('id' => $comment->getId()));
+        }
+
+
+            $trick = $repository = $this
 
                 ->getDoctrine()
                 ->getManager()
@@ -40,8 +54,10 @@ class TricksController extends Controller
 
 
 
-        return $this->render('show.html.twig', array('trick' => $trick));
+        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView()));
     }
+
+
 
 
     /**
