@@ -34,21 +34,13 @@ class TricksType extends AbstractType
         $builder
             //->add('date',       DateTimeType::class)
             ->add('name',        TextType::class)
-            ->add('user',       TextType::class)
+            ->add('user',        TextType::class)
             ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))
             ->add('images',      CollectionType::class, [
-             'entry_type' => FileType::class, 'data_class' => null, 'allow_add' => true, 'by_reference' => false,
-                ])
+             'entry_type' => FileType::class, 'data_class' => null, 'allow_add' => true, 'by_reference' => false])
             ->add('videos',      CollectionType::class, [])
-
             ->add('groupe',      TextType::class)
-            ->add('save',       SubmitType::class)
-            ->add('comments', TextareaType::class, array(
-            'entry_type' => CommentType::class,
-            'entry_options' => array('attr' => array('rows' => 6)),
-        ));
-
-
+            ->add('save',        SubmitType::class);
     }
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -56,6 +48,4 @@ class TricksType extends AbstractType
             'data_class' => Tricks::class,
         ));
     }
-
-
 }

@@ -17,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment
 {
+
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comments")
      * @ORM\JoinColumn(nullable=true)

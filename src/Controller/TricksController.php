@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Tricks;
+use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
 use App\Service\FileUploader;
@@ -21,15 +22,35 @@ class TricksController extends Controller
      * Affichage d'une figure
      * @Route("/figure/{id}", name="show")
      */
-    public function show($id)
+    public function show(Request $request ,$id)
 
     {
-        $trick = $repository = $this
+        /* Affichage de la figure */
 
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Tricks::class)
-                ->find($id);
+        $trick = $repository = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository(Tricks::class)
+        ->find($id);
+
+        /* Création du commentaire lié à la figure affichée */
+
+        $comment = new Comment();
+        $comment->setTricks($trick);
+        $form = $this->get('form.factory')->create(CommentType::class, $comment);
+
+
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+
+            return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
+        }
 
         if (!$trick) {
 
@@ -37,11 +58,10 @@ class TricksController extends Controller
                 'Aucun résultat ne correspond à votre recherche'
             );
         }
-
-
-
-        return $this->render('show.html.twig', array('trick' => $trick));
+        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id)));
     }
+
+
 
 
     /**

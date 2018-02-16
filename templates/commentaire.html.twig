@@ -1,36 +1,94 @@
-<section>
 
-    <h5 class="comment">Commentaires</h5>
 
-    {% for commentaire in trick.comments %}
+            <div class="jumbotron">
+                <div class="form-group">
+                    <h6 class="section-heading">
+                        <span class="section-heading-upper">Laisse ton commentaire</span>
+                    </h6>
+                    <div class="well">
 
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-    <div class="container comment">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-white post panel-shadow">
-                    <div class="post-heading">
-                        <div class="pull-left image">
-                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                        <div class=" form-group">
+                            <div class="row">
+
+                                {# Génération du label. #}
+                                {{ form_label(form.author, "Auteur :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+
+                                {# Affichage des erreurs pour ce champ précis. #}
+                                {{ form_errors(form.author) }}
+
+                                <div class="col-sm-12">
+
+                                    {# Génération de l'input. #}
+                                    {{ form_widget(form.author, {'attr': {'class': 'form-control'}}) }}
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="pull-left meta">
-                            <div class="title h5">
-                                <a href="#"><b>{{ commentaire.author }}</b></a>
+                        <div class=" form-group">
+                            <div class="row">
+
+                                {# Génération du label. #}
+                                {{ form_label(form.comment, "Commentaire :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+
+                                {# Affichage des erreurs pour ce champ précis. #}
+                                {{ form_errors(form.comment) }}
+
+                                <div class="col-sm-12">
+
+                                    {# Génération de l'input. #}
+                                    {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 envoyer">
+
+                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
 
                             </div>
-                            <h6 class="text-muted time">1 il y a 1 min</h6>
                         </div>
-                    </div>
-                    <div class="post-description">
-                        <p>{{ commentaire.comment}}</p>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
-    {% endfor %}
+            <h6 class="section-heading mb-4">
+                <span class="section-heading-lower">Commentaires</span>
+            </h6>
 
-</section>
+            <div class="jumbotron text-center center-div">
+                <section>
 
+                    {% for commentaire in trick.comments %}
 
+                        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+                        <div class="container comment">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="panel panel-white post panel-shadow">
+                                        <div class="post-heading">
+                                            <div class="pull-left image">
+                                                <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                                            </div>
+                                            <div class="pull-left meta">
+                                                <div class="title h5">
+                                                    <a href="#"><b>{{ commentaire.author }}</b></a>
+                                                </div>
+                                                <h6 class="text-muted time"> il y a 1 min</h6>
+                                            </div>
+                                        </div>
+                                        <div class="post-description">
+                                            <p>{{ commentaire.comment}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               <!-- <i class=" fa fa-refresh fa-spin"></i>-->
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </section>
+            </div>
