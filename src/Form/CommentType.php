@@ -17,23 +17,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class CommentType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author',       TextType::class)
+            ->add('author',  TextType::class)
             ->add('comment', TextareaType::class, array('attr' => array('rows' => 6)))
-            ->add('save',       SubmitType::class);
+            ->add('save',    SubmitType::class);
         //->add('comment', TextareaType::class, array(
        // 'entry_type' => CommentType::class,
         //'entry_options' => array('attr' => array('rows' => 6))
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => Comment::class,
         ));
     }
-
 }

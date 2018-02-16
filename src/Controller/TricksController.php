@@ -22,11 +22,24 @@ class TricksController extends Controller
      * Affichage d'une figure
      * @Route("/figure/{id}", name="show")
      */
-    public function show($id, Request $request)
+    public function show(Request $request ,$id)
 
     {
+        /* Affichage de la figure */
+
+        $trick = $repository = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository(Tricks::class)
+        ->find($id);
+
+        /* Création du commentaire lié à la figure affichée */
+
         $comment = new Comment();
+        $comment->setTricks($trick);
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
+
+
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
@@ -34,16 +47,10 @@ class TricksController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            return $this->redirectToRoute('show', array('id' => $comment->getId()));
+
+
+            return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
-
-
-            $trick = $repository = $this
-
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Tricks::class)
-                ->find($id);
 
         if (!$trick) {
 
@@ -51,10 +58,7 @@ class TricksController extends Controller
                 'Aucun résultat ne correspond à votre recherche'
             );
         }
-
-
-
-        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView()));
+        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id)));
     }
 
 
