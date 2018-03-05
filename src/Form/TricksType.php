@@ -40,9 +40,9 @@ class TricksType extends AbstractType
              'entry_type' => FileType::class, 'data_class' => null, 'allow_add' => true, 'by_reference' => false,
                 ])
             ->add('videos',      CollectionType::class, [])
-
             ->add('groupe',      TextType::class)
             ->add('save',       SubmitType::class);
+
 
 
     }
