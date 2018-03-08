@@ -25,6 +25,20 @@
                            <div class="petite card col-lg-2 marge">
                                <a href="{{ path('show', { 'id': tricks.id }) }}"> <img src="{{ asset('img/ng.jpg') }} " alt="Card image cap">
                                <p class="card-text">{{ tricks.name }}</p> </a>
+                                {# Bouton d'édition visible uniquement aux inscrits #}
+                               <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
+
+                                   <button type="button" class="btn btn-default" aria-label="right Align">
+                                       <a href="{{ path('edit', {'id': tricks.id}) }}" class="btn btn-default">
+                                           <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                   </button>
+                                   {#<a href="{{ path('', {'id': trick.id}) }}" class="btn btn-default">#}
+
+                                   <button type="button" class="btn btn-default" aria-label="right Align">
+                                       <a href="">  <i class="fa fa-trash-o" aria-hidden="true"> </i></a>
+                                   </button>
+
+                               </div>
                            </div>
                         {% endfor %}
 
