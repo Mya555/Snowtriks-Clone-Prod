@@ -166,4 +166,28 @@ class TricksController extends Controller
         ));
     }
 
+    /**
+     * Edition d'une figure
+     * @Route("/supprimer/{id}", name="delete")
+     */
+    public function delete($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $tricks = $em->getRepository(Tricks::class)->find($id);
+
+        if (null === $tricks) {
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        }
+
+        // On boucle sur les tricks pour les supprimer
+        foreach ($tricks->getTricks() as $trick) {
+            $tricks->removeCategory($trick);
+        }
+
+        $em->flush();
+
+        return $this->render('list.html.twig');
+    }
+
 }
