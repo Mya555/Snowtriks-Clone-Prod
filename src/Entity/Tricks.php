@@ -284,13 +284,6 @@ class Tricks
     }
 
 
-
-
-
-
-
-
-
     public function addImage(Tricks $images)
     {
         $images->addTricks($this);

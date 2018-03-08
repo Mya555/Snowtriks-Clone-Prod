@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Tricks;
+use App\Form\CommentEditType;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
@@ -164,10 +165,5 @@ class TricksController extends Controller
             'form'   => $form->createView(),
         ));
     }
-
-
-
-
-
 
 }

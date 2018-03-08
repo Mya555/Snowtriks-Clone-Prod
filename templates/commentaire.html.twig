@@ -22,24 +22,21 @@
 
                                     {# Génération de l'input. #}
                                     {{ form_widget(form.author, {'attr': {'class': 'form-control'}}) }}
-
-                                </div>
+                                 </div>
                             </div>
                         </div>
                         <div class=" form-group">
                             <div class="row">
+                                    {# Génération du label. #}
+                                    {{ form_label(form.comment, "Commentaire :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
 
-                                {# Génération du label. #}
-                                {{ form_label(form.comment, "Commentaire :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                                    {# Affichage des erreurs pour ce champ précis. #}
+                                    {{ form_errors(form.comment) }}
 
-                                {# Affichage des erreurs pour ce champ précis. #}
-                                {{ form_errors(form.comment) }}
-
-                                <div class="col-sm-12">
-
-                                    {# Génération de l'input. #}
-                                    {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
-
+                                    <div class="col-sm-12">
+                                        {# Génération de l'input. #}
+                                        {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -62,33 +59,37 @@
             <div class="jumbotron text-center center-div">
                 <section>
 
-                    {% for commentaire in trick.comments %}
+                        {% for commentaire in trick.comments %}
 
-                        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-                        <div class="container comment">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="panel panel-white post panel-shadow">
-                                        <div class="post-heading">
-                                            <div class="pull-left image">
-                                                <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-                                            </div>
-                                            <div class="pull-left meta">
-                                                <div class="title h5">
-                                                    <a href="#"><b>{{ commentaire.author }}</b></a>
+                            <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+                            <div class="container comment">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="panel panel-white post panel-shadow">
+                                            <div class="post-heading">
+                                                <div class="pull-left image">
+                                                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
                                                 </div>
-                                                <h6 class="text-muted time"> il y a 1 min</h6>
+                                                <div class="pull-left meta">
+                                                    <div>
+                                                        <p>Posté par <b>{{ commentaire.author }}</b></p>
+                                                        <p><em class="text-muted date">le {{ commentaire.date_com|date("d/m/Y") }}</em></p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="post-description">
-                                            <p>{{ commentaire.comment}}</p>
+                                            <div class="post-description">
+                                                <p>{{ commentaire.comment}}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                   <!-- <i class=" fa fa-refresh fa-spin"></i>-->
                                 </div>
-                               <!-- <i class=" fa fa-refresh fa-spin"></i>-->
                             </div>
-                        </div>
 
-                    {% endfor %}
-                </section>
-            </div>
+                        {% else %}
+
+                            <p>Il n'y a aucun commentaire pour cette figure, sois le premmièr  a laisser ton avis.</p>
+                            
+                        {% endfor %}
+            </section>
+         </div>

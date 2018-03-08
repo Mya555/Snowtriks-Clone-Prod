@@ -76,23 +76,15 @@
                                                <span class="col-lg-3 badge badge-primary">{{ trick.groupe }}</span>
                                                <span class="col-lg-3 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
 
-                                             {% if trick.updatedAt == true %}
-                                               <span class="col-lg-3 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
-                                             {% else %}
-                                               <span class="col-lg-3 badge badge-warning">Aucune modification</span>
-                                             {% endif %}
-
-
-
-
+                                                 {% if trick.updatedAt == true %}
+                                                   <span class="col-lg-3 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
+                                                 {% else %}
+                                                   <span class="col-lg-3 badge badge-warning">Aucune modification</span>
+                                                 {% endif %}
                                             </div>
                                        </div>
-
-
-
+                                       {# Page incluant les commentaires #}
                                           {% include 'commentaire.html.twig' %}
-
-
 
                                     </div>
                                </div>

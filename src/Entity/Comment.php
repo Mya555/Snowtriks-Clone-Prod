@@ -16,7 +16,33 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
  */
 class Comment
-{
+    {
+        /**
+     * Date de la creation du commentaire
+     * @ORM\Column(name="date_com", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    public $date_com;
+
+    /**
+     * @return \Datetime
+     */
+    public function getDateCom(): \Datetime
+    {
+        return $this->date_com;
+    }
+
+    /**
+     * @param \Datetime $date_com
+     */
+    public function setDateCom(\Datetime $date_com): void
+    {
+        $this->date_com = $date_com;
+    }
+
+    public function __construct()
+    {
+        $this->date_com = new \Datetime();
+    }
 
 
     /**
@@ -40,6 +66,8 @@ class Comment
     {
         $this->tricks = $tricks;
     }
+
+
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -96,6 +124,7 @@ class Comment
     }
 
     /**
+
      * @return mixed
      */
     public function getAuthor()

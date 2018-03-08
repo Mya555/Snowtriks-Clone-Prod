@@ -22,7 +22,9 @@ h6 {
 }
 
 /**commentaire*/
-
+.date{
+  font-size: 0.9em;
+}
 
 .panel-shadow {
   box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
