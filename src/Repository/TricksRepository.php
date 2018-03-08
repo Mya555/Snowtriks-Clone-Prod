@@ -14,7 +14,7 @@ class TricksRepository extends ServiceEntityRepository
         parent::__construct($registry, Tricks::class);
     }
 
-    /*
+/*
     public function findAllTricks()
     {
         return $this->createQueryBuilder('t')
@@ -24,6 +24,6 @@ class TricksRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
+*/
 }

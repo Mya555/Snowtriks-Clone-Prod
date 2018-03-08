@@ -74,8 +74,17 @@
                                        <div class="row section-heading mb-4 text-center center-div">
                                             <div class="col-lg-12">
                                                <span class="col-lg-3 badge badge-primary">{{ trick.groupe }}</span>
-                                               <span class="col-lg-3 badge badge-success">Créé le 10/10/2018</span>
-                                               <span class="col-lg-3 badge badge-warning">Modifié le 11/10/2018</span>
+                                               <span class="col-lg-3 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
+
+                                             {% if trick.updatedAt == true %}
+                                               <span class="col-lg-3 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
+                                             {% else %}
+                                               <span class="col-lg-3 badge badge-warning">Aucune modification</span>
+                                             {% endif %}
+
+
+
+
                                             </div>
                                        </div>
 

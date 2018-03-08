@@ -127,6 +127,7 @@ class TricksController extends Controller
      */
     public function edit($id, Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $trick = $em->getRepository(Tricks::class)->find($id);
@@ -149,6 +150,7 @@ class TricksController extends Controller
         $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
 
             $em->flush();
 

@@ -32,7 +32,7 @@ class TricksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('date',       DateTimeType::class)
+
             ->add('name',        TextType::class)
             ->add('user',        TextType::class)
             ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))

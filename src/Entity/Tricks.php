@@ -21,6 +21,35 @@ class Tricks
      */
     private $comments;
 
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \Datetime());
+    }
     //constructeur des figures
 
     public function __construct()
@@ -39,12 +68,6 @@ class Tricks
     {
         return $this->comments;
     }
-
-
-
-
-
-
 
     /**
      * @ORM\Id
@@ -68,7 +91,6 @@ class Tricks
     {
         $this->id = $id;
     }
-
 
 
     /**
