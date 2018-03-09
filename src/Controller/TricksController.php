@@ -167,7 +167,7 @@ class TricksController extends Controller
     }
 
     /**
-     * Edition d'une figure
+     * Suppression d'une figure
      * @Route("/supprimer/{id}", name="delete")
      */
     public function delete($id)
@@ -180,14 +180,11 @@ class TricksController extends Controller
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
 
-        // On boucle sur les tricks pour les supprimer
-        foreach ($tricks->getTricks() as $trick) {
-            $tricks->removeCategory($trick);
-        }
+        $em->remove($tricks);
 
         $em->flush();
 
-        return $this->render('list.html.twig');
+        return $this->redirectToRoute('list');
     }
 
 }
