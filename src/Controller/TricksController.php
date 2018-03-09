@@ -76,7 +76,7 @@ class TricksController extends Controller
             ->getDoctrine()
             ->getManager()
             ->getRepository(Tricks::class)
-            ->findAll();
+            ->findAllTricks();
 
 
         foreach ($repository as $tricks) {

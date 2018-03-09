@@ -14,16 +14,20 @@ class TricksRepository extends ServiceEntityRepository
         parent::__construct($registry, Tricks::class);
     }
 
-/*
+  /*
+   * Recherche de résultats , triés par la date décroissante, maximum = 10 résulatat affichés.
+   */
     public function findAllTricks()
     {
-        return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'DESC')
+        $query =  $this->createQueryBuilder('t')
+            ->orderBy('t.date', 'DESC')
             ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->getQuery();
+
+        return
+           $query->getResult();
+
     }
 
-*/
+
 }
