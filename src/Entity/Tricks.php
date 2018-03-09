@@ -61,6 +61,9 @@ class Tricks
     }
 
 
+
+
+
     /**
      * @return Collection|Comment[]
      */
@@ -295,7 +298,6 @@ class Tricks
     {
 
     }
-
 
 
 

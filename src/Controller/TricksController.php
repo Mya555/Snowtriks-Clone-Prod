@@ -166,4 +166,25 @@ class TricksController extends Controller
         ));
     }
 
+    /**
+     * Suppression d'une figure
+     * @Route("/supprimer/{id}", name="delete")
+     */
+    public function delete($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $tricks = $em->getRepository(Tricks::class)->find($id);
+
+        if (null === $tricks) {
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        }
+
+        $em->remove($tricks);
+
+        $em->flush();
+
+        return $this->redirectToRoute('list');
+    }
+
 }
