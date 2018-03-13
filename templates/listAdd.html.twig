@@ -1,0 +1,37 @@
+
+{% extends 'list.html.twig' %}
+
+    {% block list %}
+
+        {% for  tricks in repository %}
+            <div class="petite card col-lg-2 marge">
+                <a href="{{ path('show', { 'id': tricks.id }) }}"> <img src="{{ asset('img/ng.jpg') }} " alt="Card image cap">
+                    <p class="card-text">{{ tricks.name }}</p> </a>
+
+                {# Bouton d'édition visible uniquement aux inscrits #}
+
+                <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    {# Bouton d'édition #}
+                    <button type="button" class="btn btn-default" aria-label="right Align">
+                        <a href="{{ path('edit', {'id': tricks.id}) }}" class="btn btn-default">
+                            <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </button>
+                    {# Bouton de suppression #}
+                    <button type="button" class="btn btn-default" aria-label="right Align">
+                        <a href="{{ path('delete', {'id': tricks.id}) }}" class="btn btn-default">
+                            <i class="fa fa-trash-o" aria-hidden="true"> </i></a>
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+            {# Bouton pour diminuer le normbre d'affichage #}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-default btn-sm"><a href="{{ path('list')}}" class="btn btn-default"><i class="fa fa-circle-o-notch fa-spin"></i>Afficher moins</a></button>
+                        </div>
+                    </div>
+                </div>
+
+    {% endblock %}
+

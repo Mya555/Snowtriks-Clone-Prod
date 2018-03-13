@@ -89,6 +89,30 @@ class TricksController extends Controller
         return $this->render('list.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
+    /**
+     * Affichage de toutes les figures
+     * @Route("/liste_add", name="list_add")
+     */
+
+    public function listAdd()
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Tricks::class)
+            ->findAll();
+
+
+        foreach ($repository as $tricks) {
+
+
+
+            $url = $this->generateUrl('show', array('id' => $tricks->getId()));
+
+        }
+        return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
+    }
+
 
     /**
      * Addition d'une figure
