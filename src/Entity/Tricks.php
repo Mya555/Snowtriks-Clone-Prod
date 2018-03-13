@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\Image;
 class Tricks
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
      */
     private $comments;
 

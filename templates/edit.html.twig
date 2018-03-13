@@ -88,10 +88,11 @@
 
                                 <div class="row">
                                     <div class="col-sm-12 envoyer">
-
                                         {{ form_widget(form.save, { 'label': 'Mettre à jour', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
-
                                     </div>
+                                    <a href="{{ path('delete', {'id': trick.id}) }}"><button type="button" class="btn btn-danger" aria-label="right Align">
+                                      Delete
+                                    </button> </a>
                                 </div>
 
 

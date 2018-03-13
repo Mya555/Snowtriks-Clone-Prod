@@ -203,9 +203,7 @@ class TricksController extends Controller
         if (null === $tricks) {
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
-
         $em->remove($tricks);
-
         $em->flush();
 
         return $this->redirectToRoute('list');
