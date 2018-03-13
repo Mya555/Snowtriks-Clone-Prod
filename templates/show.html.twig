@@ -4,14 +4,6 @@
 
        {% block content %}
 
-           {% if app.session.flashBag.has('notice') %}
-               <div class="alert alert-success">
-                   {% for msg in app.session.flashBag.get('notice') %}
-                       {{ msg }}
-                   {% endfor %}
-               </div>
-           {% endif %}
-
               <section class="page-section about-heading">
                <div class="container">
                    <div class="row" id="box-search">

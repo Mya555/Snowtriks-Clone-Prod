@@ -16,6 +16,7 @@
                             {% for  tricks in repository %}
                                 <div class="col-sm-3">
                                     <div class="card">
+                                        {# Bouton d'édition et de suppression d'une figure #}
                                         <div class="row bouton-cadre pull-right">
                                             <div class="col-sm-1">
                                                 <a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -26,7 +27,7 @@
                                         </div>
                                         <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
                                         <div class="avatar">
-                                           <a href="{{ path('show', {'id':tricks.id}) }}"><img src="{{ asset('img/ng.jpg') }}" alt="" /></a>
+                                           <a href="{{ path('show', {'id':tricks.id}) }}"><img src="{{ asset('img/bg.jpg') }}" alt="" /></a>
                                         </div>
                                         <div class="content">
                                             <p>{{ tricks.name }}</p>

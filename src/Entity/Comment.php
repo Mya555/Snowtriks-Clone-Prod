@@ -19,29 +19,29 @@ class Comment
     {
         /**
      * Date de la creation du commentaire
-     * @ORM\Column(name="date_com", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="dateCom", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
-    public $date_com;
+    private $dateCom;
 
     /**
      * @return \Datetime
      */
     public function getDateCom(): \Datetime
     {
-        return $this->date_com;
+        return $this->dateCom;
     }
 
     /**
-     * @param \Datetime $date_com
+     * @param \Datetime $dateCom
      */
-    public function setDateCom(\Datetime $date_com): void
+    public function setDateCom(\Datetime $dateCom): void
     {
-        $this->date_com = $date_com;
+        $this->dateCom = $dateCom;
     }
 
     public function __construct()
     {
-        $this->date_com = new \Datetime();
+        $this->dateCom = new \Datetime();
     }
 
 
