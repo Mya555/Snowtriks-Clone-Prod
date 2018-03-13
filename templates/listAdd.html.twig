@@ -4,31 +4,32 @@
     {% block list %}
 
         {% for  tricks in repository %}
-            <div class="petite card col-lg-2 marge">
-                <a href="{{ path('show', { 'id': tricks.id }) }}"> <img src="{{ asset('img/ng.jpg') }} " alt="Card image cap">
-                    <p class="card-text">{{ tricks.name }}</p> </a>
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="row bouton-cadre pull-right">
+                        <div class="col-sm-1">
+                            <a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="{{ path('delete', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                    <div class="avatar">
+                        <a href="{{ path('show', {'id':tricks.id}) }}"><img src="{{ asset('img/ng.jpg') }}" alt="" /></a>
+                    </div>
+                    <div class="content">
+                        <p>{{ tricks.name }}</p>
+                    </div>
 
-                {# Bouton d'édition visible uniquement aux inscrits #}
-
-                <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    {# Bouton d'édition #}
-                    <button type="button" class="btn btn-default" aria-label="right Align">
-                        <a href="{{ path('edit', {'id': tricks.id}) }}" class="btn btn-default">
-                            <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    </button>
-                    {# Bouton de suppression #}
-                    <button type="button" class="btn btn-default" aria-label="right Align">
-                        <a href="{{ path('delete', {'id': tricks.id}) }}" class="btn btn-default">
-                            <i class="fa fa-trash-o" aria-hidden="true"> </i></a>
-                    </button>
                 </div>
             </div>
         {% endfor %}
             {# Bouton pour diminuer le normbre d'affichage #}
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6">
-                            <button class="btn btn-default btn-sm"><a href="{{ path('list')}}" class="btn btn-default"><i class="fa fa-circle-o-notch fa-spin"></i>Afficher moins</a></button>
+                        <div class="wrap">
+                            <a href="{{ path('list')}}" class="button2"></i>Afficher moins</a>
                         </div>
                     </div>
                 </div>
