@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Form\UserType;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TricksController extends Controller
 {
@@ -208,5 +211,6 @@ class TricksController extends Controller
 
         return $this->redirectToRoute('list');
     }
+
 
 }

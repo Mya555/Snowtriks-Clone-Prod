@@ -1,0 +1,20 @@
+# config/packages/security.yaml
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+     providers:
+            our_db_provider:
+                entity:
+                    class: App\Entity\User
+                    property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+    access_control:
+       # - { path: ^/register, role: ROLE_ADMIN }
