@@ -2,7 +2,7 @@
 
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User: bcrypt
 
     providers:
         in_memory:
@@ -16,18 +16,14 @@ security:
             security: false
         main:
             anonymous: ~
-            http_basic: ~
-
-        user:
             provider: in_memory
             pattern: ^/
-            anonymous: true
             form_login:
                 login_path: login
-                check_path: login_check
+                check_path: login
                 default_target_path: list
             logout:
-                path: logout
+                path: /logout
                 target: list
 
 
