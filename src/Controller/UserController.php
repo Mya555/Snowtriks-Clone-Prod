@@ -2,19 +2,20 @@
 
 namespace App\Controller;
 
-use http\Env\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
 {
+
     /**
      * @Route("/login", name="login")
      * @param Request $request
      * @param AuthenticationUtils $authenticationUtils
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return Response
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
@@ -26,7 +27,10 @@ class UserController extends Controller
 
         return $this->render('login.html.twig', array(
             'last_username' => $lastUsername,
-            'error' => $error,
+            'error'         => $error,
         ));
     }
+
 }
+
+

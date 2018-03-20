@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Form\CommentEditType;
@@ -19,12 +18,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TricksController extends Controller
 {
     /**
      * Affichage d'une figure
      * @Route("/figure/{id}", name="show")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function show(Request $request ,$id)
 
@@ -51,7 +55,13 @@ class TricksController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+            $user = $this->getUser();
 
+            if (null === $user) {
+                // Ici, l'utilisateur est anonyme ou l'URL n'est pas derrière un pare-feu
+            } else {
+                // Ici, $user est une instance de notre classe User
+            }
 
             return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
@@ -82,6 +92,7 @@ class TricksController extends Controller
             ->findAllTricks();
 
 
+        /** @var TYPE_NAME $tricks */
         foreach ($repository as $tricks) {
 
 
@@ -113,6 +124,7 @@ class TricksController extends Controller
             $url = $this->generateUrl('show', array('id' => $tricks->getId()));
 
         }
+        /** @var TYPE_NAME $tricks */
         return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
@@ -120,9 +132,17 @@ class TricksController extends Controller
     /**
      * Addition d'une figure
      * @Route("/ajout", name="add")
+     * @param Request $request
+     * @param FileUploader $fileUploader
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function add(Request $request, FileUploader $fileUploader)
+    public function add(Request $request, FileUploader $fileUploader, AuthorizationCheckerInterface $authChecker)
     {
+        if (false === $authChecker->isGranted('ROLE_USER')) {
+        throw new AccessDeniedException('Unable to access this page!');
+        }
+
         $trick = new Tricks();
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
 
@@ -148,10 +168,12 @@ class TricksController extends Controller
     }
 
 
-
     /**
      * Edition d'une figure
      * @Route("/editer/{id}", name="edit")
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit($id, Request $request)
     {
@@ -196,6 +218,8 @@ class TricksController extends Controller
     /**
      * Suppression d'une figure
      * @Route("/supprimer/{id}", name="delete")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function delete($id)
     {
@@ -211,6 +235,8 @@ class TricksController extends Controller
 
         return $this->redirectToRoute('list');
     }
+
+
 
 
 
