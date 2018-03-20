@@ -1,8 +1,11 @@
+
+ {% block content %}
 {{ form_start(form) }}
     {{ form_row(form.username) }}
     {{ form_row(form.email) }}
     {{ form_row(form.plainPassword.first) }}
     {{ form_row(form.plainPassword.second) }}
+     {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
 
-<button type="submit">Register!</button>
 {{ form_end(form) }}
+{% endblock %}

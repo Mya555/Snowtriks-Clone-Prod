@@ -7,30 +7,38 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
 /**
- * @property  salt
- * @ORM\Table(name="app_users")
+ * @ORM\Entity
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
+    public function __construct()
+    {
+        $this->salt = md5(uniqid('', true));
+    }
+
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
-    private $username;
+    private $email;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
-    private $password;
+    private $username;
 
     /**
      * @Assert\NotBlank()
@@ -39,85 +47,29 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
-     * @return mixed
+     * The below length depends on the "algorithm" you use for encoding
+     * the password, but this works well with bcrypt.
+     *
+     * @ORM\Column(type="string", length=64)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $password;
+
 
     /**
-     * @param mixed $id
+     * @ORM\Column(name="salt", type="string", length=255)
      */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
+    private $salt;
 
-    /**
-     * @return mixed
-     */
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
+    // other properties and methods
 
-    /**
-     * @param mixed $plainPassword
-     */
-    public function setPlainPassword($plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email): void
+    public function setEmail($email)
     {
         $this->email = $email;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getisActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive($isActive): void
-    {
-        $this->isActive = $isActive;
-    }
-
-    /**
-     * @ORM\Column(type="string", length=254, unique=true)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(name="is_active", type="boolean")
-     */
-    private $isActive;
-    private $salt;
-
-    public function __construct()
-    {
-        $this->isActive = true;
-
-         $this->salt = md5(uniqid('', true));
     }
 
     public function getUsername()
@@ -125,10 +77,19 @@ class User implements UserInterface, \Serializable
         return $this->username;
     }
 
-    public function getSalt()
+    public function setUsername($username)
     {
+        $this->username = $username;
+    }
 
-        return null;
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     public function getPassword()
@@ -136,36 +97,55 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+
+    // other methods, including security methods like getRoles()
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return void (Role|string)[] The user roles
+     */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        // TODO: Implement getRoles() method.
     }
 
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
     public function eraseCredentials()
     {
+        // TODO: Implement eraseCredentials() method.
     }
 
-    /** @see \Serializable::serialize() */
-    public function serialize()
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
     {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-
-            $this->salt,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-
-            $this->salt
-            ) = unserialize($serialized);
+        // TODO: Implement getSalt() method.
     }
 }
