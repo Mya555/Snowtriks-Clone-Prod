@@ -6,6 +6,16 @@ body {
   background-size: cover;
 
 }
+/* nom d'utilisateur dans le menu*/
+.user{
+  margin-left: 1em;
+  color: whitesmoke;
+  font-size: 1.3em;
+  font-family: 'Lora';
+}
+/* nom utilisateur */
+
+
 .src-image {
   display: none;
 }
