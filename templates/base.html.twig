@@ -22,6 +22,7 @@
 
             <!-- Custom styles for this template -->
             <link href="{{ asset('css/business-casual.css')}}" rel="stylesheet">
+            <link href="{{ asset('css/lightbox.css')}}" rel="stylesheet">
 
         {% endblock %}
     </head>
@@ -86,6 +87,8 @@
 
 
         {% block javascripts %}
+
+
                 <!-- Les flocons de neiges -->
             <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
             <script type="text/javascript">window.onload = function(){snow.init(30);};</script>
@@ -97,6 +100,13 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
             <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+            <!-- L'agrandissement des images -->
+            <script type="text/javascript" src="{{ asset('vendor/jquery/lightbox.js') }}">
+                    lightbox.option({
+                        'alwaysShowNavOnTouchDevices' : true
+                    })
+                </script>
         {% endblock %}
     {% endblock %}
     </body>

@@ -42,12 +42,11 @@
                                            <div class="row jumbotron">
 
                                                    {% for image in trick.images %}
-
-                                                   <div class="petite  card col-lg-3">
-                                                       <img src="{{ asset('uploads/'~image.filename) }}"/>
-                                                   </div>
-
+                                                       <div class="petite  card col-lg-3">
+                                                           <a href="{{ asset('uploads/'~image.filename) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~image.filename) }}"/></a>
+                                                       </div>
                                                    {% endfor %}
+
                                                    {% for video in trick.videos %}
                                                        <div class="card col-lg-3">
                                                            <iframe src="{{ video }}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
