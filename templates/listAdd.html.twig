@@ -4,7 +4,7 @@
     {% block list %}
 
         {% for  tricks in repository %}
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="row bouton-cadre pull-right">
                         <div class="col-sm-1">
@@ -25,14 +25,10 @@
                 </div>
             </div>
         {% endfor %}
-            {# Bouton pour diminuer le normbre d'affichage #}
-                <div class="container">
-                    <div class="row">
-                        <div class="wrap">
-                            <a href="{{ path('list')}}" class="button2"></i>Afficher moins</a>
-                        </div>
-                    </div>
-                </div>
+            {# Bouton pour diminuer le nombre d'affichage #}
 
+
+        {# Flèche pour remonter en haut #}
+        <div><a href="#" title="Haut de page" class="scrollup"><i class="fa fa-arrow-up"></i></a></div>
     {% endblock %}
 
