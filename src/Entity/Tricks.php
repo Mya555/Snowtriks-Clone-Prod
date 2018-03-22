@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -16,6 +17,35 @@ use Symfony\Component\Validator\Constraints\Image;
  */
 class Tricks
 {
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
+     * @Assert\Count(
+     *      min = 1,
+     *      max = 5,
+     *      minMessage = "tricks.images.min",
+     *      maxMessage = "tricks.images.max"
+     * )
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
+     */
+    private $images;
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images): void
+    {
+        $this->images = $images;
+    }
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
      */
@@ -223,45 +253,6 @@ class Tricks
 
 
 
-    /**
-     * Image représentant la figure
-     * @ORM\Column(type="simple_array", name="images", nullable=true)
-     *
-     */
-
-
-    protected $images = [];
-
-
-// Cela renvoi un tableau contenant des objets file
-    public function getImages()
-    {
-        $images =[];
-
-
-
-        foreach ($this->images as $image)
-        {
-            if (!$image instanceof UploadedFile){
-            $images[]= new File(__DIR__.'\..\..\public\uploads\\' . $image);
-            }
-            else
-            {
-                $images[]= $image;
-            }
-        }
-
-        return $images;
-    }
-
-    public function setImages($images)
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-
 
 
     /**
@@ -287,17 +278,6 @@ class Tricks
     }
 
 
-    public function addImage(Tricks $images)
-    {
-        $images->addTricks($this);
-
-        $this->images->add($images);
-    }
-
-    public function removeImages(Tricks $images)
-    {
-
-    }
 
 
 

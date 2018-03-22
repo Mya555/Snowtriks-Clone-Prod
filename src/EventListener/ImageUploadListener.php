@@ -2,72 +2,44 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use App\Entity\Tricks;
-use App\Service\FileUploader;
-use Symfony\Component\HttpFoundation\File\File;
+
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use App\Entity\Image;
 
 class ImageUploadListener
 {
-    private $uploader;
-
-    public function __construct(FileUploader $uploader)
-        {
-        $this->uploader = $uploader;
-        }
-
-    public function prePersist(LifecycleEventArgs $args)
-        {
-        $entity = $args->getEntity();
-
-        $this->uploadFile($entity);
-         }
-
-    public function preUpdate(PreUpdateEventArgs $args)
-        {
-        $entity = $args->getEntity();
-
-        $this->uploadFile($entity);
-        }
-
-    private function uploadFile($entity)
-        {
-// upload only works for Tricks entities
-    if (!$entity instanceof Tricks) {
-        return;
-        }
-
-        $images =[];
-
-        // only upload new files
-      foreach($entity->getImages() as $image){
-        if ($image instanceof UploadedFile) {
-            $fileName = $this->uploader->upload($image);
-
-            $images[] = $fileName;
-            }else
-        {
-            $images[] = $image->getName();
-        }
-      }
-
-        $entity->setImages($images);
-
-}
-    public function postLoad(LifecycleEventArgs $args)
-        {
-    $entity = $args->getEntity();
-
-        if (!$entity instanceof Tricks) {
+    private $imageDir;
+    public function __construct($imageDir)
+    {
+        $this->imageDir = $imageDir;
+    }
+    public function postPersist(LifecycleEventArgs $eventArgs)
+    {
+        $image = $eventArgs->getObject();
+        if(!($image instanceof Image)) {
             return;
         }
-
-        if ($fileName = $entity->getImages()) {
-            $entity->setImages(new File($this->uploader->getTargetDir().'/'.$fileName));
+        $this->save($image);
+    }
+    public function postRemove(LifecycleEventArgs $eventArgs)
+    {
+        $image = $eventArgs->getObject();
+        if(!($image instanceof Image)) {
+            return;
         }
+        $this->remove($this->imageDir . $image->getName());
+    }
+    private function save(Image $image)
+    {
+        if(null !== $image->getFile()) {
+            $image->getFile()->move($this->imageDir, $image->getName());
 
-
-}
+        }
+    }
+    private function remove($absolutePath)
+    {
+        if(file_exists($absolutePath)) {
+            unlink($absolutePath);
+        }
+    }
 }
