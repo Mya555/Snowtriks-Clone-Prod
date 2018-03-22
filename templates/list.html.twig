@@ -37,13 +37,15 @@
                                 </div>
                             {% endfor %}
                             {# Bouton pour afficher plus de résultats #}
-                               <div class="container">
-                                   <div class="row">
-                                       <div class="wrap">
-                                           <a href="{{ path('list_add')}}" class="button1"></i>Afficher plus</a>
+                               {% if tricks > 10 %}
+                                   <div class="container">
+                                       <div class="row">
+                                           <div class="wrap">
+                                               <a href="{{ path('list_add')}}" class="button1"></i>Afficher plus</a>
+                                           </div>
                                        </div>
                                    </div>
-                               </div>
+                               {% endif %}
 
                        {% endblock %}
                    </div>
