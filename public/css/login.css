@@ -41,3 +41,18 @@
     border-radius: 4px;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+
+/* logout */
+.regist
+{
+    margin-left: 10%;
+}
+.regist-border
+{
+    margin-top: 1.5em;
+
+}
+
+.regist-border-2{
+    margin-bottom: 1.5em;
+}
