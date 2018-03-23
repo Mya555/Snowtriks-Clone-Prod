@@ -1,19 +1,39 @@
+{% extends 'base.html.twig' %}
+    {% block content %}
+        <section class="page-section about-heading list-head">
 
-{% extends 'list.html.twig' %}
+    <div class="row" id="box-search">
+        <div class="thumbnail text-center">
 
-    {% block list %}
+            <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/mont.jpg') }}" alt=""/>
+
+            <div class="caption">
+                <h2 class="section-heading mb-4">
+                    <span class="section-heading-upper"></span>
+                    <span class="titre section-heading-lower">If dreams don't scare you, they're not big enough.</span>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div class="album text-muted">
+    <div class="container">
+        <div class="row">
 
         {% for  tricks in repository %}
             <div class="col-sm-4">
                 <div class="card">
-                    <div class="row bouton-cadre pull-right">
-                        <div class="col-sm-1">
-                            <a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="row bouton-cadre pull-right">
+                            <div class="col-sm-1">
+                                <a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a href="{{ path('delete', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <a href="{{ path('delete', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
+                    {% endif %}
                     <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
                     <div class="avatar">
                         <a href="{{ path('show', {'id':tricks.id}) }}"><img src="{{ asset('img/ng.jpg') }}" alt="" /></a>
@@ -30,5 +50,10 @@
 
         {# Flèche pour remonter en haut #}
         <div><a href="#" title="Haut de page" class="scrollup"><i class="fa fa-arrow-up"></i></a></div>
-    {% endblock %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
 

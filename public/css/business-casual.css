@@ -6,6 +6,13 @@ body {
   background-size: cover;
 
 }
+
+
+.list-head
+{
+
+}
+
 /* Footer */
 
 
@@ -19,7 +26,6 @@ body{
 
 footer{
   background-color:#222222;
-
 }
 
 .copyright{
@@ -48,6 +54,7 @@ margin-top: 10em;
   font-size: 20px;
   text-align: center;
   line-height: 37px;
+  margin-bottom: 7em;
 }
 .scrollup:hover {
   color: white;
@@ -211,6 +218,10 @@ a.button2 {
 }
 /* fin list */
 
+.commentaire
+{
+  margin-top: 8em;
+}
 
 
 .comments { clear: both; } .comments .odd { background: #eee; } .comments .comment { padding: 20px; } .comments .comment p { margin-bottom: 0; } .comments h3 { background: #eee; padding: 10px; font-size: 20px; margin-bottom: 20px; clear: both; } .comments .previous-comments { margin-bottom: 20px; }
@@ -447,7 +458,8 @@ p {
 #mainNav {
   background-color: rgba(13, 25, 47, 0.9);
   font-family: 'Raleway';
-    margin-bottom: 11em;
+  margin-bottom: 11em;
+
 }
 
 #mainNav .navbar-brand {
