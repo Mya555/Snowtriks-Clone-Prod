@@ -410,14 +410,16 @@ p {
   font-weight: 100;
 }
 
+
 .bg-faded {
-  margin-top: 7em;
+
   background-color: rgba(255, 255, 255, 0.85);
 }
 
 #mainNav {
   background-color: rgba(13, 25, 47, 0.9);
   font-family: 'Raleway';
+    margin-bottom: 11em;
 }
 
 #mainNav .navbar-brand {
