@@ -6,6 +6,33 @@ body {
   background-size: cover;
 
 }
+/* Footer */
+
+
+.copyright p{
+  font-size:12px;
+  padding:15px 0 10px 0;
+}
+body{
+  font-family: 'Raleway', sans-serif;
+}
+
+footer{
+  background-color:#222222;
+
+}
+
+.copyright{
+
+  height: 60px;
+  bottom: 0;
+  width: 100%;
+  background-color:#f0f0f0;
+}
+
+
+/* fin footer */
+
 /* Bouton scroll-up - arrow */
 .scrollup {
   width: 40px;
