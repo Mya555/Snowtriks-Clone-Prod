@@ -66,7 +66,7 @@ class UserController extends Controller
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('list');
+            return $this->redirectToRoute('list_add');
         }
 
         return $this->render(
