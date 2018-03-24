@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
+{# <span class="titre section-heading-lower">If dreams don't scare you, they're not big enough.</span>#}
     {% block content %}
+
         <section class="page-section about-heading list-head">
-
-    <div class="row" id="box-search">
-        <div class="thumbnail text-center">
-
-            <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/mont.jpg') }}" alt=""/>
-
-            <div class="caption">
-                <h2 class="section-heading mb-4">
-                    <span class="section-heading-upper"></span>
-                    <span class="titre section-heading-lower">If dreams don't scare you, they're not big enough.</span>
-                </h2>
-            </div>
-        </div>
-    </div>
-
-</section>
+            <header class="masthead" style="background-image: url('{{ asset('img/mont.jpg ')}}')">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10 mx-auto">
+                            <div class="site-heading">
+                                <h1>If dreams don't scare you, they're not big enough.</h1>
+                                <span class="subheading"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </section>
 <div class="album text-muted">
     <div class="container">
         <div class="row">
