@@ -26,10 +26,10 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-                default_target_path: list
+                default_target_path: list_add
             logout:
                 path: /logout
-                target: list
+                target: list_add
 
 
 

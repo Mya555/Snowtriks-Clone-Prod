@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Tricks
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"})
      * @Assert\Count(
      *      min = 1,
      *      max = 5,
@@ -30,13 +30,7 @@ class Tricks
      */
     private $images;
 
-    /**
-     * @return mixed
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
+
 
     /**
      * @param mixed $images
@@ -85,10 +79,47 @@ class Tricks
     public function __construct()
     {
         $this->date = new \Datetime();
+        $this->images = new ArrayCollection();
 
         $this->comments = new ArrayCollection();
 
     }
+
+    /**
+     * Add image
+     *
+     *
+     * @param Image $image
+     * @return Tricks
+     */
+    public function addImage(Image $image)
+    {
+        if(!$this->images->contains($image))
+        {
+            $this->images[] = $image;
+        }
+        $image->setTricks($this);
+        return $this;
+    }
+
+    /**
+     * Remove image
+     * @param Image $image
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+    }
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
 
 
 
