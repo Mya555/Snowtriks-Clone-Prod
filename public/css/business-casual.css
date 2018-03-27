@@ -632,6 +632,7 @@ p {
   font-weight: 100 !important;
 }
 
+
 .list-head{
   margin-top: -178px;
   width: 100%;
@@ -641,3 +642,10 @@ p {
   height: 50px;
   background-color: #1b1e21;
 }
+
+
+
+.hidden{
+  display: none;
+}
+>>>>>>> load
