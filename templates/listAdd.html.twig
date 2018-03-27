@@ -3,8 +3,8 @@
 
     {% block list %}
 
-        {% for  tricks in repository %}
-            <div class="col-sm-4">
+        {% for  key,tricks in repository %}
+            <div class="{% if key > 9 %} hidden {% endif %}col-sm-4">
                 <div class="card">
                     <div class="row bouton-cadre pull-right">
                         <div class="col-sm-1">
@@ -26,6 +26,22 @@
             </div>
         {% endfor %}
             {# Bouton pour diminuer le nombre d'affichage #}
+        <div class="container">
+            <div class="row">
+                <a href="#" id="more">Afficher plus</a>
+
+                <script>
+                    var more = document.querySelector('#more')
+                    more.addEventListener('click', function(e) {
+                        e.preventDefault()
+                        var tricks = document.querySelectorAll('.hidden')
+                        for (var i = 0; i < tricks.length; i++) {
+                            tricks[i].classList.remove("hidden");
+                        }
+                    })
+                </script>
+            </div>
+        </div>
 
 
         {# Flèche pour remonter en haut #}
