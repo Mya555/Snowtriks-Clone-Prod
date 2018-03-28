@@ -148,7 +148,7 @@ margin-top: 13em;
 /* fin icon*/
 
 
-/*Bouton 'afficher plus' */
+/* Bouton */
 
 
 .wrap {
@@ -190,6 +190,8 @@ a.button2 {
   color: rgba(255, 255, 255, 0.85);
   box-shadow: rgba(12, 178, 252, 0.7) 0 80px 0px 2px inset;
 }
+/* fin bouton */
+
 
 /* Affichage de liste */
 
