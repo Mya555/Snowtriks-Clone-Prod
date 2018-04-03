@@ -94,7 +94,7 @@
                             <p>Il n'y a aucun commentaire pour cette figure.{% if is_granted('IS_AUTHENTICATED_FULLY') %} Sois le premièr  a laisser ton avis.{% endif %}</p>
 
                         {% endfor %}
-                        {% if  trick.comments == true %}
+                    {% if trick.comments|length > 0 %}
                             <div class="container">
                                 <div class="row">
                                     <a href="#" id="more">Afficher plus</a>
