@@ -36,12 +36,10 @@ class TricksType extends AbstractType
             ->add('user',        TextType::class)
             ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))
             ->add('images', CollectionType::class, array(
-                'label' => false,
                 'entry_type' => ImageType::class,
-                'entry_options' => array('label' => false),
-                'by_reference' => false,
+                'prototype' => true,
                 'allow_add' => true,
-                'allow_delete' => true,
+                'mapped' => false
             ))
             ->add('videos',      CollectionType::class, [])
             ->add('groupe',      TextType::class)
