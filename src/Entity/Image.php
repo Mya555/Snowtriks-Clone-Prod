@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Image
 {
-    /**********ATTRIBUTS**********/
+    /********** ATTRIBUTS **********/
 
     /**
      * @ORM\Id
@@ -22,6 +22,7 @@ class Image
     private $id;
 
     /**
+     * @var File
      */
     private $file;
 
@@ -31,12 +32,13 @@ class Image
     private $path;
 
     /**
+     * @var Tricks
      * @ORM\ManyToOne(targetEntity="Tricks", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
 
-    /**********GETTERS&SETTERS**********/
+    /********** GETTERS & SETTERS **********/
 
     /**
      * @return mixed
@@ -79,17 +81,17 @@ class Image
     }
 
     /**
-     * @return mixed
+     * @return Tricks
      */
-    public function getTrick()
+    public function getTrick(): Tricks
     {
         return $this->trick;
     }
 
     /**
-     * @param mixed $trick
+     * @param Tricks $trick
      */
-    public function setTrick($trick): void
+    public function setTrick(Tricks $trick): void
     {
         $this->trick = $trick;
     }
