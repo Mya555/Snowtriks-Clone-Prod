@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Image
 {
+    /**********ATTRIBUTS**********/
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,45 +22,78 @@ class Image
     private $id;
 
     /**
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Tricks", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
 
+    /**********GETTERS&SETTERS**********/
 
     /**
-     * @Assert\Image(
-     *      mimeTypesMessage = "image.file.invalid",
-     *      minWidth = 630,
-     *      minHeight = 350,
-     *      minWidthMessage = "image.file.min_width",
-     *      minHeightMessage = "image.file.min_height",
-     *      minRatio = 1.5,
-     *      maxRatio = 2,
-     *      minRatioMessage = "image.file.ratio",
-     *      maxRatioMessage = "image.file.ratio"
-     * )
+     * @return mixed
      */
-    private $file;
-
-
-    /**
-     * @Assert\Callback()
-     * @param ExecutionContextInterface $context
-     */
-    public function completeFileValidation(ExecutionContextInterface $context)
+    public function getId()
     {
-        if ($this->id === null) {
-            $constraint = new NotNull(array(
-                'message' => 'image.file.null'
-            ));
-            $context
-                ->getValidator()
-                ->inContext($context)
-                ->atPath('file')
-                ->validate($this->file, $constraint)
-            ;
-        }
+        return $this->id;
     }
+
+    /**
+     * @return File
+     */
+    public function getFile(): File
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param File $file
+     */
+    public function setFile(File $file): void
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param mixed $path
+     */
+    public function setPath($path): void
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrick()
+    {
+        return $this->trick;
+    }
+
+    /**
+     * @param mixed $trick
+     */
+    public function setTrick($trick): void
+    {
+        $this->trick = $trick;
+    }
+
+
 
 }
