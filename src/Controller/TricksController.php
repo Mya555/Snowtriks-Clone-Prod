@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 use App\Entity\Comment;
+use App\Repository\CommentRepository;
 use App\Entity\Tricks;
 use App\Form\CommentEditType;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +22,9 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 class TricksController extends Controller
 {
@@ -27,11 +32,12 @@ class TricksController extends Controller
 
     /**
      * @Route("/figure/{id}", name="show")
+     * @param EntityManagerInterface $em
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function show(Request $request ,$id)
+    public function show(EntityManagerInterface $em, $page = 1, Request $request ,$id)
 
     {
         /* Récuperation de la figure triées par $id */
@@ -62,7 +68,8 @@ class TricksController extends Controller
                 'Aucun résultat ne correspond à votre recherche'
             );
         }
-        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id)));
+        /** @var TYPE_NAME $this */
+        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
     }
 
 
@@ -87,6 +94,7 @@ class TricksController extends Controller
             $url = $this->generateUrl('show', array('id' => $tricks->getId()));
         }
 
+        /** @var TYPE_NAME $tricks */
         return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
@@ -179,9 +187,6 @@ class TricksController extends Controller
 
         return $this->redirectToRoute('list');
     }
-
-
-
 
 
 }

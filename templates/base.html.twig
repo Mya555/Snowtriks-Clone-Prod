@@ -10,6 +10,8 @@
         <title>{% block title %}Jimmy's Tricks{% endblock %}</title>
         <!-- Bootstrap core CSS -->
         {% block stylesheets %}
+            <!-- Slylesheet for comment -->
+            <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <!-- Bootstrap CDN -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -106,12 +108,9 @@
 
 
             {% block javascripts %}
-
-
                     <!-- Les flocons de neiges -->
                 <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
                 <script type="text/javascript">window.onload = function(){snow.init(30);};</script>
-
                     <!--Les tags-->
                 <script type="text/javascript" src="{{ asset('vendor/jquery/images.js') }}"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
