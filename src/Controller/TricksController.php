@@ -23,8 +23,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TricksController extends Controller
 {
+   /// AFFICHER UNE FIGURE ///
+
     /**
-     * Affichage d'une figure
      * @Route("/figure/{id}", name="show")
      * @param Request $request
      * @param $id
@@ -33,7 +34,7 @@ class TricksController extends Controller
     public function show(Request $request ,$id)
 
     {
-        /* Affichage de la figure */
+        /* Récuperation de la figure triées par $id */
 
         $trick = $repository = $this
         ->getDoctrine()
@@ -47,27 +48,16 @@ class TricksController extends Controller
         $comment->setTricks($trick);
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
-
-
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            $user = $this->getUser();
-
-            if (null === $user) {
-                // Ici, l'utilisateur est anonyme ou l'URL n'est pas derrière un pare-feu
-            } else {
-                // Ici, $user est une instance de notre classe User
-            }
 
             return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
 
         if (!$trick) {
-
             throw new NotFoundHttpException(
                 'Aucun résultat ne correspond à votre recherche'
             );
@@ -77,86 +67,51 @@ class TricksController extends Controller
 
 
 
+    /// AFFICHER UNE LISTE DE FIGURES ///
 
     /**
-     * Affichage de toutes les figures
-     * @Route("/liste", name="list")
-     */
-
-        public function list()
-    {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Tricks::class)
-            ->findAllTricks();
-
-
-        /** @var TYPE_NAME $tricks */
-        foreach ($repository as $tricks) {
-
-
-
-            $url = $this->generateUrl('show', array('id' => $tricks->getId()));
-
-        }
-        return $this->render('list.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
-    }
-
-    /**
-     * Affichage de toutes les figures
      * @Route("/liste_add", name="list_add")
      */
-
     public function listAdd()
     {
+        /* Récuperation de toutes les figures */
+
         $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Tricks::class)
             ->findAll();
 
-
         foreach ($repository as $tricks) {
 
-
-
             $url = $this->generateUrl('show', array('id' => $tricks->getId()));
-
         }
-        /** @var TYPE_NAME $tricks */
+
         return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
 
+    /// AJOUTER UNE FIGURE ///
+
     /**
-     * Addition d'une figure
      * @Route("/ajout", name="add")
      * @param Request $request
-     * @param FileUploader $fileUploader
-     * @param AuthorizationCheckerInterface $authChecker
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function add(Request $request, FileUploader $fileUploader, AuthorizationCheckerInterface $authChecker)
+    public function add(Request $request)
     {
-        if (false === $authChecker->isGranted('ROLE_USER')) {
-        throw new AccessDeniedException('Unable to access this page!');
-        }
+        /* Création d'une nouvelle figure */
 
         $trick = new Tricks();
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-
-
-
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
 
@@ -168,8 +123,9 @@ class TricksController extends Controller
     }
 
 
+    /// EDITER UNE FIGURE ///
+
     /**
-     * Edition d'une figure
      * @Route("/editer/{id}", name="edit")
      * @param $id
      * @param Request $request
@@ -177,54 +133,42 @@ class TricksController extends Controller
      */
     public function edit($id, Request $request)
     {
+        /* Edition d'une figure */
 
         $em = $this->getDoctrine()->getManager();
-
         $trick = $em->getRepository(Tricks::class)->find($id);
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");
         }
-
-        /**$images = [];
-
-        foreach ($trick->getImages() as $image) {
-            $images[] = new File($this->getParameter('uploads').'/'.$image);
-        }
-
-        $trick->setImages(
-            $images
-        );
-         **/
-
         $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-
             $em->flush();
-
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
         }
-
         return $this->render('edit.html.twig', array(
             'trick' => $trick,
             'form'   => $form->createView(),
         ));
     }
 
+
+    /// SUPPRIMER UNE FIGURE ///
+
     /**
-     * Suppression d'une figure
      * @Route("/supprimer/{id}", name="delete")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function delete($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        /* Récuperation de la figure */
 
+        $em = $this->getDoctrine()->getManager();
         $tricks = $em->getRepository(Tricks::class)->find($id);
 
         if (null === $tricks) {
