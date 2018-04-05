@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Entity\Tricks;
@@ -32,12 +33,11 @@ class TricksController extends Controller
 
     /**
      * @Route("/figure/{id}", name="show")
-     * @param EntityManagerInterface $em
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function show(EntityManagerInterface $em, $page = 1, Request $request ,$id)
+    public function show(Request $request ,$id)
 
     {
         /* Récuperation de la figure triées par $id */

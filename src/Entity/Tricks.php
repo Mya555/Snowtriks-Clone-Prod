@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -248,17 +249,12 @@ class Tricks
     }
 
     /**
-     * Add image
      * @param Image $image
      * @return Tricks
      */
-    public function addImage(Image $image)
+    public function addImage(Image $image): self
     {
-        if(!$this->images->contains($image))
-        {
-            $this->images[] = $image;
-        }
-        $image->setTricks($this);
+        $this->images->add($image);
         return $this;
     }
 
