@@ -36,11 +36,3 @@ services:
         arguments:
             $targetDir: '%uploads%'
 
-
-
-    App\EventListener\ImageUploadListener:
-        arguments:
-                    $imageDir: "%uploads%"
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
