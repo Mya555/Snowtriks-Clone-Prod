@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserType;
+use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -76,6 +77,39 @@ class UserController extends Controller
 
     }
 
+    /**
+     * @Route("/user/{id}", name="update_user")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function avatarUpload(Request $request, $id){
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $user = $em->find($id);
+
+        $form = $this->get('form.factory')->create(UserEditType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $files = $request->files->get('user')['images'];
+            foreach ($files as $key => $file){
+                $filename = $this->generateUniqueFilename().'.'. $file['file']->guessExtension();
+
+                $file['file']->move($this->getParameter('img_directory'), $filename);
+                $image = new Image();
+                $image->setPath($filename);
+                $image->setUser($user);
+                $user->addImage($image);
+            }
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect('liste_add');
+        }
+            return $this->render('user.html.twig', [
+                'form' => $form->createView(),
+                'user' => $user ]);
+    }
 
 }
 

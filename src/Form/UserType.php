@@ -7,6 +7,7 @@
  */
 
 namespace App\Form;
+
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class UserType extends AbstractType
@@ -30,6 +32,12 @@ class UserType extends AbstractType
 
             ->add('username', TextType::class, array('mapped' => true,))
             ->add('email', EmailType::class)
+            ->add('avatar', CollectionType::class, [
+                'entry_type' => AvatarType::class,
+                'prototype' => true,
+                'allow_add' => true,
+                'mapped' => false
+            ])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),
