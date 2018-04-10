@@ -37,7 +37,7 @@ class TricksController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function show(EntityManagerInterface $em, $page = 1, Request $request ,$id)
+    public function show(EntityManagerInterface $em, Request $request ,$id)
 
     {
         /* Récuperation de la figure triées par $id */

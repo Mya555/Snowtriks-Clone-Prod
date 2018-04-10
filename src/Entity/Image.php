@@ -25,6 +25,10 @@ class Image
      */
     private $trick;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
 
     /**
      * @Assert\Image(

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,6 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface,  \Serializable
 {
+
+    /********** ATTRIBUTS **********/
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -49,7 +54,66 @@ class User implements UserInterface,  \Serializable
      */
     private $password;
 
-    // other properties and methods
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Il faut entrer cherger une image")
+     * @Assert\Image()
+     * @ORM\Column(name="avatar", type="string", length=255)
+     */
+    private $avatar;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+
+    /********** CONSTRUCTOR **********/
+
+    public function __construct()
+    {
+        $this->avatar = new ArrayCollection();
+    }
+
+
+
+    /********** GETTERS & SETTERS **********/
+
+
+    /**
+     * @return Collection
+     */
+    public function getAvatar(): Collection
+    {
+        return $this->avatar;
+    }
+
+    public function addAvatar(Avatar $avatar): self
+    {
+        if (!$this->avatar->contains($avatar)) {
+            $this->avatar[] = $avatar;
+            $avatar->setUserAvatar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvatar(Avatar $avatar): self
+    {
+        if ($this->avatar->contains($avatar)) {
+            $this->avatar->removeElement($avatar);
+            // set the owning side to null (unless already changed)
+            if ($avatar->getUserAvatar() === $this) {
+                $avatar->setUserAvatar(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getEmail()
     {
@@ -92,22 +156,9 @@ class User implements UserInterface,  \Serializable
     }
 
 
-    // other methods, including security methods like getRoles()
+    /********** AUTRES METHODES **********/
 
     /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
      * @return array (Role|string)[] The user roles
      */
     public function getRoles()
@@ -171,4 +222,6 @@ class User implements UserInterface,  \Serializable
 
             ) = unserialize($serialized);
     }
+
+
 }

@@ -1,71 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-</head>
-<body>
-{% block body %}
-
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-
-    <div class="example-wrapper">
-        {{ form_start(form) }}
-        <ul id="image-fields-list"
-            data-prototype="{{ form_widget(form.avatar.vars.prototype)|e }}"
-            data-widget-tags="{{ '<li></li>'|e }}">
-            {% for avatar in user.avatar %}
-                <li>
-                    <img src="/upload/{{ avatar.path }}" alt="">
-                    <a href="#">Delete</a>
-                </li>
-            {% endfor %}
-        </ul>
-        <a href="#"
-           class="add-another-collection-widget"
-           data-list="#image-fields-list">Ajouter une image
-        </a><br>
-        <input type="submit" value="Enregistrer">
-        {{ form_end(form) }}
-    </div>
+{% extends 'base.html.twig' %}
 
 
 
+{% block content %}
 
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('.add-another-collection-widget').click(function (e) {
-                e.preventDefault();
-                var list = jQuery(jQuery(this).attr('data-list'));
-                // Try to find the counter of the list
-                var counter = list.data('widget-counter') | list.children().length;
-                // If the counter does not exist, use the length of the list
-                if (!counter) { counter = list.children().length; }
-                // grab the prototype template
-                var newWidget = list.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your emails
-                // end name attribute looks like name="contact[emails][2]"
-                newWidget = newWidget.replace(/__name__/g, counter);
-                // Increase the counter
-                counter++;
-                // And store it, the length cannot be used if deleting widgets is allowed
-                list.data(' widget-counter', counter);
-                // create a new list element and add it to the list
-                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-                newElem.appendTo(list);
-            });
-        });
-    </script>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+ {{ form_end(form) }}
 
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
 {% endblock %}
-</body>
-</html>
+
+
+
+
+

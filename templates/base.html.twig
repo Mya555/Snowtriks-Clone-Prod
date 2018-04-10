@@ -59,13 +59,15 @@
                                     <li>
                                          <div>
                                             <h2 class="user">
-                                                   <p>{{ app.user.username }}</p>
+                                                <p>{{ app.user.username }}</p>
                                             </h2>
                                         </div>
                                      </li>
                                     <li>
                                         <div id=container>
-                                           <a href="{{ path('update_user', {'id': trick.id}) }}"> <img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/></a>
+                                           <a href="{{ path('update_user', {'id': app.user.id}) }}">
+                                               {% if app.user.avatar|length > 0 %}<img src="{{ app.user.avatar }}" id="avatar" width="250" draggable="false"/></a>{% else %}<img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/>{% endif %}
+                                            </a>
                                         </div>
                                     </li>
                                 {% endif %}
