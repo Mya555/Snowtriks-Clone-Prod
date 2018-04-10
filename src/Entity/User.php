@@ -85,9 +85,9 @@ class User implements UserInterface,  \Serializable
 
 
     /**
-     * @return Collection
+     * @return string
      */
-    public function getAvatar(): Collection
+    public function getAvatar(): string
     {
         return $this->avatar;
     }
@@ -148,6 +148,14 @@ class User implements UserInterface,  \Serializable
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     public function setPassword($password)

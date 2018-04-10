@@ -90,19 +90,21 @@ class UserController extends Controller
         $form = $this->get('form.factory')->create(UserEditType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file = $user->getAvatar();
-            $fileName = md5(uniqid()) . '.' . $file->quessExtension();
+        if ($form->isSubmitted()) {
+
+
+            $file = $request->files->get('user_edit')['avatar'];
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
 
             $file->move(
                 $this->getParameter('img_directory'), $fileName
             );
             $user->setAvatar($fileName);
-            $em = $this->getDoctrine()->getRepository();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->render('liste_add.html.twig', array('user' => $user));
-
+        /*    return $this->redirect('list_add'); */
 
         }
 
