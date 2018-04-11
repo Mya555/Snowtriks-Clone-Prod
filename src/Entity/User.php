@@ -71,7 +71,6 @@ class User implements UserInterface,  \Serializable
     }
 
 
-
     /********** CONSTRUCTOR **********/
 
     public function __construct()
@@ -90,6 +89,14 @@ class User implements UserInterface,  \Serializable
     public function getAvatar(): string
     {
         return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     public function addAvatar(Avatar $avatar): self
@@ -114,6 +121,9 @@ class User implements UserInterface,  \Serializable
 
         return $this;
     }
+
+    /********** GETTERS & SETTERS **********/
+
 
     public function getEmail()
     {
@@ -150,13 +160,6 @@ class User implements UserInterface,  \Serializable
         return $this->password;
     }
 
-    /**
-     * @param string $avatar
-     */
-    public function setAvatar(string $avatar): void
-    {
-        $this->avatar = $avatar;
-    }
 
     public function setPassword($password)
     {
@@ -230,6 +233,8 @@ class User implements UserInterface,  \Serializable
 
             ) = unserialize($serialized);
     }
+
+
 
 
 }

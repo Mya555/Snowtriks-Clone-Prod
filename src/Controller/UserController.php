@@ -82,6 +82,7 @@ class UserController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
+
     public function avatarUpload(Request $request, $id)
     {
         $em = $this->getDoctrine()->getRepository(User::class);
@@ -91,11 +92,24 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $files = $request->files->get('user')['images'];
+            foreach ($files as $key => $file){
+                $filename = $this->generateUniqueFilename().'.'. $file['file']->guessExtension();
 
+                $file['file']->move($this->getParameter('img_directory'), $filename);
+                $image = new Image();
+                $image->setPath($filename);
+                $image->setUser($user);
+                $user->addImage($image);
+            }
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect('liste_add');
+        }
 
             $file = $request->files->get('user_edit')['avatar'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
 
             $file->move(
                 $this->getParameter('img_directory'), $fileName
@@ -104,16 +118,9 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-        /*    return $this->redirect('list_add'); */
+           return $this->redirect('list_add');
 
         }
-
-        return $this->render('user.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user]);
-
-
-    }
 }
 
 
