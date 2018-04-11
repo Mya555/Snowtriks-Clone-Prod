@@ -33,16 +33,7 @@ class UserType extends AbstractType
 
             ->add('username', TextType::class, array('mapped' => true,))
             ->add('email', EmailType::class)
-<<<<<<< HEAD
             ->add('avatar', FileType::class, array('label'=>'inserer une image'))
-=======
-            ->add('avatar', CollectionType::class, [
-                'entry_type' => AvatarType::class,
-                'prototype' => true,
-                'allow_add' => true,
-                'mapped' => false
-            ])
->>>>>>> d214f4899b16197debe2e36a5f36606344ca4ccb
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),

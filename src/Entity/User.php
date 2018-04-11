@@ -122,8 +122,6 @@ class User implements UserInterface,  \Serializable
         return $this;
     }
 
-    /********** GETTERS & SETTERS **********/
-
 
     public function getEmail()
     {
@@ -233,8 +231,4 @@ class User implements UserInterface,  \Serializable
 
             ) = unserialize($serialized);
     }
-
-
-
-
 }
