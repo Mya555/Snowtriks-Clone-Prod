@@ -56,11 +56,41 @@ class User implements UserInterface,  \Serializable
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Il faut entrer cherger une image")
      * @Assert\Image()
-     * @ORM\Column(name="avatar", type="string", length=255)
+     * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
      */
     private $avatar;
+
+
+    private $avatarFile;
+
+
+    /********** CONSTRUCTOR **********/
+
+    public function __construct()
+    {
+
+    }
+
+
+
+    /********** GETTERS & SETTERS **********/
+
+    /**
+     * @return mixed
+     */
+    public function getAvatarFile()
+    {
+        return $this->avatarFile;
+    }
+
+    /**
+     * @param mixed $avatarFile
+     */
+    public function setAvatarFile($avatarFile): void
+    {
+        $this->avatarFile = $avatarFile;
+    }
 
     /**
      * @return mixed
@@ -69,18 +99,6 @@ class User implements UserInterface,  \Serializable
     {
         return $this->id;
     }
-
-
-    /********** CONSTRUCTOR **********/
-
-    public function __construct()
-    {
-        $this->avatar = new ArrayCollection();
-    }
-
-
-
-    /********** GETTERS & SETTERS **********/
 
 
     /**
@@ -109,6 +127,10 @@ class User implements UserInterface,  \Serializable
         return $this;
     }
 
+    /**
+     * @param Avatar $avatar
+     * @return User
+     */
     public function removeAvatar(Avatar $avatar): self
     {
         if ($this->avatar->contains($avatar)) {

@@ -92,23 +92,20 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $files = $request->files->get('user')['images'];
-            foreach ($files as $key => $file){
-                $filename = $this->generateUniqueFilename().'.'. $file['file']->guessExtension();
+            $file = $request->file->get('user')['images'];
 
-                $file['file']->move($this->getParameter('img_directory'), $filename);
-                $image = new Image();
-                $image->setPath($filename);
-                $image->setUser($user);
-                $user->addImage($image);
-            }
+                $filename = $this->generateUniqueFilename().'.'. $file['avatar_file']->guessExtension();
+
+                $file['avatar_file']->move($this->getParameter('img_directory'), $filename);
+                $user->setAvatar($filename);
+
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirect('liste_add');
         }
 
-            $file = $request->files->get('user_edit')['avatar'];
+            $file = $request->get('user_edit')['avatar_file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
             $file->move(
@@ -120,6 +117,13 @@ class UserController extends Controller
             $em->flush();
            return $this->redirect('list_add');
 
+        }
+        /**
+         * @return string
+         */
+        private function generateUniqueFileName()
+        {
+            return md5(uniqid());
         }
 }
 
