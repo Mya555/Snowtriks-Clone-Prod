@@ -92,20 +92,8 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $file = $request->file->get('user')['images'];
 
-                $filename = $this->generateUniqueFilename().'.'. $file['avatar_file']->guessExtension();
-
-                $file['avatar_file']->move($this->getParameter('img_directory'), $filename);
-                $user->setAvatar($filename);
-
-            $this->getDoctrine()->getManager()->persist($user);
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirect('liste_add');
-        }
-
-            $file = $request->get('user_edit')['avatar_file'];
+            $file = $request->files->get('user_edit')['avatar_file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
             $file->move(
@@ -115,9 +103,15 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-           return $this->redirect('list_add');
 
-        }
+            return $this->redirect($this->generateUrl('list_add'));
+    }
+        return $this->render(
+            'user.html.twig',
+            array('form' => $form->createView())
+        );
+
+    }
         /**
          * @return string
          */
