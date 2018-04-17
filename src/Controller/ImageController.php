@@ -20,11 +20,13 @@ class ImageController extends Controller
      * @Route("/ajout", name="image")
      * @param Request $request
      * @param $image
-     * @param Tricks $trick
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function imageAdd(Request $request, $image, Tricks $trick)
+    public function imageAdd(Request $request, $image, $id)
     {
+        $em = $this->getDoctrine()->getRepository(Tricks::class);
+        $trick = $em->find($id);
 
         $form = $this->get('form.factory')->create(ImageType::class, $image);
         $form->handleRequest($request);
