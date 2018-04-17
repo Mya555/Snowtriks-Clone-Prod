@@ -119,7 +119,7 @@ class TricksController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('show', array('id' => $trick->getId()));
+            return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
 
         }
 

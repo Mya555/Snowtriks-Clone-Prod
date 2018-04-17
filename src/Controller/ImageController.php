@@ -39,7 +39,7 @@ class ImageController extends Controller
                 $image = new Image();
                 $image->setTricks($trick);
                 $image->setPath($filename);
-                $trick->addImage($image);
+                $trick->setImages($image);
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($image);
