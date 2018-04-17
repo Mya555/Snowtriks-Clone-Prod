@@ -2,8 +2,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    uploads: '%kernel.project_dir%/public/uploads'
     comment_nb: 100
+    img_directory: '%kernel.project_dir%/public/uploads'
 
 
 services:
@@ -32,9 +32,6 @@ services:
   # app/config/config.yml
 
 
-    App\Service\FileUploader:
-        arguments:
-            $targetDir: '%uploads%'
 
 
 

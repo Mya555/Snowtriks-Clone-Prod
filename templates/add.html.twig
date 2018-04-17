@@ -75,30 +75,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <ul id="image-fields-list"
-                                                    data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
-                                                    data-widget-tags="{{ '<li></li>'|e }}">
-                                                    {% for image in trick.images %}
-                                                        <li>
-                                                            <img src="/upload/{{ image.path }}" alt="">
-                                                            <a href="#">Delete</a>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                                <a href="#"
-                                                   class="add-another-collection-widget"
-                                                   data-list="#image-fields-list">Ajouter une image
-                                                </a><br>
-                                            </div>
-                                        </div>
+
+
+                                        <ul id="image-fields-list"
+                                            data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+                                            data-widget-tags="{{ '<li></li>'|e }}">
+                                        </ul>
+
+                                        <a href="#"
+                                           class="add-another-collection-widget"
+                                           data-list="#image-fields-list">Ajouter une image
+                                        </a><br>
+
                                         <div class="row">
                                             <div class="col-sm-12 envoyer">
                                                 {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-r
                                                 ight btn-signup '}}) }}
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

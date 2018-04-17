@@ -35,6 +35,7 @@ class TricksType extends AbstractType
             ->add('name',        TextType::class)
             ->add('user',        TextType::class)
             ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))
+
             ->add('images', CollectionType::class, array(
                 'entry_type' => ImageType::class,
                 'prototype' => true,

@@ -41,7 +41,7 @@
                                 </li>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <li class="nav-item px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="/ajout">Ajouter</a>
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('add') }}">Ajouter</a>
                                     </li>
                                 {% endif %}
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
@@ -58,11 +58,16 @@
                                     </li>
                                     <li>
                                          <div>
-                                            <h2 class="user">
-                                                   <p>{{ app.user.username }}</p>
-                                            </h2>
+                                          x
                                         </div>
                                      </li>
+                                    <li>
+                                        <div id=container>
+                                           <a href="{{ path('update_user', {'id': app.user.id}) }}">
+                                               {% if app.user.avatar|length > 0 %}<img src="/uploads/{{ app.user.avatar }}" id="avatar" width="250" draggable="false"/></a>{% else %}<img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/>{% endif %}
+                                            </a>
+                                        </div>
+                                    </li>
                                 {% endif %}
                             </ul>
                         </div>

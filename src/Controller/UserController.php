@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserType;
+use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -30,11 +32,9 @@ class UserController extends Controller
 
         return $this->render('login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ));
     }
-
-
 
 
     /**
@@ -76,7 +76,49 @@ class UserController extends Controller
 
     }
 
+    /**
+     * @Route("/user/{id}", name="update_user")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
 
+    public function avatarUpload(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $user = $em->find($id);
+
+        $form = $this->get('form.factory')->create(UserEditType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $file = $request->files->get('user_edit')['avatar_file'];
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+            $file->move(
+                $this->getParameter('img_directory'), $fileName
+            );
+            $user->setAvatar($fileName);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('list_add'));
+    }
+        return $this->render(
+            'user.html.twig',
+            array('form' => $form->createView())
+        );
+
+    }
+        /**
+         * @return string
+         */
+        private function generateUniqueFileName()
+        {
+            return md5(uniqid());
+        }
 }
 
 

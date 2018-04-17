@@ -25,7 +25,8 @@ class ImageType extends AbstractType
     {
         $builder->add('file', FileType::class, array(
             'required' => false,
-            'mapped' => false
+            'mapped' => false,
+            'label' => true,
         ));
     }
     public function configureOptions(OptionsResolver $resolver)

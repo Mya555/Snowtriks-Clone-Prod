@@ -38,6 +38,7 @@ class Image
      */
     private $trick;
 
+
     /********** GETTERS & SETTERS **********/
 
     /**

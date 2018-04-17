@@ -37,7 +37,9 @@ class TricksController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
+
     public function show(Request $request ,$id)
+
 
     {
         /* Récuperation de la figure triées par $id */
@@ -83,16 +85,11 @@ class TricksController extends Controller
     {
         /* Récuperation de toutes les figures */
 
-        $repository = $this
+       $tricks =  $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Tricks::class)
             ->findAll();
-
-        foreach ($repository as $tricks) {
-
-            $url = $this->generateUrl('show', array('id' => $tricks->getId()));
-        }
 
         /** @var TYPE_NAME $tricks */
         return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
