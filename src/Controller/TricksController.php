@@ -25,6 +25,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Validator\Constraints\Image;
 
 
 class TricksController extends Controller
@@ -108,6 +109,7 @@ class TricksController extends Controller
         /* Création d'une nouvelle figure */
 
         $trick = new Tricks();
+        $trick->setImages($trick);
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
