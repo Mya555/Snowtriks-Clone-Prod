@@ -17,7 +17,7 @@ class ImageController extends Controller
 {
     /// AJOUTER UNE IMAGE ///
     /**
-     * @Route("/ajout", name="image")
+     * @Route("/ajout", name="add")
      * @param Request $request
      * @param $image
      * @param $id

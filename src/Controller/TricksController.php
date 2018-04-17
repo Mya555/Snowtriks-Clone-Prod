@@ -109,7 +109,6 @@ class TricksController extends Controller
         /* Création d'une nouvelle figure */
 
         $trick = new Tricks();
-        $trick->setImages($trick);
         $form   = $this->get('form.factory')->create(TricksType::class, $trick);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
