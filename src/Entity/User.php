@@ -65,7 +65,7 @@ class User implements UserInterface,  \Serializable
     private $avatarFile;
 
 
-    /********** CONSTRUCTOR **********/
+
 
     public function __construct()
     {

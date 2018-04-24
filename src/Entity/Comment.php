@@ -17,11 +17,53 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment
     {
-        /**
+
+    /********** ATTRIBUTS **********/
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", mappedBy="comment", cascade={"persist", "remove"})
+     */
+    private $author;
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $comment;
+
+     /**
      * Date de la creation du commentaire
      * @ORM\Column(name="dateCom", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     private $dateCom;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tricks;
+
+
+
+    /********** CONSTRUCTOR **********/
+
+    public function __construct()
+    {
+        $this->dateCom = new \Datetime();
+    }
+
+
+
+    /********** GETTERS & SETTERS **********/
 
     /**
      * @return \Datetime
@@ -39,17 +81,6 @@ class Comment
         $this->dateCom = $dateCom;
     }
 
-    public function __construct()
-    {
-        $this->dateCom = new \Datetime();
-    }
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $tricks;
 
     /**
      * @return mixed
@@ -68,26 +99,6 @@ class Comment
     }
 
 
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $author;
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $comment;
-
-
     /**
      * @return mixed
      */
@@ -103,9 +114,6 @@ class Comment
     {
         $this->id = $id;
     }
-
-
-
 
     /**
      * @return mixed
