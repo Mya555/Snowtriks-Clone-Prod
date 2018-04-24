@@ -29,19 +29,23 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class TricksType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name',        TextType::class)
             ->add('user',        TextType::class)
             ->add('description', TextareaType::class, array('attr' => array('rows' => 6)))
-
-            ->add('images', CollectionType::class, array(
+            ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false
-            ))
+                'mapped' => false,
+                'entry_options' => array('label' => false,
+                 'by_reference' => false)])
             ->add('videos',      CollectionType::class, [])
             ->add('groupe',      TextType::class)
             ->add('save',        SubmitType::class);

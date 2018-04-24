@@ -41,10 +41,17 @@ class Tricks
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Image()
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="user", cascade={"persist"})
      */
     private $images;
+
+
+
+    private $imageFile;
+
+
 
     /**
      * Video représentant la figure
@@ -86,28 +93,38 @@ class Tricks
     public function __construct()
     {
         $this->date = new \Datetime();
-        $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
 
     /********** GETTERS & SETTERS **********/
 
     /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
      * @return Collection
      */
-    public function getImages(): Collection
+    public function getImages()
     {
         return $this->images;
     }
 
-    /**
-     * @param Collection $images
-     */
-    public function setImages(Collection $images): void
-    {
-        $this->images = $images;
-    }
+
 
     /**
      * @return mixed
@@ -250,21 +267,24 @@ class Tricks
 
     /**
      * @param Image $image
-     * @return Tricks
      */
-    public function addImage(Image $image): self
+    public function addImage(Image $image)
     {
-        $this->images->add($image);
-        return $this;
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+        }
     }
 
+
     /**
-     * Remove image
      * @param Image $image
+     * @return $this
      */
     public function removeImage(Image $image)
     {
-        $this->images->removeElement($image);
+            $this->images->removeElement($image);
+
+        return $this;
     }
 
 }

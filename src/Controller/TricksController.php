@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ImageType;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Entity\Tricks;
@@ -109,9 +110,21 @@ class TricksController extends Controller
         /* Création d'une nouvelle figure */
 
         $trick = new Tricks();
-        $form   = $this->get('form.factory')->create(TricksType::class, $trick);
+        $form   = $this->createForm(TricksType::class, $trick);
+        $form->handleRequest($request);
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $file stock l'image chargée
+            $file = $trick->getImages();
+
+            $fileName = $this->generateUniqueFilename() . '.' . $file->guessExtension();
+            // Déplace le fichier dans le répertoire où sont stockées les images
+            $file->move($this->getParameter('img_directory'), $fileName);
+
+            $image = new Image();
+            // Met à jour la propriété 'images' pour stocker le nom du fichier , au lieu de son contenu
+            $image->setPath($fileName);
+            $trick->addImage($image);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
@@ -119,13 +132,26 @@ class TricksController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
+            return $this->redirectToRoute('show', array('id' => $trick->getId()));
 
         }
-
         return $this->render('add.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
+    }
+
+
+
+
+
+    /**
+     * @return string
+     */
+    private function generateUniqueFileName()
+    {
+        // md5 () réduit la similarité des noms de fichiers générés par
+        // uniqid (), basé sur timestamps(horodatages)
+        return md5(uniqid());
     }
 
 

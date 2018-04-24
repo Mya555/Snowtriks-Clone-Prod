@@ -72,8 +72,6 @@ class User implements UserInterface,  \Serializable
 
     }
 
-
-
     /********** GETTERS & SETTERS **********/
 
     /**

@@ -96,16 +96,18 @@ class UserController extends Controller
             $file = $request->files->get('user_edit')['avatar_file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
-            $file->move(
-                $this->getParameter('img_directory'), $fileName
-            );
+            $file->move($this->getParameter('img_directory'), $fileName);
+
             $user->setAvatar($fileName);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
             return $this->redirect($this->generateUrl('list_add'));
     }
+
+
         return $this->render(
             'user.html.twig',
             array('form' => $form->createView())

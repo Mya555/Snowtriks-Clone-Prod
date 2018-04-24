@@ -33,10 +33,9 @@ class Image
 
     /**
      * @var Tricks
-     * @ORM\ManyToOne(targetEntity="Tricks", inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="images")
      */
-    private $trick;
+    private $tricks;
 
 
     /********** GETTERS & SETTERS **********/
@@ -52,7 +51,7 @@ class Image
     /**
      * @return File
      */
-    public function getFile(): File
+    public function getFile(): ?File
     {
         return $this->file;
     }
@@ -68,34 +67,38 @@ class Image
     /**
      * @return mixed
      */
-    public function getPath()
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * @param mixed $path
-     */
-    public function setPath($path): void
+
+
+    public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
     }
 
     /**
      * @return Tricks
      */
-    public function getTrick(): Tricks
+    public function getTricks(): Tricks
     {
-        return $this->trick;
+        return $this->tricks;
     }
 
     /**
-     * @param Tricks $trick
+     * @param Tricks $tricks
+     * @return Image
      */
-    public function setTrick(Tricks $trick): void
+    public function setTricks(Tricks $tricks)
     {
-        $this->trick = $trick;
+        $this->tricks = $tricks;
+        return $this;
     }
+
 
 
 

@@ -38,14 +38,22 @@
                            <div class="col-xl-10 col-lg-11 mx-auto">
                                <div class="bg-faded rounded p-5">
                                {# Images et vidéos de la figure , affichées si elles existent #}
-                                   {% if trick.images == true and trick.videos == true %}
+
                                        <div class="album">
                                            <div class="container">
                                                <div class="row jumbotron">
-                                                {#
+
+
+
+                                                   <div class="petite  card col-lg-3">
+                                                      <img src="{{ asset('uploads/' ~ trick.images) }}"/>
+                                                   </div>
+
+
+
                                                        {% for image in trick.images %}
                                                            <div class="petite  card col-lg-3">
-                                                               <a href="{{ asset('uploads/'~image.filename) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~image.filename) }}"/></a>
+                                                               <a href="{{ asset('uploads/'~trick.images) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~trick.images) }}"/></a>
                                                            </div>
                                                        {% endfor %}
 
@@ -54,11 +62,13 @@
                                                                <iframe src="{{ video }}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
                                                            </div>
                                                        {% endfor %}
-                                                   #}
+
+
+
+
                                                </div>
                                            </div>
                                        </div>
-                                   {% endif %}
 
                                    <div class="form_row">
                                        <div class="row jumbotron text-center">
