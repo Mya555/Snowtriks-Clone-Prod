@@ -22,7 +22,7 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", mappedBy="comment", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist", "remove"})
      */
     private $author;
 
@@ -140,12 +140,15 @@ class Comment
         return $this->author;
     }
 
+
     /**
      * @param mixed $author
+     * @return Comment
      */
-    public function setAuthor($author): void
+    public function setAuthor($author)
     {
         $this->author = $author;
+        return $this;
     }
 
 
