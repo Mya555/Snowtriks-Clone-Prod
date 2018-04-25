@@ -116,7 +116,7 @@ class TricksController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             // $file stock l'image chargée
-            $files = $request->files->get('tricks_edit')['images'];
+            $files = $request->files->get('tricks')['images'];
             foreach( $files  as $key => $file ){
             $fileName = $this->generateUniqueFilename() . '.' . $file->guessExtension();
 
