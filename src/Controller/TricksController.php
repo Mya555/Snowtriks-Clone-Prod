@@ -114,10 +114,12 @@ class TricksController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $file stock l'image chargée
-            $file = $trick->getImages();
 
+            // $file stock l'image chargée
+            $files = $request->files->get('tricks')['images'];
+            foreach( $files  as $file ){
             $fileName = $this->generateUniqueFilename() . '.' . $file->guessExtension();
+
             // Déplace le fichier dans le répertoire où sont stockées les images
             $file->move($this->getParameter('img_directory'), $fileName);
 
@@ -125,6 +127,9 @@ class TricksController extends Controller
             // Met à jour la propriété 'images' pour stocker le nom du fichier , au lieu de son contenu
             $image->setPath($fileName);
             $trick->addImage($image);
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($image);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);

@@ -41,9 +41,7 @@ class Tricks
 
     /**
      * @var Collection
-     * @Assert\Image()
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist"})
      */
     private $images;
 

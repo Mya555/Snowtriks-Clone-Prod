@@ -44,16 +44,9 @@
                                                <div class="row jumbotron">
 
 
-
-                                                   <div class="petite  card col-lg-3">
-                                                      <img src="{{ asset('uploads/' ~ trick.images) }}"/>
-                                                   </div>
-
-
-
                                                        {% for image in trick.images %}
                                                            <div class="petite  card col-lg-3">
-                                                               <a href="{{ asset('uploads/'~trick.images) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~trick.images) }}"/></a>
+                                                               <a href="{{ asset('uploads/'~trick.image.path) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~trick.image.path) }}"/></a>
                                                            </div>
                                                        {% endfor %}
 
