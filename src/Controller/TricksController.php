@@ -118,10 +118,10 @@ class TricksController extends Controller
             // $file stock l'image chargée
             $files = $request->files->get('tricks')['images'];
             foreach( $files  as $key => $file ){
-            $fileName = $this->generateUniqueFilename() . '.' . $file->guessExtension();
+            $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
 
             // Déplace le fichier dans le répertoire où sont stockées les images
-            $file->move($this->getParameter('img_directory'), $fileName);
+            $file['file']->move($this->getParameter('img_directory'), $fileName);
 
             $image = new Image();
             // Met à jour la propriété 'images' pour stocker le nom du fichier , au lieu de son contenu
