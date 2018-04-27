@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ImageType;
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Repository\CommentRepository;
 use App\Entity\Tricks;
 use App\Form\CommentEditType;
@@ -26,7 +27,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Validator\Constraints\Image;
+
 
 
 class TricksController extends Controller
@@ -108,7 +109,6 @@ class TricksController extends Controller
     public function add(Request $request)
     {
         /* Création d'une nouvelle figure */
-
         $trick = new Tricks();
         $form   = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
@@ -117,19 +117,18 @@ class TricksController extends Controller
 
             // $file stock l'image chargée
             $files = $request->files->get('tricks')['images'];
+            foreach( $files  as $key => $file ){
+            $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
 
-            foreach( $files  as  $file ){
-                $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
+            // Déplace le fichier dans le répertoire où sont stockées les images
+            $file['file']->move($this->getParameter('img_directory'), $fileName);
 
-                // Déplace le fichier dans le répertoire où sont stockées les images
-                $file['file']->move($this->getParameter('img_directory'), $fileName);
 
-                $image = new Image();
-                // Met à jour la propriété 'images' pour stocker le nom du fichier , au lieu de son contenu
-                $image->setPath($fileName);
-                $trick->addImage($image);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($image);
+            $image = new Image();
+            $image->setPath($fileName);
+            $image->setTricks($trick);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -138,7 +137,7 @@ class TricksController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('show', array('id' => $trick->getId()));
+            return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
 
         }
         return $this->render('add.html.twig', array(

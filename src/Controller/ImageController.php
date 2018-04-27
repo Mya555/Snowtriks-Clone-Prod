@@ -19,6 +19,7 @@ class ImageController extends Controller
     /**
 
      * @param Request $request
+
      * @param $image
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -40,6 +41,7 @@ class ImageController extends Controller
                 $image->setTricks($trick);
                 $image->setPath($filename);
                 $trick->setImages($image);
+
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($image);

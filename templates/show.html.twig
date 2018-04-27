@@ -46,7 +46,7 @@
 
                                                        {% for image in trick.images %}
                                                            <div class="petite  card col-lg-3">
-                                                               <a href="{{ asset('uploads/'~trick.image.path) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~trick.image.path) }}"/></a>
+                                                               <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip"><img src="{{ asset('uploads/'~image.path) }}"/></a>
                                                            </div>
                                                        {% endfor %}
 

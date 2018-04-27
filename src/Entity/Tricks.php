@@ -99,6 +99,13 @@ class Tricks
     /********** GETTERS & SETTERS **********/
 
     /**
+     * @param string $images
+     */
+    public function setImages(string $images): void
+    {
+        $this->images = $images;
+    }
+    /**
      * @return mixed
      */
     public function getImageFile()
@@ -117,7 +124,7 @@ class Tricks
     /**
      * @return Collection
      */
-    public function getImages()
+    public function getImages(): Collection
     {
         return $this->images;
     }
