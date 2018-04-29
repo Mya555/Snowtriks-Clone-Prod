@@ -51,11 +51,6 @@ class Tricks
 
 
 
-    /**
-     * Video représentant la figure
-     * @ORM\Column(type="simple_array", name="video", nullable=true)
-     */
-    private $videos;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
@@ -85,6 +80,13 @@ class Tricks
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true)
+     */
+    private $mediaVideos;
+
+
+
 
     /********** CONSTRUCTOR **********/
 
@@ -93,6 +95,7 @@ class Tricks
         $this->date = new \Datetime();
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->mediaVideos = new ArrayCollection();
     }
 
 
@@ -243,21 +246,6 @@ class Tricks
         $this->user = $user;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVideos()
-    {
-        return $this->videos;
-    }
-
-    /**
-     * @param mixed $videos
-     */
-    public function setVideos($videos): void
-    {
-        $this->videos = $videos;
-    }
 
 
     /********** AUTRES METHODES **********/
@@ -288,6 +276,60 @@ class Tricks
     public function removeImage(Image $image)
     {
             $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setPath($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getPath() === $this) {
+                $video->setPath(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MediaVideo[]
+     */
+    public function getMediaVideos(): Collection
+    {
+        return $this->mediaVideos;
+    }
+
+    public function addMediaVideo(MediaVideo $mediaVideo): self
+    {
+        if (!$this->mediaVideos->contains($mediaVideo)) {
+            $this->mediaVideos[] = $mediaVideo;
+            $mediaVideo->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaVideo(MediaVideo $mediaVideo): self
+    {
+        if ($this->mediaVideos->contains($mediaVideo)) {
+            $this->mediaVideos->removeElement($mediaVideo);
+            // set the owning side to null (unless already changed)
+            if ($mediaVideo->getTrick() === $this) {
+                $mediaVideo->setTrick(null);
+            }
+        }
 
         return $this;
     }

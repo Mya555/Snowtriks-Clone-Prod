@@ -10,6 +10,7 @@ namespace App\Form;
 
 use App\Entity\FormGeneral;
 use App\Entity\Tricks;
+use App\Form\VideoType;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -46,7 +47,14 @@ class TricksType extends AbstractType
                 'mapped' => false,
                 'entry_options' => array('label' => false,
                  'by_reference' => false)])
-            ->add('videos',      CollectionType::class, [])
+            ->add('mediaVideos',      CollectionType::class, [
+                'entry_type' => MediaVideoType::class,
+                'prototype' => true,
+                'allow_add' => true,
+                'mapped' => false,
+                'entry_options' => array('label' => false,
+                'by_reference' => false)
+            ])
             ->add('groupe',      TextType::class)
             ->add('save',        SubmitType::class);
 

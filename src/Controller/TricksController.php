@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\MediaVideo;
+use App\Entity\Video;
 use App\Form\ImageType;
 use App\Entity\Comment;
 use App\Entity\Image;
@@ -117,19 +119,25 @@ class TricksController extends Controller
 
             // $file stock l'image chargée
             $files = $request->files->get('tricks')['images'];
+
             foreach( $files  as $key => $file ){
-            $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
+                $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
+                // Déplace le fichier dans le répertoire où sont stockées les images
+                $file['file']->move($this->getParameter('img_directory'), $fileName);
 
-            // Déplace le fichier dans le répertoire où sont stockées les images
-            $file['file']->move($this->getParameter('img_directory'), $fileName);
-
-
-            $image = new Image();
-            $image->setPath($fileName);
-            $image->setTricks($trick);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($image);
+                $image = new Image();
+                $image->setPath($fileName);
+                $image->setTricks($trick);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($image);
             }
+
+            $video = new MediaVideo();
+            $video->getUrl()->getIdentif($video);
+            $video->setTrick($trick);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($video);
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
