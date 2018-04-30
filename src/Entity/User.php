@@ -41,6 +41,13 @@ class User implements UserInterface,  \Serializable
     private $username;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     */
+    private $comments;
+
+
+
+    /**
      * @Assert\NotBlank()
      * @Assert\Length(max=4096)
      */
@@ -65,14 +72,30 @@ class User implements UserInterface,  \Serializable
     private $avatarFile;
 
 
-    /********** CONSTRUCTOR **********/
+
 
     public function __construct()
     {
-
+        $this->comments = new ArrayCollection();
     }
 
     /********** GETTERS & SETTERS **********/
+
+    /**
+     * @return mixed
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
 
     /**
      * @return mixed

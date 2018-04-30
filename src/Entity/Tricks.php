@@ -246,9 +246,19 @@ class Tricks
         $this->user = $user;
     }
 
+    /**
+     * @return Collection|MediaVideo[]
+     */
+    public function getMediaVideos(): Collection
+    {
+        return $this->mediaVideos;
+    }
+
+
 
 
     /********** AUTRES METHODES **********/
+
 
     /**
      * @ORM\PreUpdate
@@ -280,36 +290,7 @@ class Tricks
         return $this;
     }
 
-    public function addVideo(Video $video): self
-    {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setPath($this);
-        }
 
-        return $this;
-    }
-
-    public function removeVideo(Video $video): self
-    {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
-            // set the owning side to null (unless already changed)
-            if ($video->getPath() === $this) {
-                $video->setPath(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|MediaVideo[]
-     */
-    public function getMediaVideos(): Collection
-    {
-        return $this->mediaVideos;
-    }
 
     public function addMediaVideo(MediaVideo $mediaVideo): self
     {

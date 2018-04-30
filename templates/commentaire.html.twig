@@ -12,22 +12,6 @@
 
                         <div class=" form-group">
                             <div class="row">
-
-                                {# Génération du label. #}
-                                {{ form_label(form.author, "Auteur :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
-
-                                {# Affichage des erreurs pour ce champ précis. #}
-                                {{ form_errors(form.author) }}
-
-                                <div class="col-sm-12">
-
-                                    {# Génération de l'input. #}
-                                    {{ form_widget(form.author, {'attr': {'class': 'form-control'}}) }}
-                                 </div>
-                            </div>
-                        </div>
-                        <div class=" form-group">
-                            <div class="row">
                                     {# Génération du label. #}
                                     {{ form_label(form.comment, "Commentaire :", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
 
@@ -70,11 +54,13 @@
 
                                             <div class="post-heading">
                                                 <div class="pull-left image">
-                                                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+
+                                                    {% if commentaire.author.avatar|length > 0 %} <img src="/uploads/{{ commentaire.author.avatar }}" id="avatar" width="250" draggable="false"/>
+                                                    {% else %}  <img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/> {% endif %}
                                                 </div>
                                                 <div class="pull-left meta">
                                                     <div>
-                                                        <p>Posté par <b>{{ commentaire.author }}</b></p>
+                                                        <p>Posté par <b>{{ commentaire.author.username }}</b></p>
                                                         <p><em class="text-muted date">le {{ commentaire.dateCom|date("d/m/Y") }}</em></p>
                                                     </div>
                                                 </div>
