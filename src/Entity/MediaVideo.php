@@ -32,10 +32,7 @@ class MediaVideo
      */
     private $identif;
 
-    /**
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\tricks", inversedBy="mediaVideos")
@@ -196,8 +193,8 @@ class MediaVideo
      */
     public function extractIdentif()
     {
-        $url = $this->getUrl();  // on récupère l’url
 
+        $url = $this->getUrl();  // on récupère l’url
         if (preg_match("#^(http|https)://www.youtube.com/#", $url))  // Si c’est une url Youtube on execute la fonction correspondante
         {
             $this->youtubeId($url);
