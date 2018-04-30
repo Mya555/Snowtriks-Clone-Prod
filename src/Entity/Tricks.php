@@ -286,29 +286,6 @@ class Tricks
 
 
 
-    /**
-     * Video représentant la figure
-     * @ORM\Column(type="simple_array", name="video", nullable=true)
-     */
-    private $videos;
-
-    /**
-     * @return mixed
-     */
-    public function getVideos()
-    {
-        return $this->videos;
-    }
-
-    /**
-     * @param mixed $videos
-     */
-    public function setVideos($videos): void
-    {
-        $this->videos = $videos;
-    }
-
-
 
 
 

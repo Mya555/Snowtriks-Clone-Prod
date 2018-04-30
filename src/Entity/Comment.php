@@ -21,10 +21,10 @@ class Comment
     /********** ATTRIBUTS **********/
 
     /**
-     * @ORM\Column(type="string", length=100)
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist", "remove"})
      */
     private $author;
+
 
     /**
      * @ORM\Id

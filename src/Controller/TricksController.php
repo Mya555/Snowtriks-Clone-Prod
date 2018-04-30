@@ -24,6 +24,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class TricksController extends Controller
@@ -32,12 +33,13 @@ class TricksController extends Controller
 
     /**
      * @Route("/figure/{id}", name="show")
+     * @param TokenStorageInterface $tokenStorage
      * @param EntityManagerInterface $em
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function show(EntityManagerInterface $em, Request $request ,$id)
+    public function show(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, Request $request ,$id)
 
     {
         /* Récuperation de la figure triées par $id */
@@ -52,10 +54,13 @@ class TricksController extends Controller
 
         $comment = new Comment();
         $comment->setTricks($trick);
+        //Récuperation de l'utilisateur connecté
+
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
+            $comment->setAuthor($tokenStorage->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
