@@ -234,7 +234,7 @@ if ($files){
         $em->remove($tricks);
         $em->flush();
 
-        return $this->redirectToRoute('list');
+        return $this->redirectToRoute('list_add');
     }
 
 
