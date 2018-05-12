@@ -125,7 +125,7 @@ class TricksController extends Controller
 
             // $file stock l'image chargée
             $files = $request->files->get('tricks')['images'];
-if ($files){
+        if ($files){
             foreach( $files  as $key => $file ){
                 $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
                 // Déplace le fichier dans le répertoire où sont stockées les images
@@ -137,7 +137,7 @@ if ($files){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($image);
             }
-}
+        }
 
            $listVideo =  $request->get('tricks')['mediaVideos'];
             if ($listVideo){
