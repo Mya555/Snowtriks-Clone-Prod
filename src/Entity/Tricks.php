@@ -79,12 +79,6 @@ class Tricks
      */
     private $mediaVideos;
 
-    /**
-     * @var array
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
 
 
 
@@ -236,23 +230,6 @@ class Tricks
     public function getMediaVideos(): Collection
     {
         return $this->mediaVideos;
-    }
-
-    /**
-     * Retourne les rôles de l'utilisateur
-     */
-    public function getRoles(): array
-    {
-        $roles =$this->roles;
-        // Pour être sur que un utilisateur a toujorus un rôle
-        if (empty($roles)){
-            $roles[] = 'ROLE_USER';
-        }
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): void{
-        $this->roles = $roles;
     }
 
 
