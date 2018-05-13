@@ -57,11 +57,6 @@ class Tricks
      */
     private $comments;
 
-    /**
-     * Auteur de la figure
-     * * @ORM\Column(type="string", length=255, name="user")
-     */
-    private $user;
 
     /**
      * Date de la creation de la figure
@@ -230,21 +225,6 @@ class Tricks
         $this->date = $date;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
 
     /**
      * @return Collection|MediaVideo[]

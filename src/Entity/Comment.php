@@ -21,18 +21,16 @@ class Comment
     /********** ATTRIBUTS **********/
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist", "remove"})
-     */
-    private $author;
-
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments", cascade={"persist", "remove"})
+     */
+    private $author;
 
     /**
      * @ORM\Column(type="text")
