@@ -58,12 +58,6 @@ class Tricks
     private $comments;
 
     /**
-     * Auteur de la figure
-     * * @ORM\Column(type="string", length=255, name="user")
-     */
-    private $user;
-
-    /**
      * Date de la creation de la figure
      * @ORM\Column(name="date", type="datetime")
      */
@@ -84,6 +78,12 @@ class Tricks
      * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true)
      */
     private $mediaVideos;
+
+    /**
+     * @var array
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
 
 
@@ -231,27 +231,28 @@ class Tricks
     }
 
     /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
      * @return Collection|MediaVideo[]
      */
     public function getMediaVideos(): Collection
     {
         return $this->mediaVideos;
+    }
+
+    /**
+     * Retourne les rôles de l'utilisateur
+     */
+    public function getRoles(): array
+    {
+        $roles =$this->roles;
+        // Pour être sur que un utilisateur a toujorus un rôle
+        if (empty($roles)){
+            $roles[] = 'ROLE_USER';
+        }
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void{
+        $this->roles = $roles;
     }
 
 
