@@ -71,13 +71,13 @@ class User implements UserInterface,  \Serializable
 
     private $avatarFile;
 
-
     /**
      * @var array
      *
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
 
 
 
@@ -214,7 +214,6 @@ class User implements UserInterface,  \Serializable
         $this->password = $password;
     }
 
-
     /**
      * Retourne les rôles de l'user
      */
@@ -236,11 +235,10 @@ class User implements UserInterface,  \Serializable
     }
 
 
+
     /********** AUTRES METHODES **********/
 
-    /**
-     * @return array (Role|string)[] The user roles
-     */
+
 
     /**
      * Removes sensitive data from the user.

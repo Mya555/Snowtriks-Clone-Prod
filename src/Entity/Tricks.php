@@ -50,8 +50,6 @@ class Tricks
     private $imageFile;
 
 
-
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
      */
