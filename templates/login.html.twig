@@ -23,6 +23,7 @@
                                                         <input type="password" class="form-control-signup"  name="_password"  placeholder="Mot de passe">
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 textup">
+                                                       <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
                                                        <button type="btn" class="btn-signup form-control">Se connecter</button><br>
                                                     </div>
                                                 </form>
