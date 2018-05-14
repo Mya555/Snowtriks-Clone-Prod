@@ -30,11 +30,12 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$username, $password, $email]){
+        foreach ($this->getUserData() as [$username, $password, $email, $roles]){
             $user = new User();
             $user->setUsername($username);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
             $user->setEmail($email);
+            $user->setRoles($roles);
 
             $manager->persist($user);
 
@@ -48,8 +49,8 @@ class UserFixtures extends Fixture
     private function getUserData(): array
     {
         return[
-            ['Jane Doe', 'kitten', 'jane_doe@gmail.com'],
-            ['Jone Doe', 'kitten', 'jone_doe@gmail.com'],
+            ['Jane Doe', 'kitten', 'jane_doe@gmail.com', ['ROLE_USER']],
+            ['Jone Doe', 'kitten', 'jone_doe@gmail.com', ['ROLE_USER']],
         ];
     }
 }

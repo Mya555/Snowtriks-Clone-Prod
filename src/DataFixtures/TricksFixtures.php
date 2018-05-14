@@ -12,7 +12,7 @@ class TricksFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getTricksData() as [$name, $description, $user, $groupe ]){
+        foreach ($this->getTricksData() as [$name, $description, $groupe ]){
             $trick = new Tricks();
             $trick->setName($name);
             $trick->setDescription($description);
@@ -26,7 +26,7 @@ class TricksFixtures extends Fixture
     }
     private function getTricksData(): array {
         return [
-            ['name', 'description', 'user', 'groupe' ]
+            ['Ninety-ninety', 'An aerial trick in which a snowboarder twists his body in order to shift or rotate his board about 90° from its normal position beneath him, and then returns the board to its original position before landing. This trick can be performed frontside or backside, and also in variation with other tricks and spins.', 'Straight airs' ]
         ];
     }
 }
