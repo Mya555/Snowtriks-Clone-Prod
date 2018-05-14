@@ -18,16 +18,15 @@ class UserController extends Controller
 
     /**
      * @Route("/login", name="login")
-     * @param Request $request
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
+        // Afficher l'erreur si il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
+        // dernier username saisi (si il y en a un)
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('login.html.twig', array(
@@ -55,10 +54,11 @@ class UserController extends Controller
 
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-
             $user->setPassword($password);
+            //Par defaut l'utilisateur aura toujours le rôle ROLE_USER
+            $user->setRoles(['ROLE_USER']);
 
-            // 4) save the User!
+            // 4) On enregistre l'utilisateur dans la base
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -114,13 +114,6 @@ class UserController extends Controller
         );
 
     }
-        /**
-         * @return string
-         */
-        private function generateUniqueFileName()
-        {
-            return md5(uniqid());
-        }
 }
 
 

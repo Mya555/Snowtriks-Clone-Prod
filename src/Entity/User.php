@@ -12,8 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @UniqueEntity(fields="email", message="Email already taken")
- * @UniqueEntity(fields="username", message="Username already taken")
+ * @UniqueEntity(fields="email", message="Email déjà pris")
+ * @UniqueEntity(fields="username", message="Ce nom est déjà pris")
  */
 class User implements UserInterface,  \Serializable
 {
@@ -71,6 +71,12 @@ class User implements UserInterface,  \Serializable
 
     private $avatarFile;
 
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
 
 
@@ -125,7 +131,8 @@ class User implements UserInterface,  \Serializable
     /**
      * @return string
      */
-    public function getAvatar(): string
+    // le ? signifie que cela peur aussi retourner null
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }
@@ -207,16 +214,31 @@ class User implements UserInterface,  \Serializable
         $this->password = $password;
     }
 
+    /**
+     * Retourne les rôles de l'user
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        // Afin d'être sûr qu'un user a toujours au moins 1 rôle
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+
 
     /********** AUTRES METHODES **********/
 
-    /**
-     * @return array (Role|string)[] The user roles
-     */
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
+
 
     /**
      * Removes sensitive data from the user.
@@ -226,7 +248,9 @@ class User implements UserInterface,  \Serializable
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        // Nous n'avons pas besoin de cette methode car nous n'utilions pas de plainPassword
+        // Mais elle est obligatoire car comprise dans l'interface UserInterface
+        // $this->plainPassword = null;
     }
 
     /**
@@ -242,7 +266,7 @@ class User implements UserInterface,  \Serializable
     }
 
     /**
-     * String representation of object
+     * {@inheritdoc}
      * @link http://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
      * @since 5.1.0
@@ -261,17 +285,12 @@ class User implements UserInterface,  \Serializable
      * @link http://php.net/manual/en/serializable.unserialize.php
      * @param string $serialized <p>
      * The string representation of the object.
-     * </p>
+     * {@inheritdoc}
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-
-            ) = unserialize($serialized);
+        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

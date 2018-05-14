@@ -20,18 +20,33 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            # La connexion n'est pas requise sur toutes les pages
+            # par exemple la page d'accueil
             anonymous: ~
             provider: db_provider
+            # les urls auxquels s'appliquent ce firewall, dans ce cas, ce sont toutes les urls
             pattern: ^/
             form_login:
+                # Le nom de la route où se trouve le formulaire de connexion
+                # Si un utilisateur tente d'acceder à une page protégée sans en avoir les droits
+                # il sera redirigé sur cette page
                 login_path: login
+                # Le nom de la route de la page de connexion
                 check_path: login
+                # Securisation des formulaires
+                csrf_token_generator: security.csrf.token_manager
+                # La page par defaut apres une connexion reussie
                 default_target_path: list_add
             logout:
+                # La route où se trouve le process de deconnexion
                 path: /logout
+                # La route sur laquelle doit etre rediriger l'utilisateur apres une deconnexion
                 target: list_add
 
 
 
     access_control:
+            # Les regles de securité
+            # Là dans ce cas seul les utilisateurs ayant le rôle ROLE_USER
+            # peuvent acceder à toutes les pages commençant par ce path :
         - { path: ^/ajout, roles: ROLE_USER }

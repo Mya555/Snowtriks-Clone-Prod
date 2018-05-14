@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: text_
- * Date: 13/05/2018
- * Time: 20:53
- */
 
 namespace App\DataFixtures;
 
@@ -14,8 +8,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
+
 class UserFixtures extends Fixture
 {
+
+
     private $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -30,14 +27,17 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$username, $password, $email]){
+
+        foreach ($this->getUserData() as [$username, $password, $email, $roles]){
+
             $user = new User();
             $user->setUsername($username);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
             $user->setEmail($email);
+            $user->setRoles($roles);
 
             $manager->persist($user);
-            $this->addReference($username, $user);
+        $this->addReference($username, $user);
         }
         $manager->flush();
 
@@ -46,8 +46,8 @@ class UserFixtures extends Fixture
     private function getUserData(): array
     {
         return[
-            ['Jane Doe', 'kitten', 'jane_doe@gmail.com'],
-            ['Jone Doe', 'kitten', 'jone_doe@gmail.com'],
+            ['Jane Doe', 'kitten', 'jane_doe@gmail.com', ['ROLE_USER']],
+            ['Jone Doe', 'kitten', 'jone_doe@gmail.com', ['ROLE_USER']],
         ];
     }
 }
