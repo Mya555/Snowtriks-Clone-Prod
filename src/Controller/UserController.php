@@ -12,6 +12,9 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Events;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class UserController extends Controller
 {
@@ -40,9 +43,10 @@ class UserController extends Controller
      * @Route("/register", name="user_registration")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param EventDispatcherInterface $eventDispatcher
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EventDispatcherInterface $eventDispatcher)
     {
         // 1) build the form
         $user = new User();
@@ -63,8 +67,9 @@ class UserController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
+            //On déclenche l'event
+            $event = new GenericEvent($user);
+            $eventDispatcher->dispatch(Events::USER_REGISTERED, $event);
 
             return $this->redirectToRoute('list_add');
         }
