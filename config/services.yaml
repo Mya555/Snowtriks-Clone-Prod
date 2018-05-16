@@ -7,8 +7,6 @@ parameters:
     app.notifications.email_sender: connexion3@protonmail.com
 
 services:
-
-
         # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
