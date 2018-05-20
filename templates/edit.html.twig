@@ -25,37 +25,38 @@
                                     <span class="col-lg-3 badge badge-success">Créé le 10/10/2018</span>
 
                                     <div class="well">
-                                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        {# Génération du label. #}
-                                        {{ form_label(form.description, "Description :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                                        <div class="form-group">
+                                            <div class="row">
+                                                {# Génération du label. #}
+                                                {{ form_label(form.description, "Description :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
 
-                                        {# Affichage des erreurs pour ce champ précis. #}
-                                        {{ form_errors(form.description) }}
+                                                {# Affichage des erreurs pour ce champ précis. #}
+                                                {{ form_errors(form.description) }}
 
-                                        <div class="col-sm-10">
-                                            {# Génération de l'input. #}
-                                            {{ form_widget(form.description, {'attr': {'class': 'form-control rows="4" cols="50"'}}) }}
+                                                <div class="col-sm-10">
+                                                    {# Génération de l'input. #}
+                                                    {{ form_widget(form.description, {'attr': {'class': 'form-control rows="4" cols="50"'}}) }}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        {# Génération du label. #}
-                                        {{ form_label(form.groupe, "Groupe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                                        <div class="form-group">
+                                            <div class="row">
+                                                {# Génération du label. #}
+                                                {{ form_label(form.groupe, "Groupe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
 
-                                        {# Affichage des erreurs pour ce champ précis. #}
-                                        {{ form_errors(form.groupe) }}
+                                                {# Affichage des erreurs pour ce champ précis. #}
+                                                {{ form_errors(form.groupe) }}
 
-                                        <div class="col-sm-10">
-                                            {# Génération de l'input. #}
-                                            {{ form_widget(form.groupe, {'attr': {'class': 'form-control'}}) }}
+                                                <div class="col-sm-10">
+                                                    {# Génération de l'input. #}
+                                                    {{ form_widget(form.groupe, {'attr': {'class': 'form-control'}}) }}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+
 
                                         {# Videos #}
                                         {# store the prototype on the data-prototype attribute #}
@@ -88,17 +89,17 @@
                                            class="add-another-collection-widget"
                                            data-list="#image-fields-list">Ajouter une image
                                         </a><br>
-                                <div class="row">
-                                    <div class="col-sm-12 envoyer">
-                                        {{ form_widget(form.save, { 'label': 'Mettre à jour', 'attr': {'class': 'btn btn-signup  my-2 my-sm-0 pull-right'}}) }}
-                                    </div>
-                                    <a href="{{ path('delete', {'id': trick.id}) }}"><button type="button" class="btn btn-danger" aria-label="right Align">
-                                      Delete
-                                    </button> </a>
-                                </div>
 
 
-                                {{ form_end(form) }}
+                                        <div class="row">
+                                            <div class="col-sm-12 envoyer">
+                                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
+                                            </div>
+                                        </div>
+                                        <div class="hidden">
+                                        {{ form_rest(form) }}
+                                        </div>
+                                        {{ form_end(form) }}
                             </div>
                         </div>
                     </div>

@@ -43,16 +43,21 @@ class TricksType extends AbstractType
                 'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false,
-                'entry_options' => array('label' => false,
-                 'by_reference' => false)])
+
+                'entry_options' => array('label' => false),
+                'by_reference' => false,
+
+                ])
             ->add('mediaVideos',      CollectionType::class, [
                 'entry_type' => MediaVideoType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false,
-                'entry_options' => array('label' => false,
-                'by_reference' => false)
+
+                'required' => false,
+                'entry_options' => array('label' => false),
+                'by_reference' => false,
+
+
             ])
             ->add('groupe',      TextType::class)
             ->add('save',        SubmitType::class);

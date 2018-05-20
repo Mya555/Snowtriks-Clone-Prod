@@ -204,36 +204,6 @@ class TricksController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             // ------------------------
 
-            $files = $request->files->get('tricks')['images'];
-            // $file stock l'image chargée
-            if ($files){
-                foreach( $files  as $key => $file ){
-                    $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
-                    // Déplace le fichier dans le répertoire où sont stockées les images
-                    $file['file']->move($this->getParameter('img_directory'), $fileName);
-
-                    $image = new Image();
-                    $image->setPath($fileName);
-                    $image->setTricks($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($image);
-                }
-            }
-
-            $listVideo =  $request->get('tricks')['mediaVideos'];
-            if ($listVideo){dump($request); die();
-                foreach ( $listVideo as $video)
-                {
-                    $mediaVideo = new MediaVideo();
-                    $mediaVideo->setUrl($video['url']);
-                    $mediaVideo->setTrick($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mediaVideo);
-                }
-            }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trick);
-
             // -------------
 
             $em->flush();

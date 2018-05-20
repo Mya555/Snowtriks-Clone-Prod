@@ -51,6 +51,12 @@ class Tricks
 
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist"})
+     */
+    private $mediaVideos;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
      */
     private $comments;
@@ -71,11 +77,6 @@ class Tricks
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true)
-     */
-    private $mediaVideos;
 
 
 

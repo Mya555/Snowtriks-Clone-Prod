@@ -66,34 +66,17 @@
                                      {# Videos #}
                                         {# store the prototype on the data-prototype attribute #}
                                         <ul id="video-fields-list"
-                                            data-prototype="{{ form_widget(form.mediaVideos.vars.prototype)|e }}"
-                                            data-widget-tags="{{ '<li></li>'|e }}">
-                                            {% for video in form.mediaVideos %}
-                                                <li>
-                                                    {{ form_errors(video) }}
-                                                    {{ form_widget(video) }}
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
+                                            data-prototype="{{ form_row(form.mediaVideos.vars.prototype)|e('html_attr') }}" data-widget-tags="{{ '<li></li>'|e }}"> </ul>
 
-                                        <a href="#"
-                                           class="add-another-collection-widget_video"
-                                           data-list="#video-fields-list">Ajouter une video</a>
-
-
-
-
-
-                                        {# Images #}
+                                     {# Images #}
                                         <ul id="image-fields-list"
-                                            data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
-                                            data-widget-tags="{{ '<li></li>'|e }}">
-                                        </ul>
+                                            data-prototype="{{ form_row(form.images.vars.prototype)|e('html_attr') }}" data-widget-tags="{{ '<li></li>'|e }}"></ul>
 
-                                        <a href="#"
-                                           class="add-another-collection-widget"
-                                           data-list="#image-fields-list">Ajouter une image
-                                        </a><br>
+
+
+                                        <a href="#" class="add-another-collection-widget_video" data-list="#video-fields-list">Ajouter une video</a><br/>
+                                        <a href="#" class="add-another-collection-widget" data-list="#image-fields-list">Ajouter une image</a>
+
 
 
                                         <div class="row">
@@ -101,6 +84,9 @@
                                                 {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-r
                                                 ight btn-signup '}}) }}
                                             </div>
+                                        </div>
+                                        <div class="hidden">
+                                            {{ form_rest(form) }}
                                         </div>
                                         {{ form_end(form) }}
                                     </div>
