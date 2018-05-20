@@ -43,7 +43,7 @@ class TricksType extends AbstractType
                 'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
-
+                'mapped' => false,
                 'entry_options' => array('label' => false),
                 'by_reference' => false,
 
@@ -52,7 +52,7 @@ class TricksType extends AbstractType
                 'entry_type' => MediaVideoType::class,
                 'prototype' => true,
                 'allow_add' => true,
-
+                'mapped' => false,
                 'required' => false,
                 'entry_options' => array('label' => false),
                 'by_reference' => false,
