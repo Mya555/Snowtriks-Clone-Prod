@@ -499,6 +499,10 @@ p {
   #mainNav .navbar-nav .nav-item.active .nav-link:hover {
     color: #3bd4e6;
   }
+
+  .petit-menu{
+    visibility: hidden;
+  }
 }
 
 .btn-xl {
@@ -610,10 +614,16 @@ p {
   color: #59c0e6;
 }
 
-@media (min-width: 992px) {
+@media (max-width: 992px) {
   .list-hours {
     width: 50%;
     font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .visible {
+    visibility: hidden;
   }
 }
 
@@ -667,6 +677,8 @@ p {
 .hidden{
   display: none;
 }
+
+
 
 /* Avatar */
 
