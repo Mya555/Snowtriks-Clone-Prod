@@ -63,9 +63,16 @@ margin-top: 13em;
 }
 /* fin arrow */
 
+/* Utilisateur et avatar div */
+.user_row{
+  margin-right: -9em;
+}
+/* fin div */
+
 /* nom d'utilisateur dans le menu*/
 .user{
-  margin-left: 1em;
+
+  margin-left: 10em;
   margin-top: 0.35em;
   color: #0f999f;
   font-size: 1.3em;
@@ -234,6 +241,9 @@ a.button2 {
 }
 /* fin list */
 
+
+/* commentaire */
+
 .commentaire
 {
   margin-top: 8em;
@@ -362,6 +372,19 @@ h6 {
   margin-bottom: 2em;
 }
  /* fin de commentaire */
+
+.petit-menu{
+  margin-right: 2%;
+
+}
+.petit-menu .badge{
+  color: #ffffff;
+}
+.petit-menu .dropdown-item{
+  color: #3BD4E6;
+}
+
+
 
 .titre
 {
@@ -502,6 +525,7 @@ p {
 
   .petit-menu{
     visibility: hidden;
+
   }
 }
 

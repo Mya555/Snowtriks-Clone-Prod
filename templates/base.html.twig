@@ -8,12 +8,11 @@
         <meta name="description" content="Tricks web site">
         <meta name="author" content="Jimmy Sweat">
         <title>{% block title %}Jimmy's Tricks{% endblock %}</title>
-        <!-- Bootstrap core CSS -->
         {% block stylesheets %}
             <!-- Slylesheet for comment -->
             <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-            <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <!-- Bootstrap CDN -->
+            <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -30,17 +29,38 @@
     <body>
     {% block body %}
             {% block navigation %}
-                <!-- Navigation plain écran -->
+                <!-- Navigation grand écran -->
                 <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
                     <div class="container">
-                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="/liste_add">Jimmy's Tricks</a>
+                        <!-- Navigation petit écran -->
+                        <nav class="navbar navbar-toggleable-sm dropdown petit-menu" >
+                            <h2 data-toggle="dropdown"><span class="badge badge-info">Menu</span></h2>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/liste_add">Accueil</a>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
+                                {% endif %}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <a class="dropdown-item" href="{{ path('add') }}">Ajouter</a>
+                                {% endif %}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+                                    <a class="dropdown-item" href="{{ path('login') }}">Login</a>
+                                    <a class="dropdown-item" href="{{ path('user_registration') }}">S'inscrire</a>
+                                {% endif %}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <a class="dropdown-item" href="{{ path('logout') }}">Sortir</a>
+                                {% endif %}
+                            </div>
+                        </nav>
+                        <!-- fin navigation petit écran -->
+                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('list_add') }}">Jimmy's Tricks</a>
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav mx-auto">
-                                <li class="nav-item active px-lg-4">
-                                    <a class="nav-link text-uppercase text-expanded" href="/liste_add">Accueil
-                                        <span class="sr-only">(current)</span>
-                                    </a>
-                                </li>
+                                    <li class="nav-item active px-lg-4">
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('list_add') }}">Accueil
+                                            <span class="sr-only">(current)</span>
+                                        </a>
+                                    </li>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <li class="nav-item px-lg-4">
                                         <a class="nav-link text-uppercase text-expanded" href="{{ path('add') }}">Ajouter</a>
@@ -58,44 +78,30 @@
                                     <li class="nav-item px-lg-4">
                                         <a class="nav-link text-uppercase text-expanded" href="{{ path('logout') }}">Sortir</a>
                                     </li>
-                                    <li>
-                                         <div>
-                                             <h2 class="user">
-                                                  <p>{{ app.user.username }}</p>
-                                             </h2>
-                                        </div>
-                                     </li>
-                                    <li>
-                                        <div id=container>
-                                           <a href="{{ path('update_user', {'id': app.user.id}) }}">
-                                               {% if app.user.avatar|length > 0 %}<img src="/uploads/{{ app.user.avatar }}" id="avatar" width="250" draggable="false"/></a>{% else %}<img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/>{% endif %}
-                                            </a>
-                                        </div>
-                                    </li>
-                                {% endif %}
                             </ul>
-                        </div>
-                        <!-- Navigation petit écran -->
-                        <nav class="navbar navbar-toggleable-sm dropdown petit-menu">
-                            <h1 data-toggle="dropdown"><span class="badge badge-secondary">Menu</span></h1>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/liste_add">Accueil</a>
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('add') }}">Ajouter</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                                    <a class="dropdown-item" href="{{ path('login') }}">Login</a>
-                                    <a class="dropdown-item" href="{{ path('user_registration') }}">S'enregistrer</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('logout') }}">Sortir</a>
-                                {% endif %}
+                            <div class="row user_row">
+                                <!-- nom d'utilisateur -->
+                                    <div>
+                                        <h2 class="user">
+                                            <p>{{ app.user.username }}</p>
+                                        </h2>
+                                    </div>
+                                <!-- fin nom d'utilisateur -->
+                                <!-- avatar -->
+                                    <div id=container class="user_avatar">
+                                        <a href="{{ path('update_user', {'id': app.user.id}) }}">
+                                            {% if app.user.avatar|length > 0 %}
+                                                <img src="/uploads/{{ app.user.avatar }}" id="avatar" width="250" draggable="false"/></a>
+                                            {% else %}
+                                                <img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                <!-- fin avatar -->
                             </div>
-                        </nav>
-                        <!-- fin navigation petit écran -->
+                                {% endif %}
+                        </div>
+
                     </div>
                 </nav>
                 <!-- fin navigation grand écran -->
@@ -112,15 +118,12 @@
                 </div>
                 {% endif %}
                 <!-- fin flashBag -->
-
             {% endblock %}
 
             {% block content %}{% endblock %}
 
             {% block footer %}
-
             <!--Footer-->
-
             <div class="copyright">
                 <div class="container">
 
@@ -130,14 +133,7 @@
 
                 </div>
             </div>
-
-
             {% endblock %}
-
-
-
-
-
 
             {% block javascripts %}
 
