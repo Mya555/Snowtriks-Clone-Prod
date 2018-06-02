@@ -30,7 +30,7 @@
     <body>
     {% block body %}
             {% block navigation %}
-                <!-- Navigation -->
+                <!-- Navigation plain écran -->
                 <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
                     <div class="container">
                         <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="/liste_add">Jimmy's Tricks</a>
@@ -48,15 +48,15 @@
                                 {% endif %}
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
                                     <li class="nav-item px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="/login">S'authentifier</a>
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('login') }}">S'authentifier</a>
                                     </li>
                                     <li class="nav-item px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="/register">S'enregistrer</a>
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('user_registration') }}">S'enregistrer</a>
                                     </li>
                                 {% endif %}
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <li class="nav-item px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="/logout">Sortir</a>
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('logout') }}">Sortir</a>
                                     </li>
                                     <li>
                                          <div>
@@ -74,8 +74,8 @@
                                     </li>
                                 {% endif %}
                             </ul>
-
                         </div>
+                        <!-- Navigation petit écran -->
                         <nav class="navbar navbar-toggleable-sm dropdown petit-menu">
                             <h1 data-toggle="dropdown"><span class="badge badge-secondary">Menu</span></h1>
                             <div class="dropdown-menu">
@@ -87,19 +87,20 @@
                                     <a class="dropdown-item" href="{{ path('add') }}">Ajouter</a>
                                 {% endif %}
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                                    <a class="dropdown-item" href="/login">Login</a>
-                                    <a class="dropdown-item" href="/register">S'enregistrer</a>
+                                    <a class="dropdown-item" href="{{ path('login') }}">Login</a>
+                                    <a class="dropdown-item" href="{{ path('user_registration') }}">S'enregistrer</a>
                                 {% endif %}
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="/logout">Sortir</a>
+                                    <a class="dropdown-item" href="{{ path('logout') }}">Sortir</a>
                                 {% endif %}
                             </div>
                         </nav>
-
+                        <!-- fin navigation petit écran -->
                     </div>
                 </nav>
+                <!-- fin navigation grand écran -->
 
-
+                <!-- FlashBag -->
                 {% if app.session.flashBag.has('notice') %}
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {% for msg in app.session.flashBag.get('notice') %}
@@ -110,6 +111,7 @@
                     {% endfor %}
                 </div>
                 {% endif %}
+                <!-- fin flashBag -->
 
             {% endblock %}
 
@@ -117,21 +119,20 @@
 
             {% block footer %}
 
+            <!--Footer-->
 
-        <!--Footer-->
+            <div class="copyright">
+                <div class="container">
 
-        <div class="copyright">
-            <div class="container">
+                    <div class="row text-center">
+                        <p>Copyright &copy; Jimmy's Tricks 2018 | Tous droits résérvés</p>
+                    </div>
 
-                <div class="row text-center">
-                    <p>Copyright &copy; Jimmy's Tricks 2018 | Tous droits résérvés</p>
                 </div>
-
             </div>
-        </div>
 
 
-        {% endblock %}
+            {% endblock %}
 
 
 
