@@ -65,14 +65,12 @@ margin-top: 13em;
 
 /* Utilisateur et avatar div */
 .user_row{
-  margin-right: -9em;
+  margin-right: 10px;
 }
 /* fin div */
 
 /* nom d'utilisateur dans le menu*/
 .user{
-
-  margin-left: 10em;
   margin-top: 0.35em;
   color: #0f999f;
   font-size: 1.3em;
@@ -382,6 +380,7 @@ h6 {
 }
 .petit-menu .dropdown-item{
   color: #3BD4E6;
+  font-weight: bold;
 }
 
 
@@ -500,6 +499,7 @@ p {
 
 #mainNav .navbar-brand {
   color: #8ae6e3;
+
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
