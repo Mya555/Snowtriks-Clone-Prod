@@ -19,7 +19,7 @@ class AvatarType extends AbstractType
         $builder
             ->add('file', FileType::class, [
                 'required' => false,
-                'mapped' => false
+                'mapped' => false,
             ])
         ;
     }
