@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
 
-
+                                    <div class="ajout-media">
                                      {# Videos #}
                                         {# store the prototype on the data-prototype attribute #}
                                         <ul id="video-fields-list"
@@ -76,32 +76,30 @@
                                             {% endfor %}
                                         </ul>
 
-                                        <a href="#"
-                                           class="add-another-collection-widget_video"
-                                           data-list="#video-fields-list">Ajouter une video</a>
-
-
-
-
-
+                                        <div class="col-sm-7">
+                                            <a href="#"
+                                               class=" btn btn-info add-another-collection-widget_video"
+                                               data-list="#video-fields-list">Ajouter une video</a>
+                                        </div>
                                         {# Images #}
-                                        <ul id="image-fields-list"
+                                        <ul class="list_ul" id="image-fields-list"
                                             data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
                                             data-widget-tags="{{ '<li></li>'|e }}">
                                         </ul>
-
-                                        <a href="#"
-                                           class="add-another-collection-widget"
-                                           data-list="#image-fields-list">Ajouter une image
-                                        </a><br>
-
+                                        <div class=" col-sm-7">
+                                            <a href="#"
+                                               class=" image_btn btn btn-info add-another-collection-widget"
+                                               data-list="#image-fields-list">Ajouter une image
+                                            </a><br>
+                                        </div>
+                                    </div>
 
                                         <div class="row">
                                             <div class="col-sm-12 envoyer">
-                                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-r
-                                                ight btn-signup '}}) }}
+                                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
                                             </div>
                                         </div>
+                                        <div class="hidden">{{ form_rest(form) }}</div>
                                         {{ form_end(form) }}
                                     </div>
                                 </div>

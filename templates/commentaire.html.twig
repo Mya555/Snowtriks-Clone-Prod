@@ -51,18 +51,16 @@
                                 <div class="row">
                                     <div class="{% if key > 0 %} hidden {% endif %}col-sm-12">
                                         <div class="panel panel-white post panel-shadow">
-
                                             <div class="post-heading">
-                                                <div class="pull-left image">
-
+                                                <div class="pull-left image image-comment">
                                                     {% if commentaire.author.avatar|length > 0 %} <img src="/uploads/{{ commentaire.author.avatar }}" id="avatar" width="250" draggable="false"/>
                                                     {% else %}  <img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/> {% endif %}
                                                 </div>
-                                                <div class="pull-left meta">
-                                                    <div>
+                                                <div class="pull-left meta ">
+                                                    <div >
                                                         <p>Posté par <b>{{ commentaire.author.username }}</b></p>
                                                         <p><em class="text-muted date">le {{ commentaire.dateCom|date("d/m/Y") }}</em></p>
-                                                    </div>
+                                                    </divcomment-data>
                                                 </div>
                                             </div>
                                             <div class="post-description">
