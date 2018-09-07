@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\MediaVideo;
 use App\Entity\Video;
 use App\Form\ImageType;
@@ -167,9 +168,6 @@ class TricksController extends Controller
     }
 
 
-
-
-
     /**
      * @return string
      */
@@ -181,20 +179,21 @@ class TricksController extends Controller
     }
 
 
+
     /// EDITER UNE FIGURE ///
 
     /**
      * @Route("/editer/{id}", name="edit")
      * @param $id
      * @param Request $request
+     * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit($id, Request $request)
+    public function edit($id, Request $request, ObjectManager $manager)
     {
         /* Edition d'une figure */
 
-        $em = $this->getDoctrine()->getManager();
-        $trick = $em->getRepository(Tricks::class)->find($id);
+        $trick = $manager->getRepository(Tricks::class)->find($id);
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
@@ -206,7 +205,8 @@ class TricksController extends Controller
 
             // -------------
 
-            $em->flush();
+            $manager->flush();
+
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));

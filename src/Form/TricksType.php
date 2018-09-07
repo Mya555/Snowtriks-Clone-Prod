@@ -43,9 +43,9 @@ class TricksType extends AbstractType
                 'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false,
+                'mapped' => true,
                 'entry_options' => array('label' => false),
-                'by_reference' => false,
+                'by_reference' => true,
 
                 ])
             ->add('mediaVideos',      CollectionType::class, [

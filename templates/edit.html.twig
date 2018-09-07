@@ -56,14 +56,10 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-                     </div>
-
+                                    </div>
                                 <div class="ajout-media">
 
-                                        {# Videos #}
+                                    {# Videos #}
                                         {# store the prototype on the data-prototype attribute #}
                                         <ul class="list_ul" id="video-fields-list"
                                             data-prototype="{{ form_widget(form.mediaVideos.vars.prototype)|e }}"
@@ -80,28 +76,27 @@
                                            class=" btn btn-info add-another-collection-widget_video"
                                            data-list="#video-fields-list">Ajouter une video</a>
                                         </div>
-                                        {# Images #}
+
+                                    {# Images #}
+                                        {# store the prototype on the data-prototype attribute #}
                                         <ul class="list_ul" id="image-fields-list"
                                             data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
                                             data-widget-tags="{{ '<li></li>'|e }}">
                                         </ul>
                                         <div class=" col-sm-7">
-                                        <a href="#"
-                                           class=" image_btn btn btn-info add-another-collection-widget"
-                                           data-list="#image-fields-list">Ajouter une image
-                                        </a><br>
-
-
-                                        <div class="row">
-                                            <div class="col-sm-12 envoyer">
-                                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
+                                            <a href="#"
+                                               class=" image_btn btn btn-info add-another-collection-widget"
+                                               data-list="#image-fields-list">Ajouter une image
+                                            </a><br>
+                                            <div class="row">
+                                                <div class="col-sm-12 envoyer">
+                                                    {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="hidden">
-                                        {{ form_rest(form) }}
-                                        </div>
-                                        {{ form_end(form) }}
-
+                                            <div class="hidden">
+                                                {{ form_rest(form) }}
+                                            </div>
+                                            {{ form_end(form) }}
                                         </div>
                                 </div>
                                 <div class="row">
@@ -112,7 +107,7 @@
                                       Supprimer
                                     </button> </a>
                                 </div>
-                                    <div class="hidden">{{ form_rest(form) }}</div>
+                                    <div class="">{{ form_rest(form) }}</div>
                                 {{ form_end(form) }}
                                 </div>
 
