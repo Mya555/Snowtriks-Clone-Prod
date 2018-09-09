@@ -21,8 +21,55 @@
                         <div class="row">
                             <div class="col-xl-9 col-lg-10 mx-auto">
                                 <div class="bg-faded rounded p-5">
+                                    <span class="col-lg-3 badge badge-success edit-span">Créé le 10/10/2018</span>
+                                {# Affichage des images #}
+                                    {% if trick.images == true  %}
+                                        <div class="album">
+                                            <div class="container">
+                                                <h1>Images</h1>
+                                                <div class="row jumbotron">
+                                                    {% for image in trick.images %}
+                                                        <div class="petite  card col-lg-3 media">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                                    <img src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        Supprimer
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {# Affichage des videos #}
+                                                {% if trick.mediaVideos == true  %}
+                                                <h1>Videos</h1>
+                                                <div class="row jumbotron">
+                                                    {% for video in trick.mediaVideos %}
+                                                        <div class="petite  card col-lg-3 media">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="col-lg-3 media">
+                                                                        {{ video.video|raw }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        Supprimer
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                        </div>
 
-                                    <span class="col-lg-3 badge badge-success">Créé le 10/10/2018</span>
+
+                                    {% endif %}
 
                                     <div class="well">
                                         {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}

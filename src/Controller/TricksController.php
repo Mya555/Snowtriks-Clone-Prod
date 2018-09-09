@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\ImageRepository;
+use App\Repository\TricksRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\MediaVideo;
 use App\Entity\Video;
@@ -41,15 +43,12 @@ class TricksController extends Controller
     /**
      * @Route("/figure/{id}", name="show")
      * @param TokenStorageInterface $tokenStorage
-     * @param EntityManagerInterface $em
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
 
-    public function show(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, Request $request ,$id)
-
-
+    public function show(TokenStorageInterface $tokenStorage, Request $request ,$id)
     {
         /* Récuperation de la figure triées par $id */
 
@@ -63,8 +62,8 @@ class TricksController extends Controller
 
         $comment = new Comment();
         $comment->setTricks($trick);
-        //Récuperation de l'utilisateur connecté
 
+        //Récuperation de l'utilisateur connecté
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
@@ -184,29 +183,30 @@ class TricksController extends Controller
 
     /**
      * @Route("/editer/{id}", name="edit")
+     * @param TricksRepository $repo
      * @param $id
+     * @param Tricks $trick
      * @param Request $request
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit($id, Request $request, ObjectManager $manager)
+    public function edit(TricksRepository $repo, $id, Tricks $trick = null, Request $request, ObjectManager $manager)
     {
-        /* Edition d'une figure */
+        // Récupération des tricks pour l'affichage de multimédia associée
 
-        $trick = $manager->getRepository(Tricks::class)->find($id);
+        $trick = $repo->find($id);
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
 
-        $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            // ------------------------
 
-            // -------------
+        $form = $this->createForm(TricksEditType::class, $trick);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($trick);
             $manager->flush();
-
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));

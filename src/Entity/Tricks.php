@@ -41,7 +41,7 @@ class Tricks
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"})
      */
     private $images;
 
