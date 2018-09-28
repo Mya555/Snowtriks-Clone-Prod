@@ -49,6 +49,7 @@ class TricksType extends AbstractType
                 'entry_type' => MediaVideoType::class,
                 'prototype' => true,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'mapped' => false,
                 'by_reference' => false,
 

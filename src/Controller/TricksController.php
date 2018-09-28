@@ -242,4 +242,48 @@ class TricksController extends Controller
     }
 
 
+    /// SUPPRIMER UNE IMAGE ///
+
+    /**
+     * @Route("/supprimerImage/{id}", name="deleteImage")
+     * @param Image $image
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteImage(Image $image, Request $request){
+
+        if (null === $image) {
+            throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
+
+        return $this->redirectToRoute('list_add');
+    }
+
+
+    /// SUPPRIMER UNE VIDEO ///
+
+    /**
+     * @Route("/supprimerVideo/{id}", name="deleteVideo")
+     * @param MediaVideo $mediaVideo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteVideo(MediaVideo $mediaVideo, Request $request){
+
+        if (null === $mediaVideo) {
+            throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($mediaVideo);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'La vidéo a bien été supprimée.');
+
+        return $this->redirectToRoute('list_add');
+    }
 }
