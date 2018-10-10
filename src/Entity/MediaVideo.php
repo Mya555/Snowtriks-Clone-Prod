@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @property \DateTimeInterface date
  * @ORM\Table(name="media_video")
  * @ORM\Entity(repositoryClass="App\Repository\MediaVideoRepository")
  * @ORM\HasLifecycleCallbacks // Permet d’utiliser des événements
