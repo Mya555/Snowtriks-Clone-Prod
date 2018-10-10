@@ -54,7 +54,7 @@ class TricksType extends AbstractType
                 'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'mapped' => true,
+                'mapped' => false,
                 'by_reference' => false,
 
 

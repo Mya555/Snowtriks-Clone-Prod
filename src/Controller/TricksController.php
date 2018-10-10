@@ -19,6 +19,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -223,13 +224,15 @@ class TricksController extends Controller
         return $this->redirectToRoute('list_add');
     }
     /// SUPPRIMER UNE VIDEO ///
+
     /**
      * @Route("/supprimerVideo/{id}", name="deleteVideo")
      * @param MediaVideo $mediaVideo
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      */
     public function deleteVideo(MediaVideo $mediaVideo, Request $request){
+
         if (null === $mediaVideo) {
             throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
         }
@@ -237,6 +240,6 @@ class TricksController extends Controller
         $em->remove($mediaVideo);
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', 'La vidéo a bien été supprimée.');
-        return $this->redirectToRoute('list_add');
+        return new JsonResponse('Le vidéo a bien été supprimée.');
     }
 }
