@@ -162,21 +162,15 @@ class TricksController extends Controller
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
+
         $form = $this->createForm(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
+        $form->getData()->getImages();
+        $form->getData()->getMediaVideos();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $listVideo =  $request->get('tricks')['mediaVideos'];
-            if ($listVideo){
-                foreach ( $listVideo as $video)
-                {
-                    $mediaVideo = new MediaVideo();
-                    $mediaVideo->setUrl($video['url']);
-                    $mediaVideo->setTrick($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mediaVideo);
-                }
-            }
+           $trick = $form->getData();
             $manager->persist($trick);
             $manager->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');

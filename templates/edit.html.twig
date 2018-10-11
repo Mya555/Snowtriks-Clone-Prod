@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
+
 {% block content %}
-<section class="page-section about-heading">
-    <div class="container">
-        <div class="row" id="box-search">
-            <div class="thumbnail text-center">
-                <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0"  src="{{ asset('img/sky.jpg') }}" alt="trick">
-                <div class="caption">
-                    <h2 class="section-heading mb-4">
-                        <span class="section-heading-upper">Edite ta figure</span>
-                        <span class=" titre section-heading-lower">{{ trick.name }}</span>
-                    </h2>
+    <section class="page-section about-heading">
+        <div class="container">
+            <div class="row" id="box-search">
+                <div class="thumbnail text-center">
+                    <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0"  src="{{ asset('img/sky.jpg') }}" alt="trick">
+                    <div class="caption">
+                        <h2 class="section-heading mb-4">
+                            <span class="section-heading-upper">Edite ta figure</span>
+                            <span class=" titre section-heading-lower">{{ trick.name }}</span>
+                        </h2>
+                    </div>
                 </div>
             </div>
-        </div>
             <div class="about-heading-content">
                 <div class="row">
                     <div class="col-xl-9 col-lg-10 mx-auto">
                         <div class="bg-faded rounded p-5">
                             <span class="col-lg-3 badge badge-success edit-span">Créé le 10/10/2018</span>
-                        {# Affichage des images #}
-                            {% if trick.images == true  %}
+                            {% if trick.images | length > 0  %}
                                 <div class="album">
                                     <div class="container">
                                         <h1>Images</h1>
@@ -30,190 +30,95 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                            <img src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                                <img src="{{ asset('uploads/'~image.path) }}"/>
+                                                            </a>
                                                         </div>
                                                         <div class="col-12">
-                                                            <a href="{{ path('deleteImage', {'id': image.id}) }}" >
-                                                                <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                    Supprimer
-                                                                </button>
+                                                            <a href="{{ path('deleteImage', {'id': image.id}) }}" class="btn btn-danger"
+                                                               data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                               aria-controls="collapseOne">
+                                                                Supprimer
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             {% endfor %}
                                         </div>
-                                    {# Affichage des videos #}
-                                        {% if trick.mediaVideos == true  %}
-                                        <h1>Videos</h1>
-                                        <div class="row jumbotron">
-                                            {% for video in trick.mediaVideos %}
-                                                <div class="petite  card col-lg-3 media">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="col-lg-3 media">
-                                                                {{ video.video|raw }}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 videos">
-                                                          {# <a href="{{ path('deleteVideo', {'id': video.id}) }}" class="btn btn-danger">
-                                                                    Supprimer
-                                                            </a>
-                                                            #}
-                                                            <a href="#" class="btn btn-danger delete-item" data-id="{{ video.id }}">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        {% endif %}
+                                    </div>
                                 </div>
                             {% endif %}
-
                             <div class="well">
                                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-                                <div class="form-group">
-                                    <div class="row">
-                                        {# Génération du label. #}
-                                        {{ form_label(form.description, "Description :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-                                        {# Affichage des erreurs pour ce champ précis. #}
-                                        {{ form_errors(form.description) }}
-                                        <div class="col-sm-10">
-                                            {# Génération de l'input. #}
-                                            {{ form_widget(form.description, {'attr': {'class': 'form-control rows="4" cols="50"'}}) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        {# Génération du label. #}
-                                        {{ form_label(form.groupe, "Groupe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-                                        {# Affichage des erreurs pour ce champ précis. #}
-                                        {{ form_errors(form.groupe) }}
-                                        <div class="col-sm-10">
-                                            {# Génération de l'input. #}
-                                            {{ form_widget(form.groupe, {'attr': {'class': 'form-control'}}) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="ajout-media">
-
-                            {# Videos #}
-                                {# store the prototype on the data-prototype attribute #}
-                                <ul class="list_ul" id="video-fields-list"
+                                <ul id="videos-fields-list"
                                     data-prototype="{{ form_widget(form.mediaVideos.vars.prototype)|e }}"
                                     data-widget-tags="{{ '<li></li>'|e }}">
-                                    {% for video in form.mediaVideos %}
+                                    {% for videos in form.mediaVideos %}
                                         <li>
-                                            {{ form_errors(video) }}
-                                            {{ form_widget(video) }}
+                                            {{ form_errors(videos) }}
+                                            {{ form_widget(videos) }}
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <div class="col-sm-7">
-                                <a href="#"
-                                   class=" btn btn-info add-another-collection-widget_video"
-                                   data-list="#video-fields-list">Ajouter une video</a>
-                                </div>
+                                <button type="button"
+                                        class="add-another-collection-widget"
+                                        data-list="#videos-fields-list">Add another video
+                                </button>
 
-                                {# Images #}
-                                    {# store the prototype on the data-prototype attribute #}
-                                    <ul class="list_ul" id="image-fields-list"
-                                        data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
-                                        data-widget-tags="{{ '<li></li>'|e }}">
-                                    </ul>
-                                    <div class=" col-sm-7">
-                                        <a href="#"
-                                           class=" image_btn btn btn-info add-another-collection-widget"
-                                           data-list="#image-fields-list">Ajouter une image
-                                        </a><br>
-                                        <div class="row">
-                                            <div class="col-sm-12 envoyer">
-                                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
-                                            </div>
-                                        </div>
-                                        <div class="hidden">
-                                            {{ form_rest(form) }}
-                                        </div>
-                                        {{ form_end(form) }}
-                                    </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 envoyer">
-                                    {{ form_widget(form.save, { 'label': 'Mettre à jour', 'attr': {'class': 'btn btn-signup  my-2 my-sm-0 pull-right'}}) }}
-                                </div>
-                                <a href="{{ path('delete', {'id': trick.id}) }}"><button type="button" class=" col-sm-12 btn btn-danger supprimer" >
-                                  Supprimer
-                                </button> </a>
-                            </div>
-                                <div class="">{{ form_rest(form) }}</div>
-                            {{ form_end(form) }}
-                            </div>
 
+
+                                <ul class="list_ul" id="image-fields-list"
+                                    data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+                                    data-widget-tags="{{ '<li></li>'|e }}">
+                                    {% for image in form.images %}
+                                        <li>
+                                            {{ form_errors(image) }}
+                                            {{ form_widget(image) }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <button type="button"
+                                        class="add-another-collection-widget"
+                                        data-list="#image-fields-list">Add another picture
+                                </button>
+
+                                {{ form_end(form) }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-</section>
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-{# Ajout des videos #}
-<script>
-    jQuery(document).ready(function () {
-        jQuery('.add-another-collection-widget_video').click(function (e) {
-            e.preventDefault();
-            var list = jQuery(jQuery(this).attr('data-list'));
-            // Try to find the counter of the list
-            var counter = list.data('widget-counter') | list.children().length;
-            // If the counter does not exist, use the length of the list
-            if (!counter) { counter = list.children().length; }
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('.add-another-collection-widget').click(function (e) {
+                var list = jQuery(jQuery(this).attr('data-list'));
+                // Try to find the counter of the list
+                var counter = list.data('widget-counter') | list.children().length;
+                // If the counter does not exist, use the length of the list
+                if (!counter) { counter = list.children().length; }
 
-            // grab the prototype template
-            var newWidget = list.attr('data-prototype');
-            // replace the "__name__" used in the id and name of the prototype
-            // with a number that's unique to your emails
-            // end name attribute looks like name="contact[emails][2]"
-            newWidget = newWidget.replace(/__name__/g, counter);
-            // Increase the counter
-            counter++;
-            // And store it, the length cannot be used if deleting widgets is allowed
-            list.data(' widget-counter', counter);
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data(' widget-counter', counter);
 
-            // create a new list element and add it to the list
-            var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-            newElem.appendTo(list);
+                // create a new list element and add it to the list
+                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+            });
         });
-    });
+    </script>
 
-</script>
-{# Ajout des images #}
-<script>
-    jQuery(document).ready(function () {
-        jQuery('.add-another-collection-widget').click(function (e) {
-            e.preventDefault();
-            var list = jQuery(jQuery(this).attr('data-list'));
-            // Try to find the counter of the list
-            var counter = list.data('widget-counter') | list.children().length;
-            // If the counter does not exist, use the length of the list
-            if (!counter) { counter = list.children().length; }
-            // grab the prototype template
-            var newWidget = list.attr('data-prototype');
-            // replace the "__name__" used in the id and name of the prototype
-            // with a number that's unique to your emails
-            // end name attribute looks like name="contact[emails][2]"
-            newWidget = newWidget.replace(/__name__/g, counter);
-            // Increase the counter
-            counter++;
-            // And store it, the length cannot be used if deleting widgets is allowed
-            list.data(' widget-counter', counter);
-            // create a new list element and add it to the list
-            var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-            newElem.appendTo(list);
-        });
-    });
-</script>
+
 {% endblock %}
