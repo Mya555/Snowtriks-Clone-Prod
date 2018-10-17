@@ -47,6 +47,30 @@
                                     </div>
                                 </div>
                             {% endif %}
+
+                            {# Affichage des videos #}
+                            {% if trick.mediaVideos == true  %}
+                                <h1>Videos</h1>
+                                <div class="row jumbotron">
+                                    {% for video in trick.mediaVideos %}
+                                        <div class="petite  card col-lg-3 media">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="col-lg-3 media">
+                                                        {{ video.video|raw }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Supprimer
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
                             <div class="well">
                                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                                 <ul id="videos-fields-list"
