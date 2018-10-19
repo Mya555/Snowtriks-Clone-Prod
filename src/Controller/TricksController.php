@@ -170,7 +170,8 @@ class TricksController extends Controller
         $form->getData()->getMediaVideos();
 
         if ($form->isSubmitted() && $form->isValid()) {
-           $trick = $form->getData();
+            $trick = $form->getData();
+
             $manager->persist($trick);
             $manager->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
