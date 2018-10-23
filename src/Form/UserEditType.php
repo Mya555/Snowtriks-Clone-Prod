@@ -22,7 +22,7 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('avatar_file', FileType::class, array('label'=>'inserer une image'))
+            ->add('avatar_file', FileType::class)
             ->add('save',   SubmitType::class);
         ;
     }

@@ -1,11 +1,53 @@
 
 {% extends 'base.html.twig' %}
 
-
-
 {% block content %}
 
-{{ form_start(form) }}
+    <section class="page-section about-heading">
+        <div class="container">
+           <div class="about-heading-content">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 mx-auto">
+                        <div class="bg-faded rounded p-5">
+                            <h2 class="section-heading mb-4 center">
+                                <span class="section-heading-upper">Ajouter un avatar</span>
+                            </h2>
+
+                            <div class="well avatar_form">
+                                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                                <div class=" form-group">
+                                    <div class="row">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.avatar_file, "Avatar :", {'label_attr': {'class': 'col-sm-2 control-label avatar_label'}}) }}
+
+                                        {# Affichage des erreurs pour ce champ précis. #}
+                                        {{ form_errors(form.avatar_file) }}
+
+                                        <div class="col-sm-10">
+                                            {# Génération de l'input. #}
+                                            {{ form_widget(form.avatar_file, {'attr': {'class': ' col-sm-9 form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 envoyer avatar_save pull-right">
+                                        {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-r
+                                                ight btn-signup '}}) }}
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {{ form_start(form) }}
     {{ form_widget(form) }}
  {{ form_end(form) }}
 
