@@ -23,18 +23,20 @@ class Image
     private $id;
 
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
 
     /**
+     * @var File
+     */
+    private $file;
+
+
+
+    /**
      * @var Tricks
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks")
      */
     private $tricks;
 

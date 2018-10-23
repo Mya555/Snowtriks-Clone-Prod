@@ -110,9 +110,10 @@ class TricksController extends Controller
                     $image = new Image();
                     $image->setPath($fileName);
                     $image->setTricks($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($image);
+                    $trick->addImage($image);
                 }
+                $this->getDoctrine()->getManager()->persist($trick);
+                $this->getDoctrine()->getManager()->flush();
             }
             $listVideo =  $request->get('tricks')['mediaVideos'];
             if ($listVideo){

@@ -245,14 +245,12 @@ class Tricks
         $this->setUpdatedAt(new \Datetime());
     }
 
-    /**
-     * @param Image $image
-     */
-    public function addImage(Image $image)
+
+    public function addImage(Image $image): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-        }
+        $this->images->add($image);
+
+        return $this;
     }
 
 
