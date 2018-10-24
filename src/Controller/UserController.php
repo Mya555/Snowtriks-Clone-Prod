@@ -15,9 +15,47 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Event\UserCreatedEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
 {
+    /**
+     * @var AuthenticationUtils
+     */
+    private $authenticationUtils;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $token;
+
+    public function __construct(AuthenticationUtils $authenticationUtils, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, EventDispatcherInterface $dispatcher, TokenStorageInterface $token)
+    {
+        $this->authenticationUtils = $authenticationUtils;
+        $this->encoder = $encoder;
+        $this->em = $em;
+        $this->dispatcher = $dispatcher;
+        $this->token = $token;
+    }
+
 
     /**
      * @Route("/login", name="login")
@@ -58,7 +96,8 @@ class UserController extends Controller
 
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+            $user->setPassword($password)->setIsActive(false)->setPlainPassword(null);
+
             //Par defaut l'utilisateur aura toujours le rôle ROLE_USER
             $user->setRoles(['ROLE_USER']);
 
@@ -118,6 +157,27 @@ class UserController extends Controller
             array('form' => $form->createView())
         );
 
+    }
+
+    /**
+     * @Route("/activate/{token}", name="activate")
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function activate($token)
+    {
+        $user = $this->em->getRepository(User::class)
+            ->findOneBy(['token' => $token])
+        ;
+        if (!$user) {
+            throw new NotFoundHttpException("User not exist");
+        }
+        $user->setIsActive(true)
+            ->setToken(null);
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->token->setToken(new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles()));
+        return $this->redirect('/');
     }
 }
 

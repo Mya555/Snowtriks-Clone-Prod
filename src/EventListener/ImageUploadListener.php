@@ -9,6 +9,7 @@ use App\Entity\Image;
 class ImageUploadListener
 {
     private $imageDir;
+
     public function __construct($imageDir)
     {
         $this->imageDir = $imageDir;

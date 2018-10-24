@@ -4,7 +4,9 @@ namespace App\EventSubscriber;
 
 use App\Entity\User;
 use App\Events;
+use App\Event\UserCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig\Environment;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -15,40 +17,49 @@ class RegistrationNotifySubscriber implements EventSubscriberInterface
 {
     private $mailer;
     private $sender;
+    private $twig;
 
     /**
      * RegistrationNotifySubscriber constructor.
      * @param \Swift_Mailer $mailer
      * @param $sender
+     * @param Environment $twig
      */
-    public function __construct(\Swift_Mailer $mailer, $sender)
+    public function __construct(\Swift_Mailer $mailer, $sender,  Environment $twig)
     {
         // On injecte notre expediteur et la classe pour envoyer des mails
         $this->mailer = $mailer;
         $this->sender = $sender;
+        $this->twig = $twig;
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         return [
-            // le nom de l'event et le nom de la fonction qui sera déclenché
-            Events::USER_REGISTERED => 'onUserRegistrated',
+            Events::USER_REGISTERED => 'user.registered'
         ];
+
     }
 
+    /**
+     * @param GenericEvent $event
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function onUserRegistrated(GenericEvent $event): void
     {
-        /** @var User $user */
-        $user = $event->getSubject();
+        /* $user = $event->getSubject(); */
 
+        $user = $event->getUser();
         $subject = "Bienvenue";
-        $body = "Bienvenue mon ami.e";
 
-        $message = (new \Swift_Message())
+
+        $message = (new \Swift_Message('Registration'))
             ->setSubject($subject)
             ->setTo($user->getEmail())
             ->setFrom($this->sender)
-            ->setBody($body, 'text/html')
+            ->setBody(  $this->twig->render('emailRegistration.html.twig', compact('user'),'text/html'))
         ;
 
         $this->mailer->send($message);

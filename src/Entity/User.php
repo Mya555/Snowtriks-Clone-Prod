@@ -78,6 +78,19 @@ class User implements UserInterface,  \Serializable
      */
     private $roles = [];
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $isActive;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $token;
+
+
+
 
 
     public function __construct()
@@ -86,6 +99,34 @@ class User implements UserInterface,  \Serializable
     }
 
     /********** GETTERS & SETTERS **********/
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param null|string $token
+     * @return User
+     */
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @param bool $isActive
+     * @return User
+     */
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
 
     /**
      * @return mixed
