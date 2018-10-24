@@ -33,21 +33,24 @@ class RegistrationNotifySubscriber implements EventSubscriberInterface
         $this->twig = $twig;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [
-            UserCreatedEvent::NAME => 'sendActivationMail',
+            UserCreatedEvent::NAME => 'onUserRegistrated',
         ];
 
     }
 
     /**
-     * @param GenericEvent $event
+     * @param UserCreatedEvent $event
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function onUserRegistrated(GenericEvent $event): void
+    public function onUserRegistrated(UserCreatedEvent $event): void
     {
         /* $user = $event->getSubject(); */
 

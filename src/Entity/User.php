@@ -100,10 +100,8 @@ class User implements UserInterface,  \Serializable
 
     /********** GETTERS & SETTERS **********/
 
-    /**
-     * @return string
-     */
-    public function getToken(): string
+
+    public function getToken(): ?string
     {
         return $this->token;
     }
@@ -253,6 +251,7 @@ class User implements UserInterface,  \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
     }
 
     /**
@@ -333,5 +332,20 @@ class User implements UserInterface,  \Serializable
     public function unserialize($serialized): void
     {
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        //return false;
+        return $this->isActive;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateToken(){
+        $this->token = md5(random_bytes(60));
     }
 }

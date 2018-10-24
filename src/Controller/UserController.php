@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -47,7 +48,11 @@ class UserController extends Controller
      */
     private $token;
 
-    public function __construct(AuthenticationUtils $authenticationUtils, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, EventDispatcherInterface $dispatcher, TokenStorageInterface $token)
+    public function __construct(AuthenticationUtils $authenticationUtils,
+                                UserPasswordEncoderInterface $encoder,
+                                EntityManagerInterface $em,
+                                EventDispatcherInterface $dispatcher,
+                                TokenStorageInterface $token)
     {
         $this->authenticationUtils = $authenticationUtils;
         $this->encoder = $encoder;
@@ -84,7 +89,9 @@ class UserController extends Controller
      * @param EventDispatcherInterface $eventDispatcher
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EventDispatcherInterface $eventDispatcher)
+    public function register(Request $request,
+                             UserPasswordEncoderInterface $passwordEncoder,
+                             EventDispatcherInterface $eventDispatcher)
     {
         // 1) build the form
         $user = new User();
@@ -92,20 +99,26 @@ class UserController extends Controller
 
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $user = $form->getData();
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password)->setIsActive(false)->setPlainPassword(null);
+            $user->setPassword($password);
+            $user->setIsActive(false);
+            $user->setToken(null);
+            $user->setPlainPassword(null);
 
             //Par defaut l'utilisateur aura toujours le rôle ROLE_USER
             $user->setRoles(['ROLE_USER']);
 
+
             // 4) On enregistre l'utilisateur dans la base
             $entityManager = $this->getDoctrine()->getManager();
+
             $entityManager->persist($user);
             $entityManager->flush();
-
             //On déclenche l'event
             $event = new UserCreatedEvent($user);
             $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
@@ -177,7 +190,7 @@ class UserController extends Controller
         $this->em->persist($user);
         $this->em->flush();
         $this->token->setToken(new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles()));
-        return $this->redirect('/');
+        return $this->redirect('/login');
     }
 }
 
