@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserCreatedEvent extends Event
 {
-    const USER_REGISTERED = 'user.registered';
+    const NAME = 'user.created';
 
     protected $user;
 

@@ -107,8 +107,8 @@ class UserController extends Controller
             $entityManager->flush();
 
             //On déclenche l'event
-            $event = new GenericEvent($user);
-            $eventDispatcher->dispatch(Events::USER_REGISTERED, $event);
+            $event = new UserCreatedEvent($user);
+            $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
 
             return $this->redirectToRoute('list_add');
         }

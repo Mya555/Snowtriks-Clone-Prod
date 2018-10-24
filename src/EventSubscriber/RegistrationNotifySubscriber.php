@@ -36,7 +36,7 @@ class RegistrationNotifySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::USER_REGISTERED => 'user.registered'
+            UserCreatedEvent::NAME => 'sendActivationMail',
         ];
 
     }
