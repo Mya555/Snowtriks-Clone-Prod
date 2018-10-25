@@ -122,7 +122,7 @@ class UserController extends Controller
             $event = new UserCreatedEvent($user);
             $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
 
-            return $this->redirectToRoute('list_add');
+            return $this->render('afterRegister.html.twig');
         }
 
         return $this->render(
