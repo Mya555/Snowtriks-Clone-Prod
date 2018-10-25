@@ -32,13 +32,24 @@ class User implements UserInterface,  \Serializable
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(
+     *     message = "Ce mail '{{ value }}' est invalide.",
+     *     checkMX = true,
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage = "Il faut plus de 4 caractères",
+     *      maxMessage = "{{ limit }} caractères c'est trop long, Il en faut moins de 255")
+     * @Assert\Regex(
+     *     pattern = "/^\S+$/",
+     *     message = "Les espaces blancs sont interdits")
      */
     private $username;
 
@@ -51,7 +62,12 @@ class User implements UserInterface,  \Serializable
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 4096,
+     *      maxMessage = "Wow  mot de passe trop long",
+     *      minMessage = "Il faut plus de 6 caractères"
+     * )
      */
     private $plainPassword;
 
