@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Oops ! Une erreur s'est produite</h1>
+
+
+    <p>
+        Le serveur retourne - {{ status_code }}{{ status_text }}.
+    </p>
+{% endblock %}
