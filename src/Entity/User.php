@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Email déjà pris")
  * @UniqueEntity(fields="username", message="Ce nom est déjà pris")
+ *  @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface,  \Serializable
 {

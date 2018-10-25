@@ -107,7 +107,6 @@ class UserController extends Controller
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $user->setIsActive(false);
-            $user->setToken(null);
             $user->setPlainPassword(null);
 
             //Par defaut l'utilisateur aura toujours le rôle ROLE_USER
@@ -189,8 +188,11 @@ class UserController extends Controller
             ->setToken(null);
         $this->em->persist($user);
         $this->em->flush();
+        // L'utilisateur est automatiquement connécté.
+        // Pour cela crée le token avec UsernamePasswordToken, on récupèrant le mot de passe lié au $user,
+        // en indiquant le farewall à utiliser 'main' pour y passer et en récupèrant le role lié à cet utilisateur.
         $this->token->setToken(new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles()));
-        return $this->redirect('/login');
+        return $this->redirect('/liste_add');
     }
 }
 

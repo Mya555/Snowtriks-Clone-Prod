@@ -5,12 +5,15 @@ use App\Exceptions\AccountInactiveException;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+
 class UserChecker implements UserCheckerInterface
 {
     /**
      * Checks the user account before authentication.
      *
      * @param UserInterface $user
+     * @throws AccountInactiveException
      */
     public function checkPreAuth(UserInterface $user)
     {
@@ -18,8 +21,9 @@ class UserChecker implements UserCheckerInterface
             return;
         }
         if (! $user->isActive()) {
-            throw new AccountInactiveException('user is not active');
+            throw new AccountInactiveException('Le compte n\'est pas confirmé');
         }
+
     }
 
     /**
