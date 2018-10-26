@@ -133,7 +133,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/{id}", name="update_user")
+     * @Route("/avatar/{id}", name="update_user")
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -185,7 +185,7 @@ class UserController extends Controller
             throw new NotFoundHttpException("User not exist");
         }
         $user->setIsActive(true)
-            ->setToken(null);
+             ->setToken(null);
         $this->em->persist($user);
         $this->em->flush();
         // L'utilisateur est automatiquement connécté.

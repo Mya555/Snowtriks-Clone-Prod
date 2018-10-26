@@ -51,3 +51,6 @@ security:
             # Là dans ce cas seul les utilisateurs ayant le rôle ROLE_USER
             # peuvent acceder à toutes les pages commençant par ce path :
         - { path: ^/ajout, roles: ROLE_USER }
+        - { path: ^/editer, roles: ROLE_USER }
+        - { path: ^/avatar, roles: ROLE_USER }
+        - { path: ^/avatar, roles: ROLE_USER }

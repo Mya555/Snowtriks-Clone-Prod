@@ -1,8 +1,8 @@
 
 Mail de confirmation
 
-Bienvenue {{ user.username }} !
+Bienvenue {{ user.username|upper }} !
 
-Tu peux activer ton compte en cliquant ici :  <a href="{{ absolute_url(path('activate', {"token": user.token})) }}">Activer</a>
+Tu peux activer ton compte en cliquant ici : {{ absolute_url(path('activate', {"token": user.token})) }}
 
 Envoyé par SnowTricks
