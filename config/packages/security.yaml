@@ -20,6 +20,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            # User_checker verifie si l'utilisateur est actif
             user_checker: App\Security\UserChecker
             # La connexion n'est pas requise sur toutes les pages
             # par exemple la page d'accueil
