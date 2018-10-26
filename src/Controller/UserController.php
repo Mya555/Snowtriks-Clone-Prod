@@ -107,7 +107,7 @@ class UserController extends Controller
             //On récupère l'utilisateur depuis le formulaire
             $user = $form->getData();
 
-            // On encore le mot de passe
+            // On encode le mot de passe
             $password = $this->encoder->encodePassword( $user, $user->getPlainPassword() );
             $user->setPassword( $password );
             $user->setIsActive( false );
