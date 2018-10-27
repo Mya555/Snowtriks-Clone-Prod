@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Email déjà pris")
  * @UniqueEntity(fields="username", message="Ce nom est déjà pris")
+ *  @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface,  \Serializable
 {
@@ -30,13 +32,24 @@ class User implements UserInterface,  \Serializable
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(
+     *     message = "Ce mail '{{ value }}' est invalide.",
+     *     checkMX = true,
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage = "Il faut plus de 4 caractères",
+     *      maxMessage = "{{ limit }} caractères c'est trop long, Il en faut moins de 255")
+     * @Assert\Regex(
+     *     pattern = "/^\S+$/",
+     *     message = "Les espaces blancs sont interdits")
      */
     private $username;
 
@@ -49,7 +62,12 @@ class User implements UserInterface,  \Serializable
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 4096,
+     *      maxMessage = "Wow  mot de passe trop long",
+     *      minMessage = "Il faut plus de 6 caractères"
+     * )
      */
     private $plainPassword;
 
@@ -78,6 +96,19 @@ class User implements UserInterface,  \Serializable
      */
     private $roles = [];
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $isActive;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $token;
+
+
+
 
 
     public function __construct()
@@ -86,6 +117,32 @@ class User implements UserInterface,  \Serializable
     }
 
     /********** GETTERS & SETTERS **********/
+
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param null|string $token
+     * @return User
+     */
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @param bool $isActive
+     * @return User
+     */
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -212,6 +269,7 @@ class User implements UserInterface,  \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
     }
 
     /**
@@ -292,5 +350,20 @@ class User implements UserInterface,  \Serializable
     public function unserialize($serialized): void
     {
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        //return false;
+        return $this->isActive;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateToken(){
+        $this->token = md5(random_bytes(60));
     }
 }

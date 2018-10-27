@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\DataFixtures;
 
 use App\Entity\User;
@@ -10,13 +9,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
-
 class UserFixtures extends Fixture
 {
 
 
     private $passwordEncoder;
-
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -30,7 +27,9 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+
         foreach ($this->getUserData() as [$username, $password, $email, $roles]){
+
             $user = new User();
             $user->setUsername($username);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
@@ -38,11 +37,9 @@ class UserFixtures extends Fixture
             $user->setRoles($roles);
 
             $manager->persist($user);
-
+        $this->addReference($username, $user);
         }
         $manager->flush();
-
-
 
     }
 

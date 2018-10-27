@@ -1,15 +1,12 @@
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-
             <div class="jumbotron">
                 <div class="form-group">
                     <h6 class="section-heading">
                         <span class="section-heading-upper">Laisse ton commentaire</span>
                     </h6>
                     <div class="well">
-
                         {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-
                         <div class=" form-group">
                             <div class="row">
                                     {# Génération du label. #}
@@ -27,26 +24,17 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 envoyer">
-
                                 {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
-
                             </div>
                         </div>
                         {{ form_end(form) }}
                     </div>
                 </div>
         {% endif %}
-
-            <h6 class="section-heading mb-4 commentaire">
-                <span class="section-heading-lower">Commentaires</span>
-            </h6>
-
+            <h6 class="section-heading mb-4 commentaire"><span class="section-heading-lower">Commentaires</span></h6>
             <div class="jumbotron text-center center-div">
                 <section>
-
                         {% for key,commentaire in trick.comments %}
-
-
                             <div class="container comment">
                                 <div class="row">
                                     <div class="{% if key > 0 %} hidden {% endif %}col-sm-12">
@@ -71,14 +59,12 @@
                                    <!-- <i class=" fa fa-refresh fa-spin"></i>-->
                                 </div>
                             </div>
-
+                        </div>
                             {# Bouton pour diminuer le nombre d'affichage #}
                         {% else %}
-
                             <p>Il n'y a aucun commentaire pour cette figure.{% if is_granted('IS_AUTHENTICATED_FULLY') %} Sois le premièr  a laisser ton avis.{% endif %}</p>
-
                         {% endfor %}
-                    {% if trick.comments|length > 0 %}
+                    {% if trick.comments|length > 1 %}
                             <div class="container">
                                 <div class="">
                                     <a href="#" id="more" class="button1">Afficher plus</a>
@@ -87,7 +73,6 @@
                         {% endif %}
                 </section>
             </div>
-
         {% block javascripts %}
             {# Bouton loadMore #}
             <script>
