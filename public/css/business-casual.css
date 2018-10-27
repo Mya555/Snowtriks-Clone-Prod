@@ -4,11 +4,9 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
-
+  font-family: 'Raleway', sans-serif;
+  min-width: 480px;
 }
-
-
-/* Footer */
 
 /* Bouton afficher plus de list_add*/
 
@@ -16,31 +14,26 @@ body {
 {
    padding-top: 5em;
    margin-left: 0.5em;
-
 }
+
+/* ----- FOOTER ----- */
+
 .copyright p{
   font-size:12px;
   padding:15px 0 10px 0;
 }
-body{
-  font-family: 'Raleway', sans-serif;
-}
-
 footer{
   background-color:#222222;
 }
-
 .copyright{
-
-margin-top: 13em;
+  margin-top: 13em;
   height: 60px;
   bottom: 0;
   width: 100%;
   background-color:#f0f0f0;
 }
-
-
 /* fin footer */
+
 
 /* Bouton scroll-up - arrow */
 .scrollup {
@@ -81,11 +74,10 @@ margin-top: 13em;
 
 
 
-/* icon pour bouton edit et supprimer*/
+/* ----- ICONE pour BOUTON EDITE et SUPPRIMER ----- */
+
 .bouton-cadre{
   padding-left: 0.5em;
-
-
 }
 .ajout-media{
   margin-left: 7em;
@@ -140,19 +132,15 @@ margin-top: 13em;
   -webkit-transform: rotate(360deg);
   transform: rotate(360deg);
 }
-
 /* fin icon*/
 
 
-/* Bouton */
-
-
+/* ----- BOUTON ----- */
 .wrap {
   padding: 4em;
   margin: auto;
   text-align: center;
 }
-
 .button2{
   -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
