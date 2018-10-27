@@ -5,9 +5,9 @@ body {
   background-position: center;
   background-size: cover;
   font-family: 'Raleway', sans-serif;
+  min-width: 450px;
 }
 
-/* Footer */
 
 /* Bouton afficher plus de list_add*/
 
@@ -15,25 +15,26 @@ body {
 {
    padding-top: 5em;
    margin-left: 0.5em;
-
 }
 .copyright p{
   font-size:12px;
   padding:15px 0 10px 0;
 }
 
+/* Footer */
 
 footer{
   background-color:#222222;
 }
-
 .copyright{
-
-margin-top: 13em;
+  margin-top: 13em;
   height: 60px;
   bottom: 0;
   width: 100%;
-  background-color:#f0f0f0;
+  background-color: rgba(15, 123, 138, 0.7);
+}
+#copyright-text{
+  margin-left: 2em;
 }
 
 
@@ -145,6 +146,9 @@ margin-top: 13em;
 .edit-button{
   margin-right: 2.6em;
 }
+.edit-button-div{
+  margin: 4px 0px;
+}
 /* fin bouton edite */
 
 
@@ -239,14 +243,16 @@ a.button2 {
   border: 1px solid #08182f;
   border-radius: 8px;
   text-align: center;
-  padding-top: 0.5em;
+  padding-top: 2em;
   background-color: #ffffff;
   color: rgb(10, 51, 61);
-  margin: auto;
+  margin: 1em;
   max-width: 20em;
   min-width: 15em;
 }
-
+.card-border{
+  padding-bottom: 2em;
+}
 /* fin list */
 
 
@@ -466,6 +472,7 @@ p {
   text-transform: uppercase;
   line-height: 1;
   font-family: 'Raleway';
+  color: white;
 }
 .site-heading .site-heading-upper {
   display: block;
@@ -543,7 +550,6 @@ p {
 
   }
 }
-
 .btn-xl {
   font-weight: 700;
   font-size: 0.8rem;
@@ -827,12 +833,10 @@ body:after {
 }
 /* fin premiere image */
 
+/* ----- IMAGE ADD_LIST ENTETE ----- */
+
 .bannier{
-  margin-top: 11em;
-}
-
-.image-edite{
-
+  margin-top: 9em;
 }
 
 

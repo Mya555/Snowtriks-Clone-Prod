@@ -24,16 +24,12 @@
 
                 {% for  key,tricks in repository %}
 
-                    <div class="{% if key > 9 %} hidden {% endif %}col-md-6 col-lg-4 col-sm-6">
-                        <div class="card">
+                    <div class="{% if key > 9 %} hidden {% endif %}col-md-6 col-lg-4 col-sm-6 card-border ">
+                        <div class="card center-block">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <div class="row bouton-cadre">
-                                    <div class="col-sm-1">
-                                        <a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <a href="{{ path('delete', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                    </div>
+                                <div class="caption_button pull-right btn-group btn-group-sm edit-button row" role="group" aria-label="Basic example">
+                                    <div class="col-sm-6 edit-button-div"><a href="{{ path('edit', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+                                    <div class="col-sm-6"><a href="{{ path('delete', {'id': tricks.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
                                 </div>
                             {% endif %}
                             <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
