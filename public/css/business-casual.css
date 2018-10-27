@@ -281,6 +281,10 @@ h6 {
 }
 
 /**commentaire*/
+
+.post-comment{
+  margin-top: 10em;
+}
 .date{
   font-size: 0.9em;
 }
@@ -489,16 +493,15 @@ p {
   font-size: 1rem;
   font-weight: 800;
 }
-
-.section-heading .section-heading-lower {
-  display: block;
-  font-size: 3rem;
-  font-weight: 100;
+@media (min-width: 550px) {
+  .section-heading .section-heading-lower {
+    display: block;
+    font-size: 3rem;
+    font-weight: 100;
+  }
 }
-
-
 .bg-faded {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.84);
 }
 
 
@@ -808,6 +811,7 @@ body:after {
 }
 .first-image-container {
   max-width: 30em;
+  padding-bottom: 1.5em;
 }
 .first-image{
   max-width: 100%;

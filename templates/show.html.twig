@@ -43,7 +43,7 @@
                                            <div class="row jumbotron">
                                            {# Affichage des images #}
                                                {% for image in trick.images %}
-                                                   <div class="petite col-lg-3 media center-block">
+                                                   <div class="petite col-lg-4 media center-block">
                                                        <div class="row">
                                                            <div class="col-12">
                                                                <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
@@ -59,12 +59,10 @@
                                        <h1>Videos</h1>
                                        <div class="row jumbotron">
                                            {% for video in trick.mediaVideos %}
-                                               <div class="petite col-lg-3 media center-block">
+                                               <div class="petite col-lg-4 media center-block">
                                                    <div class="row">
                                                        <div class="col-12">
-                                                           <div class="col-lg-3 media">
                                                                {{ video.video|raw }}
-                                                           </div>
                                                        </div>
                                                    </div>
                                                </div>
@@ -72,8 +70,7 @@
                                        </div>
                                    {% endif %}
                                        </div>
-
-                                       <div class="form_row">
+                                       <div class="form_row container">
                                            <div class="row jumbotron text-center">
                                                <div>{{ trick.description }}</div>
                                            </div>
