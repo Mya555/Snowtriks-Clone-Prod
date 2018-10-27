@@ -6,28 +6,34 @@
 
               <section class="page-section about-heading">
                <div class="container">
-                   <div class="row" id="box-search">
-                       <div class="thumbnail text-center">
-                           <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/sky.jpg') }}" alt=""/>
-                           <div class="caption">
+                   <div class="row  p-5" id="box-search">
+                       <div class="sm-faded rounded center-block col-lg-7">
+                           <div class="thumbnail text-center first-image-container center-block col-lg-10 ">
+                           {# La première image est mise en avant si aucune n'existe une image par defaut est chargée #}
+                           {% for image in trick.images if image == true %}
+                               {{ loop.first }} - <img class="img-responsive thumbnail text-center img-fluid rounded first-image" src="{{ asset('uploads/'~image.path) }}" alt=""/>
+                           {% else %}
+                               <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/sky.jpg') }}" alt=""/>
+                           {% endfor %}
+                            <div class="caption">
                                <h2 class="section-heading mb-4">
                                    <span class="section-heading-upper">Figure</span>
                                    <span class="titre section-heading-lower">{{ trick.name }}</span>
                                </h2>
                            </div>
-                           {# Bouton d'édition visible uniquement aux inscrits #}
-                           {% if is_granted('ROLE_USER') %}
-                               <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                       <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                       <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                               </div>
-                           {% endif %}
+                       </div>
                        </div>
                    </div>
                    <div class="about-heading-content">
-
                        <div class="row">
                            <div class="col-xl-10 col-lg-11 mx-auto">
+                                   {# Bouton d'édition visible uniquement aux inscrits #}
+                                   {% if is_granted('ROLE_USER') %}
+                                       <div class="caption_button pull-right btn-group btn-group-sm edit-button row" role="group" aria-label="Basic example">
+                                           <div class="col-sm-6"><a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+                                           <div class="col-sm-6"><a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                                       </div>
+                                   {% endif %}
                                <div class="bg-faded rounded p-5">
                                {# Images et vidéos de la figure , affichées si elles existent #}
                                    {% if trick.images == true  %}
@@ -37,11 +43,11 @@
                                            <div class="row jumbotron">
                                            {# Affichage des images #}
                                                {% for image in trick.images %}
-                                                   <div class="petite  card col-lg-3 media">
+                                                   <div class="petite col-lg-3 media center-block">
                                                        <div class="row">
                                                            <div class="col-12">
                                                                <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                               <img src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                               <img class="image-edite" src="{{ asset('uploads/'~image.path) }}"/></a>
                                                            </div>
                                                        </div>
                                                    </div>
@@ -53,7 +59,7 @@
                                        <h1>Videos</h1>
                                        <div class="row jumbotron">
                                            {% for video in trick.mediaVideos %}
-                                               <div class="petite  card col-lg-3 media">
+                                               <div class="petite col-lg-3 media center-block">
                                                    <div class="row">
                                                        <div class="col-12">
                                                            <div class="col-lg-3 media">
