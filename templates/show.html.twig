@@ -18,12 +18,8 @@
                            {# Bouton d'édition visible uniquement aux inscrits #}
                            {% if is_granted('ROLE_USER') %}
                                <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                   <button type="button" class="btn btn-default" aria-label="right Align">
                                        <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                   </button>
-                                   <button type="button" class="btn btn-default" aria-label="right Align">
                                        <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                   </button>
                                </div>
                            {% endif %}
                        </div>
