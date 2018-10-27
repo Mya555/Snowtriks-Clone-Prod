@@ -31,10 +31,11 @@ footer{
   height: 60px;
   bottom: 0;
   width: 100%;
-  background-color: rgba(15, 123, 138, 0.7);
+  background-color: rgba(6, 21, 47, 0.7);
 }
 #copyright-text{
   margin-left: 2em;
+  color: white;
 }
 
 
@@ -418,7 +419,7 @@ h6 {
 .titre
 {
     font-weight: bold;
-    color: whitesmoke;
+    color: #072263;
 }
 .marge
 {
@@ -816,11 +817,14 @@ body:after {
   max-width: 70em;
 }
 .first-image-container {
-  max-width: 30em;
+  max-width: 40em;
+  max-height: 30em;
   padding-bottom: 1.5em;
+  padding-top: 1.5em;
 }
 .first-image{
   max-width: 100%;
+
   height: auto;
 }
 .center-block {
@@ -829,6 +833,7 @@ body:after {
 }
 #box-search{
   padding-bottom: 5%;
+
 
 }
 /* fin premiere image */

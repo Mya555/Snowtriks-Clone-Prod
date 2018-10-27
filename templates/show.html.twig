@@ -13,7 +13,7 @@
                            {% for image in trick.images if image == true %}
                                {{ loop.first }} - <img class="img-responsive thumbnail text-center img-fluid rounded first-image" src="{{ asset('uploads/'~image.path) }}" alt=""/>
                            {% else %}
-                               <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/sky.jpg') }}" alt=""/>
+                               <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/bg.jpg') }}" alt=""/>
                            {% endfor %}
                             <div class="caption">
                                <h2 class="section-heading mb-4">
