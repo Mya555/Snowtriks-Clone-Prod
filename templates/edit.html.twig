@@ -17,101 +17,86 @@
                     </div>
                 </div>
             </div>
-                    <div class="about-heading-content">
-                        <div class="row">
-                            <div class="col-xl-9 col-lg-10 mx-auto">
-                                <div class="bg-faded rounded p-5">
-                                    <span class="col-lg-3 badge badge-success edit-span">Créé le 10/10/2018</span>
-                                {# Affichage des images #}
-                                    {% if trick.images == true  %}
-                                        <div class="album">
-                                            <div class="container">
-                                                <h1>Images</h1>
-                                                <div class="row jumbotron">
-                                                    {% for image in trick.images %}
-                                                        <div class="petite  card col-lg-3 media">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                                    <img src="{{ asset('uploads/'~image.path) }}"/></a>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <a href="{{ path('deleteImage', {'id': image.id}) }}" >
-                                                                        <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                            Supprimer
-                                                                        </button>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    {% endfor %}
+            <div class="about-heading-content">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 mx-auto">
+                        <div class="bg-faded rounded p-5">
+                            <span class="col-lg-3 badge badge-success edit-span">Créé le 10/10/2018</span>
+                            {# AFFICHAGE DES IMAGES #}
+                            {% if trick.images == true  %}
+                            <div class="album">
+                                <div class="container">
+                                    <h1>Images</h1>
+                                    <div class="row jumbotron">
+                                        {% for image in trick.images %}
+                                            <div class="petite  card col-lg-3 media">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                        <img src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <a href="{{ path('deleteImage', {'id': image.id}) }}" >
+                                                            <button class="btn btn-danger" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                Supprimer
+                                                            </button>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            {# Affichage des videos #}
-                                                {% if trick.mediaVideos == true  %}
-                                                <h1>Videos</h1>
-                                                <div class="row jumbotron">
-                                                    {% for video in trick.mediaVideos %}
-                                                        <div class="petite  card col-lg-3 media">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="col-lg-3 media">
-                                                                        {{ video.video|raw }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12" id="videos">
-                                                                  {# <a href="{{ path('deleteVideo', {'id': video.id}) }}" class="btn btn-danger">
-                                                                            Supprimer
-                                                                    </a>
-                                                                    #}
-                                                                    <a href="{{ path('deleteVideo', {'id': video.id}) }}" class="btn btn-danger delete-item" data-id="{{ video.id }}">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                                {% endif %}
-                                        </div>
-
-
-                                    {% endif %}
-
-                                    <div class="well">
-                                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-
-
-                                        <div class="form-group">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {# AFFICHAGE DES VIDEOS #}
+                                    {% if trick.mediaVideos == true  %}
+                                    <h1>Videos</h1>
+                                    <div class="row jumbotron">
+                                        {% for video in trick.mediaVideos %}
+                                        <div class="petite  card col-lg-3 media">
                                             <div class="row">
-                                                {# Génération du label. #}
-                                                {{ form_label(form.description, "Description :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-
-                                                {# Affichage des erreurs pour ce champ précis. #}
-                                                {{ form_errors(form.description) }}
-
-                                                <div class="col-sm-10">
-                                                    {# Génération de l'input. #}
-                                                    {{ form_widget(form.description, {'attr': {'class': 'form-control rows="4" cols="50"'}}) }}
+                                                <div class="col-12">
+                                                    <div class="col-lg-3 media">
+                                                        {{ video.video|raw }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-12" id="videos">
+                                                    <a href="{{ path('deleteVideo', {'id': video.id}) }}" class="btn btn-danger delete-item" data-id="{{ video.id }}">Delete</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                {# Génération du label. #}
-                                                {{ form_label(form.groupe, "Groupe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-
-                                                {# Affichage des erreurs pour ce champ précis. #}
-                                                {{ form_errors(form.groupe) }}
-
-                                                <div class="col-sm-10">
-                                                    {# Génération de l'input. #}
-                                                    {{ form_widget(form.groupe, {'attr': {'class': 'form-control'}}) }}
-                                                </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                {# FORMULAIRE #}
+                                <div class="well">
+                                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                                    <div class="form-group">
+                                        <div class="row">
+                                            {# Génération du label. #}
+                                            {{ form_label(form.description, "Description :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                                            {# Affichage des erreurs pour ce champ précis. #}
+                                            {{ form_errors(form.description) }}
+                                            <div class="col-sm-10">
+                                            {# Génération de l'input. #}
+                                            {{ form_widget(form.description, {'attr': {'class': 'form-control rows="4" cols="50"'}}) }}
                                             </div>
                                         </div>
                                     </div>
-                                <div class="ajout-media">
-
-                                    {# Videos #}
-                                        {# store the prototype on the data-prototype attribute #}
+                                    <div class="form-group">
+                                        <div class="row">
+                                            {# Génération du label. #}
+                                            {{ form_label(form.groupe, "Groupe :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                                            {# Affichage des erreurs pour ce champ précis. #}
+                                            {{ form_errors(form.groupe) }}
+                                            <div class="col-sm-10">
+                                            {# Génération de l'input. #}
+                                            {{ form_widget(form.groupe, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ajout-media">
+                                        {# VIDEO #}
                                         <ul class="list_ul" id="video-fields-list"
                                             data-prototype="{{ form_widget(form.mediaVideos.vars.prototype)|e }}"
                                             data-widget-tags="{{ '<li></li>'|e }}">
@@ -127,9 +112,7 @@
                                            class=" btn btn-info add-another-collection-widget_video"
                                            data-list="#video-fields-list">Ajouter une video</a>
                                         </div>
-
-                                    {# Images #}
-                                        {# store the prototype on the data-prototype attribute #}
+                                        {# IMAGE #}
                                         <ul class="list_ul" id="image-fields-list"
                                             data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
                                             data-widget-tags="{{ '<li></li>'|e }}">
@@ -139,35 +122,23 @@
                                                class=" image_btn btn btn-info add-another-collection-widget"
                                                data-list="#image-fields-list">Ajouter une image
                                             </a><br>
-                                            <div class="row">
-                                                <div class="col-sm-12 envoyer">
-                                                    {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn  my-2 my-sm-0 pull-right btn-signup '}}) }}
-                                                </div>
-                                            </div>
-                                            <div class="hidden">
-                                                {{ form_rest(form) }}
-                                            </div>
-                                            {{ form_end(form) }}
                                         </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 envoyer">
-                                        {{ form_widget(form.save, { 'label': 'Mettre à jour', 'attr': {'class': 'btn btn-signup  my-2 my-sm-0 pull-right'}}) }}
                                     </div>
-                                    <a href="{{ path('delete', {'id': trick.id}) }}"><button type="button" class=" col-sm-12 btn btn-danger supprimer" >
-                                      Supprimer
-                                    </button> </a>
-                                </div>
-                                    <div class="">{{ form_rest(form) }}</div>
+                                    <div class="row">
+                                        <div class="col-sm-12 envoyer">
+                                            {{ form_widget(form.save, { 'label': 'Mettre à jour', 'attr': {'class': 'btn btn-signup  my-2 my-sm-0 pull-right'}}) }}
+                                        </div>
+                                        <a href="{{ path('delete', {'id': trick.id}) }}"><button type="button" class=" col-sm-12 btn btn-danger supprimer" >
+                                          Supprimer
+                                        </button></a>
+                                    </div>
                                 {{ form_end(form) }}
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 {% endblock %}
