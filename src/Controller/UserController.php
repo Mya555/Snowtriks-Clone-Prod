@@ -49,7 +49,7 @@ class UserController extends Controller
     private $token;
 
 
-    // CONTROLLER //
+    // CONSTRUCTEUR //
 
     public function __construct(
         AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
@@ -166,7 +166,7 @@ class UserController extends Controller
         // en indiquant le farewall à utiliser 'main' pour y passer et en récupèrant le role lié à cet utilisateur.
         $this->token->setToken( new UsernamePasswordToken( $user, $user->getPassword(), 'main', $user->getRoles() ) );
 
-        return $this->redirect( '/liste_add' );
+        return $this->redirect( '/' );
     }
 
     ///////////////////////
@@ -210,7 +210,7 @@ class UserController extends Controller
             $em->persist( $user );
             $em->flush();
 
-            return $this->redirect( $this->generateUrl( 'list_add' ) );
+            return $this->redirect( $this->generateUrl( 'homepage' ) );
         }
         return $this->render(
             'user.html.twig',

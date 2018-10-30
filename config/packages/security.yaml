@@ -38,12 +38,12 @@ security:
                 # Securisation des formulaires
                 csrf_token_generator: security.csrf.token_manager
                 # La page par defaut apres une connexion reussie
-                default_target_path: list_add
+                default_target_path: /
             logout:
                 # La route où se trouve le process de deconnexion
                 path: /logout
                 # La route sur laquelle doit etre rediriger l'utilisateur apres une deconnexion
-                target: list_add
+                target: /
 
 
 

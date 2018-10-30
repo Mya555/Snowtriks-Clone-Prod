@@ -194,6 +194,11 @@ class Tricks
     {
         $this->setUpdatedAt(new \Datetime());
     }
+
+    /**
+     * @param Image $image
+     * @return Tricks
+     */
     public function addImage(Image $image): self
     {
         $this->images->add($image);
@@ -208,6 +213,11 @@ class Tricks
         $this->images->removeElement($image);
         return $this;
     }
+
+    /**
+     * @param MediaVideo $mediaVideo
+     * @return Tricks
+     */
     public function addMediaVideo(MediaVideo $mediaVideo): self
     {
         if (!$this->mediaVideos->contains($mediaVideo)) {
@@ -216,6 +226,11 @@ class Tricks
         }
         return $this;
     }
+
+    /**
+     * @param MediaVideo $mediaVideo
+     * @return Tricks
+     */
     public function removeMediaVideo(MediaVideo $mediaVideo): self
     {
         if ($this->mediaVideos->contains($mediaVideo)) {
@@ -226,5 +241,39 @@ class Tricks
             }
         }
         return $this;
+    }
+    // Vérification si il y a une image attachée à la figure
+
+    /**
+     * @return bool
+     */
+    public function hasImages(){
+        if ($this->getImages()->isEmpty()){
+            return false;
+        }
+            else{
+                return true;
+            }
+        }
+        public function hasVideos(){
+        if ($this->getMediaVideos()->isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+        }
+
+
+    /**
+     * Pour image a affichée sur le show - la fonction renvoi soit la première image soit l'image par defaut
+     * @return string
+     */
+    public function getCoverPath(){
+        if ($this->getImages()->isEmpty()){
+            return 'public\img\bg.jpg';
+        }
+        else{
+          return  $this->getImages()->first()->getPath();
+        }
     }
 }

@@ -35,7 +35,7 @@
                         <nav class="navbar navbar-toggleable-sm dropdown petit-menu" >
                             <h2 data-toggle="dropdown"><span class="badge badge-info">Menu</span></h2>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('list_add') }}">Accueil</a>
+                                <a class="dropdown-item" href="{{ path('homepage') }}">Accueil</a>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
                                 {% endif %}
@@ -53,11 +53,11 @@
                         </nav>
                         <!-- fin navigation petit écran -->
 
-                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('list_add') }}">Jimmy's Tricks</a>
+                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('homepage') }}">Jimmy's Tricks</a>
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav mx-auto">
                                     <li class="nav-item active px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('list_add') }}">Accueil
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('homepage') }}">Accueil
                                             <span class="sr-only">(current)</span>
                                         </a>
                                     </li>
@@ -110,10 +110,10 @@
                 {% if app.session.flashBag.has('notice') %}
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {% for msg in app.session.flashBag.get('notice') %}
-                        {{ msg }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     {% endfor %}
                 </div>
                 {% endif %}
@@ -134,18 +134,11 @@
             {% endblock %}
 
             {% block javascripts %}
-
-                 <!-- Lien de suppression -->
-
                 <!-- menu déroulant -->
                 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.0/umd/popper.min.js"></script>
                 <script src="js/bootstrap.min.js"></script>
-                <script>
-                    $('h1').mouseover(function() {
-                        $(this).dropdown('toggle')
-                    })
-                </script>
+                <script> $('h1').mouseover(function() {$(this).dropdown('toggle')})</script>
                 <!-- Les flocons de neiges -->
                 <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
                 <script type="text/javascript">window.onload = function(){snow.init(30);};</script>
@@ -159,11 +152,7 @@
                 <script type="text/javascript" src="{{ asset('vendor/js/arrow.js') }}"></script>
                 <!-- L'agrandissement des images -->
                 <script type="text/javascript" src="{{ asset('vendor/jquery/lightbox.js') }}">
-                        lightbox.option({
-                            'alwaysShowNavOnTouchDevices' : true
-                        })
-                    </script>
-
+                        lightbox.option({'alwaysShowNavOnTouchDevices' : true})</script>
             {% endblock %}
         {% endblock %}
     </body>
