@@ -32,9 +32,10 @@ class Tricks
     private $description;
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $images;
+
     private $imageFile;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist"})
@@ -73,6 +74,7 @@ class Tricks
     public function setImages(string $images): void
     {
         $this->images = $images;
+
     }
     /**
      * @return mixed
@@ -202,8 +204,10 @@ class Tricks
     public function addImage(Image $image): self
     {
         $this->images->add($image);
+        $image->setTricks($this);
         return $this;
     }
+
     /**
      * @param Image $image
      * @return $this
@@ -270,10 +274,10 @@ class Tricks
      */
     public function getCoverPath(){
         if ($this->getImages()->isEmpty()){
-            return 'public\img\bg.jpg';
+            return 'img/bg.jpg';
         }
         else{
-          return  $this->getImages()->first()->getPath();
+          return 'uploads/' . $this->getImages()->first()->getPath();
         }
     }
 }

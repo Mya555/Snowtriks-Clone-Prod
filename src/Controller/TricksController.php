@@ -131,32 +131,11 @@ class TricksController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // AJOUT DES IMAGES
-            $files = $request->files->get('tricks')['images'];// $file stock l'image chargée
-            if ($files){
-                foreach( $files  as $key => $file ){
-                    $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
-                    // Déplace le fichier dans le répertoire où sont stockées les images
-                    $file['file']->move($this->getParameter('img_directory'), $fileName);
-                    $image = new Image();
-                    $image->setPath($fileName);
-                    $image->setTricks($trick);
-                    $trick->addImage($image);
-                }
-                $this->entityManager->persist($trick);
-                $this->entityManager->flush();
+
+            foreach ($trick->getImages() as $image){
+                $image->setTricks($trick);
+                $this->entityManager->persist($image);
             }
-            // AJOUT DES VIDEOS
-           $listVideo =  $request->get('tricks')['mediaVideos'];
-            if ($listVideo){
-                foreach ( $listVideo as $video)
-                {
-                    $mediaVideo = new MediaVideo();
-                    $mediaVideo->setUrl($video['url']);
-                    $mediaVideo->setTrick($trick);
-                    $this->entityManager->persist($mediaVideo);
-                }
-           }
             $em = $this->entityManager;
             $em->persist($trick);
             $em->flush();
@@ -283,6 +262,6 @@ class TricksController extends Controller
 
         $request->getSession()->getFlashBag()->add('notice', 'La vidéo a bien été supprimée.');
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('show', ['id' => $mediaVideo->getTrick()->getId()]);
     }
 }

@@ -9,10 +9,14 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\HasLifecycleCallbacks // Permet d’utiliser des événements
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
 class Image
 {
+
+    const PATH_TO_IMAGE = 'uploads';
+
     /********** ATTRIBUTS **********/
 
     /**
@@ -100,7 +104,14 @@ class Image
         return $this;
     }
 
-
-
-
+    /**
+     * @ORM\PrePersist() // Les événements suivant s’exécute avant que l’entité soit enregister
+     * @ORM\PreUpdate()
+     */
+    public function moveImage(){
+        $fileName =  md5(uniqid()) . '.' . $this->file->guessExtension();
+        // Déplace le fichier dans le répertoire où sont stockées les images
+        $this->file->move(self::PATH_TO_IMAGE , $fileName);
+        $this->setPath($fileName);
+    }
 }

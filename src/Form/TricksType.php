@@ -43,7 +43,7 @@ class TricksType extends AbstractType
                 'entry_type' => ImageType::class,
                 'prototype' => true,
                 'allow_add' => true,
-                'mapped' => false,
+                'mapped' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
                 ])
