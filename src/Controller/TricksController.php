@@ -208,13 +208,14 @@ class TricksController extends Controller
     public function delete($id)
     {
         /* Récuperation de la figure */
-        $tricks = $this->entityManager->find($id);
-
+        $em = $this->entityManager;
+        $tricks = $em->getRepository(Tricks::class)->find($id);
         if (null === $tricks) {
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
-        $this->entityManager->remove($tricks);
-        $this->entityManager->flush();
+        $em->remove($tricks);
+        $em->flush();
+
 
         return $this->redirectToRoute('homepage');
     }
@@ -239,7 +240,7 @@ class TricksController extends Controller
 
         $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
     }
 
 
@@ -254,7 +255,7 @@ class TricksController extends Controller
     public function deleteVideo(MediaVideo $mediaVideo, Request $request){
 
         if (null === $mediaVideo) {
-            throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
+            throw new NotFoundHttpException("Imposible de trouver la vidéo.");
         }
         $em = $this->entityManager;
         $em->remove($mediaVideo);
