@@ -3,79 +3,96 @@
    {% extends 'base.html.twig' %}
 
        {% block content %}
-
-              <section class="page-section about-heading">
+           <section class="page-section about-heading">
                <div class="container">
-                   <div class="row" id="box-search">
-                       <div class="thumbnail text-center">
-                           <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{ asset('img/sky.jpg') }}" alt=""/>
-                           <div class="caption">
-                               <h2 class="section-heading mb-4">
-                                   <span class="section-heading-upper">Figure</span>
-                                   <span class="titre section-heading-lower">{{ trick.name }}</span>
-                               </h2>
-                           </div>
-                           {# Bouton d'édition visible uniquement aux inscrits #}
-                           {% if is_granted('ROLE_USER') %}
-                               <div class="caption_button pull-right btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                   <button type="button" class="btn btn-default" aria-label="right Align">
-                                       <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                   </button>
-                                   <button type="button" class="btn btn-default" aria-label="right Align">
-                                       <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                   </button>
-                               </div>
-                           {% endif %}
-                       </div>
-                   </div>
+                   <div class="row  p-5" id="box-search">
+                       <div class="sm-faded rounded center-block col-lg-7">
+                           <div class="thumbnail text-center first-image-container center-block col-lg-10 ">
+                           {# La première image est mise en avant si aucune n'existe une image par defaut est chargée #}
+                               {#{% if trick.images|length > 0|first %}
+                               <img class="img-responsive thumbnail text-center img-fluid rounded first-image" src="{{ asset('uploads/'~image.path) }}" alt=""/>
+                                {% else %}#}
+
+                           <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{asset(trick.coverPath)}}" alt=""/>
+
+                                <div class="caption">
+                                   <h2 class="section-heading mb-4">
+                                       <span class="section-heading-upper">Figure</span>
+                                       <span class="titre section-heading-lower">{{ trick.name }}</span>
+                                   </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                    <div class="about-heading-content">
                        <div class="row">
                            <div class="col-xl-10 col-lg-11 mx-auto">
+                               {# Bouton d'édition visible uniquement aux inscrits #}
+                               {% if is_granted('ROLE_USER') %}
+                               <div class="caption_button pull-right btn-group btn-group-sm edit-button row" role="group" aria-label="Basic example">
+                                   <div class="col-sm-6"><a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+                                   <div class="col-sm-6"><a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                               </div>
+                               {% endif %}
                                <div class="bg-faded rounded p-5">
                                {# Images et vidéos de la figure , affichées si elles existent #}
-                                   {% if trick.images == true  %}
-                                       <div class="album">
-                                           <div class="container">
-                                               <div class="row jumbotron">
-                                                       {% for image in trick.images %}
-                                                           <div class="petite  card col-lg-3 media">
-                                                               <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                               <img src="{{ asset('uploads/'~image.path) }}"/></a>
-                                                           </div>
-                                                       {% endfor %}
-                                                       {% for video in trick.mediaVideos %}
-                                                           <div class="card col-lg-3 media">
-                                                              {{ video.video|raw }}
-                                                           </div>
-                                                       {% endfor %}
+                               {% if trick.hasImages  %}{# Si images existent #}
+                               <div class="album">
+                                   <div class="container">
+                                       <h1>Images</h1>
+                                       <div class="row jumbotron">
+                                       {# Affichage des images #}
+                                       {% for image in trick.images %}
+                                           <div class="petite col-lg-4 media center-block">
+                                               <div class="row">
+                                                   <div class="col-12">
+                                                       <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                       <img class="image-edite" src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                   </div>
                                                </div>
                                            </div>
+                                       {% endfor %}
                                        </div>
-                                    {% endif %}
-                                   <div class="form_row">
+                                        {% endif %}
+                                        {# Affichage des videos #}
+                                        {% if trick.hasVideos  %}{# Si videos existent #}
+                                       <h1>Videos</h1>
+                                       <div class="row jumbotron">
+                                           {% for video in trick.mediaVideos %}
+                                           <div class="petite col-lg-4 media center-block">
+                                               <div class="row">
+                                                   <div class="col-12">
+                                                      {{ video.video|raw }}
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           {% endfor %}
+                                       </div>
+                                   {% endif %}
+                                   </div>
+                                   <div class="form_row container">
                                        <div class="row jumbotron text-center">
                                            <div>{{ trick.description }}</div>
                                        </div>
                                        <div class="row section-heading mb-4 text-center center-div">
-                                            <div class="col-lg-12">
-                                               <span class="col-lg-3 badge badge-primary">{{ trick.groupe }}</span>
-                                               <span class="col-lg-3 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
-
-                                                 {% if trick.updatedAt == true %}
-                                                   <span class="col-lg-3 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
-                                                 {% else %}
-                                                   <span class="col-lg-3 badge badge-warning">Aucune modification</span>
-                                                 {% endif %}
+                                           <div class="col-lg-12">
+                                              <span class="col-lg-3 badge badge-primary">{{ trick.groupe }}</span>
+                                              <span class="col-lg-3 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
+                                              {% if trick.updatedAt == true %}
+                                                <span class="col-lg-3 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
+                                              {% else %}
+                                                <span class="col-lg-3 badge badge-warning">Aucune modification</span>
+                                              {% endif %}
                                             </div>
                                        </div>
                                        {# Page incluant les commentaires #}
-                                          {% include 'commentaire.html.twig' %}
-
-                                    </div>
+                                       {% include 'commentaire.html.twig' %}
+                                   </div>
                                </div>
                            </div>
                        </div>
                    </div>
                </div>
-           </section>
-       {% endblock %}
+           </div>
+       </section>
+   {% endblock %}

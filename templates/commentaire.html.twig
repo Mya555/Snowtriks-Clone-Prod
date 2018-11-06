@@ -1,6 +1,6 @@
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="jumbotron">
+            <div class="container post-comment">
                 <div class="form-group">
                     <h6 class="section-heading">
                         <span class="section-heading-upper">Laisse ton commentaire</span>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 envoyer">
-                                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
+                                {{ form_widget(form.save, { 'label': 'Poster', 'attr': {'class': 'btn btn-outline-primary my-2 my-sm-0 pull-right'}}) }}
                             </div>
                         </div>
                         {{ form_end(form) }}
