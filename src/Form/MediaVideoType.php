@@ -18,6 +18,7 @@ class MediaVideoType extends AbstractType
     {
         $builder
             ->add('url',TextType::class,array('label'=>'URL de la video',
+                'required' => false
                 ));
     }
 

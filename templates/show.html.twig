@@ -29,21 +29,34 @@
                            <div class="col-xl-10 col-lg-11 mx-auto">
                                <div class="bg-faded rounded p-5">
                                {# Images et vidéos de la figure , affichées si elles existent #}
-                                   {% if trick.images == true  %}
-                                       <div class="album">
-                                           <div class="container">
-                                               <div class="row jumbotron">
-                                                       {% for image in trick.images %}
-                                                           <div class="petite  card col-lg-3 media">
-                                                               <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                               <img src="{{ asset('uploads/'~image.path) }}"/></a>
-                                                           </div>
-                                                       {% endfor %}
-                                                       {% for video in trick.mediaVideos %}
-                                                           <div class="card col-lg-3 media">
-                                                              {{ video.video|raw }}
-                                                           </div>
-                                                       {% endfor %}
+                               {% if trick.hasImages  %}{# Si images existent #}
+                               <div class="album">
+                                   <div class="container">
+                                       <h1>Images</h1>
+                                       <div class="row jumbotron">
+                                       {# Affichage des images #}
+                                       {% for image in trick.images %}
+                                           <div class="petite col-lg-4 media center-block">
+                                               <div class="row">
+                                                   <div class="col-12">
+                                                       <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                       <img class="image-edite" src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       {% endfor %}
+                                       </div>
+                                        {% endif %}
+                                        {# Affichage des videos #}
+                                        {% if trick.hasVideos  %}{# Si videos existent #}
+                                       <h1>Videos</h1>
+                                       <div class="row jumbotron">
+                                           {% for video in trick.mediaVideos %}
+                                           <div class="petite col-lg-4 media center-block">
+                                               <div class="row">
+                                                   <div class="col-12">
+                                                      {{ video.video|raw }}
+                                                   </div>
                                                </div>
                                            </div>
                                        </div>

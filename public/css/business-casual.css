@@ -8,6 +8,9 @@ body {
   min-width: 480px;
 }
 
+
+/* Footer */
+
 /* Bouton afficher plus de list_add*/
 
 .afficher
@@ -22,11 +25,17 @@ body {
   font-size:12px;
   padding:15px 0 10px 0;
 }
+body{
+  font-family: 'Raleway', sans-serif;
+}
+
 footer{
   background-color:#222222;
 }
+
 .copyright{
-  margin-top: 13em;
+
+margin-top: 13em;
   height: 60px;
   bottom: 0;
   width: 100%;

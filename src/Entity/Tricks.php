@@ -1,17 +1,12 @@
 <?php
-
 namespace App\Entity;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints as Assert;
-
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -19,69 +14,52 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Tricks
 {
     /********** ATTRIBUTS **********/
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * Nom de la figure
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
-
     /**
      * La description de la figure
      * @ORM\Column(type="text")
      */
     private $description;
-
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="tricks", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $images;
 
-
-
     private $imageFile;
-
-
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist", "remove"})
+     */
+    private $mediaVideos;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
      */
     private $comments;
-
     /**
      * Date de la creation de la figure
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
-
     /**
      * Le groupe de la figure
      * @ORM\Column(type="string", length=255)
      */
     private $groupe;
-
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true)
-     */
-    private $mediaVideos;
-
-
-
-
     /********** CONSTRUCTOR **********/
-
     public function __construct()
     {
         $this->date = new \Datetime();
@@ -89,16 +67,14 @@ class Tricks
         $this->images = new ArrayCollection();
         $this->mediaVideos = new ArrayCollection();
     }
-
-
     /********** GETTERS & SETTERS **********/
-
     /**
      * @param string $images
      */
     public function setImages(string $images): void
     {
         $this->images = $images;
+
     }
     /**
      * @return mixed
@@ -107,7 +83,6 @@ class Tricks
     {
         return $this->imageFile;
     }
-
     /**
      * @param mixed $imageFile
      */
@@ -115,7 +90,6 @@ class Tricks
     {
         $this->imageFile = $imageFile;
     }
-
     /**
      * @return Collection
      */
@@ -123,9 +97,6 @@ class Tricks
     {
         return $this->images;
     }
-
-
-
     /**
      * @return mixed
      */
@@ -133,7 +104,6 @@ class Tricks
     {
         return $this->updatedAt;
     }
-
     /**
      * @param mixed $updatedAt
      */
@@ -141,7 +111,6 @@ class Tricks
     {
         $this->updatedAt = $updatedAt;
     }
-
     /**
      * @return Collection|Comment[]
      */
@@ -149,7 +118,6 @@ class Tricks
     {
         return $this->comments;
     }
-
     /**
      * @return mixed
      */
@@ -157,7 +125,6 @@ class Tricks
     {
         return $this->id;
     }
-
     /**
      * @return mixed
      */
@@ -165,7 +132,6 @@ class Tricks
     {
         return $this->name;
     }
-
     /**
      * @param mixed $name
      */
@@ -173,7 +139,6 @@ class Tricks
     {
         $this->name = $name;
     }
-
     /**
      * @return mixed
      */
@@ -181,7 +146,6 @@ class Tricks
     {
         return $this->description;
     }
-
     /**
      * @param mixed $description
      */
@@ -189,7 +153,6 @@ class Tricks
     {
         $this->description = $description;
     }
-
     /**
      * @return mixed
      */
@@ -197,7 +160,6 @@ class Tricks
     {
         return $this->groupe;
     }
-
     /**
      * @param mixed $groupe
      */
@@ -205,7 +167,6 @@ class Tricks
     {
         $this->groupe = $groupe;
     }
-
     /**
      * @return mixed
      */
@@ -213,7 +174,6 @@ class Tricks
     {
         return $this->date;
     }
-
     /**
      * @param mixed $date
      */
@@ -221,7 +181,6 @@ class Tricks
     {
         $this->date = $date;
     }
-
     /**
      * @return Collection|MediaVideo[]
      */
@@ -229,13 +188,7 @@ class Tricks
     {
         return $this->mediaVideos;
     }
-
-
-
-
     /********** AUTRES METHODES **********/
-
-
     /**
      * @ORM\PreUpdate
      */
@@ -246,14 +199,14 @@ class Tricks
 
     /**
      * @param Image $image
+     * @return Tricks
      */
-    public function addImage(Image $image)
+    public function addImage(Image $image): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-        }
+        $this->images->add($image);
+        $image->setTricks($this);
+        return $this;
     }
-
 
     /**
      * @param Image $image
@@ -261,23 +214,27 @@ class Tricks
      */
     public function removeImage(Image $image)
     {
-            $this->images->removeElement($image);
-
+        $this->images->removeElement($image);
         return $this;
     }
 
-
-
+    /**
+     * @param MediaVideo $mediaVideo
+     * @return Tricks
+     */
     public function addMediaVideo(MediaVideo $mediaVideo): self
     {
         if (!$this->mediaVideos->contains($mediaVideo)) {
             $this->mediaVideos[] = $mediaVideo;
             $mediaVideo->setTrick($this);
         }
-
         return $this;
     }
 
+    /**
+     * @param MediaVideo $mediaVideo
+     * @return Tricks
+     */
     public function removeMediaVideo(MediaVideo $mediaVideo): self
     {
         if ($this->mediaVideos->contains($mediaVideo)) {
@@ -287,8 +244,40 @@ class Tricks
                 $mediaVideo->setTrick(null);
             }
         }
-
         return $this;
     }
+    // Vérification si il y a une image attachée à la figure
 
+    /**
+     * @return bool
+     */
+    public function hasImages(){
+        if ($this->getImages()->isEmpty()){
+            return false;
+        }
+            else{
+                return true;
+            }
+        }
+        public function hasVideos(){
+        if ($this->getMediaVideos()->isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+        }
+
+
+    /**
+     * Pour image a affichée sur le show - la fonction renvoi soit la première image soit l'image par defaut
+     * @return string
+     */
+    public function getCoverPath(){
+        if ($this->getImages()->isEmpty()){
+            return 'img/bg.jpg';
+        }
+        else{
+          return 'uploads/' . $this->getImages()->first()->getPath();
+        }
+    }
 }

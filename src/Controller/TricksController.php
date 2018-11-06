@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\ImageRepository;
+use App\Repository\TricksRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\MediaVideo;
 use App\Entity\Video;
 use App\Form\ImageType;
@@ -32,78 +35,94 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
-
+/**
+ * @property TokenStorageInterface tokenStorage
+ * @property TricksRepository trickRepo
+ */
 class TricksController extends Controller
 {
-   /// AFFICHER UNE FIGURE ///
+
+    /**
+     * @var TricksRepository
+     */
+    private $trickRepo;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+
+    // CONSTRUCTEUR //
+
+    /**
+     * TricksController constructor.
+     * @param TricksRepository $trickRepo
+     * @param EntityManagerInterface $entityManager
+     * @param TokenStorageInterface $tokenStorage
+     */
+    public function __construct(
+        TricksRepository $trickRepo,
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage
+
+    )
+    {
+        $this->tokenStorage = $tokenStorage;
+        $this->entityManager = $entityManager;
+        $this->trickRepo = $trickRepo;
+
+    }
+
+
+
+    /// AFFICHER UNE LISTE DE FIGURES | ACCUEIL ///
+
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function homepage()
+    {
+        /* Récuperation de toutes les figures */
+       $tricks = $this->trickRepo->findAll();
+
+        return $this->render('homepage.html.twig',  array('tricks' => $tricks));
+    }
+
+    /// AFFICHER UNE FIGURE ///
 
     /**
      * @Route("/figure/{id}", name="show")
-     * @param TokenStorageInterface $tokenStorage
-     * @param EntityManagerInterface $em
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
 
-    public function show(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, Request $request ,$id)
-
-
+    public function show(Request $request ,$id)
     {
         /* Récuperation de la figure triées par $id */
-
-        $trick = $repository = $this
-        ->getDoctrine()
-        ->getManager()
-        ->getRepository(Tricks::class)
-        ->find($id);
-
+        $trick = $repository = $this->trickRepo->find($id);
+        //Si figure introuvable
+        if (!$trick) {
+            throw new NotFoundHttpException( 'Aucun résultat ne correspond à votre recherche' );
+        }
         /* Création du commentaire lié à la figure affichée */
-
         $comment = new Comment();
         $comment->setTricks($trick);
         //Récuperation de l'utilisateur connecté
-
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $comment->setAuthor($this->tokenStorage->getToken()->getUser());
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
 
-            $comment->setAuthor($tokenStorage->getToken()->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
-
-            return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
+            return $this->redirectToRoute('show', array('trick' => $trick));
         }
-
-        if (!$trick) {
-            throw new NotFoundHttpException(
-                'Aucun résultat ne correspond à votre recherche'
-            );
-        }
-        /** @var TYPE_NAME $this */
         return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
-    }
-
-
-
-    /// AFFICHER UNE LISTE DE FIGURES ///
-
-    /**
-     * @Route("/liste_add", name="list_add")
-     */
-    public function listAdd()
-    {
-        /* Récuperation de toutes les figures */
-
-       $tricks =  $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Tricks::class)
-            ->findAll();
-
-        /** @var TYPE_NAME $tricks */
-        return $this->render('listAdd.html.twig',  array('tricks' => $tricks, 'repository' => $repository ));
     }
 
 
@@ -116,71 +135,38 @@ class TricksController extends Controller
      */
     public function add(Request $request)
     {
-        /* Création d'une nouvelle figure */
+        // CREATION DE NOUVELLE FIGURE
         $trick = new Tricks();
         $form   = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // $file stock l'image chargée
-            $files = $request->files->get('tricks')['images'];
-        if ($files){
-            foreach( $files  as $key => $file ){
-                $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
-                // Déplace le fichier dans le répertoire où sont stockées les images
-                $file['file']->move($this->getParameter('img_directory'), $fileName);
-
-                $image = new Image();
-                $image->setPath($fileName);
+            foreach ($trick->getImages() as $image){
+                if(!$image->getFile()) {
+                    $trick->getImages()->removeElement( $image );
+                }else{
                 $image->setTricks($trick);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($image);
+                $this->entityManager->persist($image);
+                }
             }
-        }
-            if ($files){
-                foreach( $files  as $key => $file ){
-                    $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
-                    // Déplace le fichier dans le répertoire où sont stockées les images
-                    $file['file']->move($this->getParameter('img_directory'), $fileName);
-
-                    $image = new Image();
-                    $image->setPath($fileName);
-                    $image->setTricks($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($image);
+            foreach ($trick->getMediaVideos() as $video){
+                if (!$video->getUrl()){
+                    $trick->getMediaVideos()->removeElement($video);
                 }
             }
 
-           $listVideo =  $request->get('tricks')['mediaVideos'];
-            if ($listVideo){
-                foreach ( $listVideo as $video)
-                {
-                    $mediaVideo = new MediaVideo();
-                    $mediaVideo->setUrl($video['url']);
-                    $mediaVideo->setTrick($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mediaVideo);
-                }
-           }
-
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($trick);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
-
         }
         return $this->render('add.html.twig', array(
-            'form' => $form->createView()
-        ));
+            'form' => $form->createView()));
     }
-
-
-
 
 
     /**
@@ -202,54 +188,23 @@ class TricksController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit($id, Request $request)
+    public function edit( $id, Request $request)
     {
-        /* Edition d'une figure */
+        // Récupération des tricks pour l'affichage de multimédia associée
 
-        $em = $this->getDoctrine()->getManager();
-        $trick = $em->getRepository(Tricks::class)->find($id);
+        $trick = $this->trickRepo->find($id);
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
 
-        $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            // ------------------------
+        $form = $this->createForm(TricksEditType::class, $trick);
+        $form->handleRequest($request);
 
-            $files = $request->files->get('tricks')['images'];
-            // $file stock l'image chargée
-            if ($files){
-                foreach( $files  as $key => $file ){
-                    $fileName = $this->generateUniqueFilename() . '.' . $file['file']->guessExtension();
-                    // Déplace le fichier dans le répertoire où sont stockées les images
-                    $file['file']->move($this->getParameter('img_directory'), $fileName);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                    $image = new Image();
-                    $image->setPath($fileName);
-                    $image->setTricks($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($image);
-                }
-            }
-
-            $listVideo =  $request->get('tricks')['mediaVideos'];
-            if ($listVideo){dump($request); die();
-                foreach ( $listVideo as $video)
-                {
-                    $mediaVideo = new MediaVideo();
-                    $mediaVideo->setUrl($video['url']);
-                    $mediaVideo->setTrick($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mediaVideo);
-                }
-            }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trick);
-
-            // -------------
-
-            $em->flush();
+            $this->entityManager->persist($trick);
+            $this->entityManager->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
@@ -271,18 +226,61 @@ class TricksController extends Controller
     public function delete($id)
     {
         /* Récuperation de la figure */
-
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $tricks = $em->getRepository(Tricks::class)->find($id);
-
         if (null === $tricks) {
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
         $em->remove($tricks);
         $em->flush();
 
-        return $this->redirectToRoute('list_add');
+
+        return $this->redirectToRoute('homepage');
     }
 
 
+    /// SUPPRIMER UNE IMAGE ///
+
+    /**
+     * @Route("/supprimerImage/{id}", name="deleteImage")
+     * @param Image $image
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteImage(Image $image, Request $request){
+
+        if (null === $image) {
+            throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
+        }
+        $em = $this->entityManager;
+        $em->remove($image);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
+
+        return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
+    }
+
+
+    /// SUPPRIMER UNE VIDEO ///
+
+    /**
+     * @Route("/supprimerVideo/{id}", name="deleteVideo")
+     * @param MediaVideo $mediaVideo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteVideo(MediaVideo $mediaVideo, Request $request){
+
+        if (null === $mediaVideo) {
+            throw new NotFoundHttpException("Imposible de trouver la vidéo.");
+        }
+        $em = $this->entityManager;
+        $em->remove($mediaVideo);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'La vidéo a bien été supprimée.');
+
+        return $this->redirectToRoute('show', ['id' => $mediaVideo->getTrick()->getId()]);
+    }
 }

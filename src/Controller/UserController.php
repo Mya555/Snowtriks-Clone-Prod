@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -49,8 +48,16 @@ class UserController extends Controller
     private $token;
 
 
-    // CONTROLLER //
+    // CONSTRUCTEUR //
 
+    /**
+     * UserController constructor.
+     * @param AuthenticationUtils $authenticationUtils
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $em
+     * @param EventDispatcherInterface $dispatcher
+     * @param TokenStorageInterface $token
+     */
     public function __construct(
         AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
         UserPasswordEncoderInterface $encoder, // L'interface du service de codage de mot de passe.
@@ -79,7 +86,6 @@ class UserController extends Controller
 
         // dernier username saisi (si il y en a un)
         $lastUsername = $this->authenticationUtils->getLastUsername();
-
         return $this->render( 'login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
@@ -96,6 +102,7 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+
         // On crée le formulaire
         $user = new User();
         $form = $this->createForm( UserType::class, $user );
@@ -166,7 +173,7 @@ class UserController extends Controller
         // en indiquant le farewall à utiliser 'main' pour y passer et en récupèrant le role lié à cet utilisateur.
         $this->token->setToken( new UsernamePasswordToken( $user, $user->getPassword(), 'main', $user->getRoles() ) );
 
-        return $this->redirect( '/liste_add' );
+        return $this->redirect( '/' );
     }
 
     ///////////////////////
@@ -210,7 +217,7 @@ class UserController extends Controller
             $em->persist( $user );
             $em->flush();
 
-            return $this->redirect( $this->generateUrl( 'list_add' ) );
+            return $this->redirect( $this->generateUrl( 'homepage' ) );
         }
         return $this->render(
             'user.html.twig',

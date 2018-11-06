@@ -54,7 +54,7 @@ class User implements UserInterface,  \Serializable
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user",  cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -87,6 +87,9 @@ class User implements UserInterface,  \Serializable
     private $avatar;
 
 
+    /**
+     * @var
+     */
     private $avatarFile;
 
     /**
@@ -108,9 +111,9 @@ class User implements UserInterface,  \Serializable
     private $token;
 
 
-
-
-
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -189,6 +192,9 @@ class User implements UserInterface,  \Serializable
      * @return string
      */
     // le ? signifie que cela peur aussi retourner null
+    /**
+     * @return null|string
+     */
     public function getAvatar(): ?string
     {
         return $this->avatar;
@@ -202,6 +208,10 @@ class User implements UserInterface,  \Serializable
         $this->avatar = $avatar;
     }
 
+    /**
+     * @param Avatar $avatar
+     * @return User
+     */
     public function addAvatar(Avatar $avatar): self
     {
         if (!$this->avatar->contains($avatar)) {
@@ -230,42 +240,67 @@ class User implements UserInterface,  \Serializable
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param $email
+     */
     public function setEmail($email)
     {
         $this->email = $email;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
     }
 
+    /**
+     * @param $username
+     */
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param $password
+     */
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
 
+    /**
+     * @param $password
+     * @return $this
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -287,6 +322,9 @@ class User implements UserInterface,  \Serializable
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
