@@ -51,6 +51,14 @@ class UserController extends Controller
 
     // CONSTRUCTEUR //
 
+    /**
+     * UserController constructor.
+     * @param AuthenticationUtils $authenticationUtils
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $em
+     * @param EventDispatcherInterface $dispatcher
+     * @param TokenStorageInterface $token
+     */
     public function __construct(
         AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
         UserPasswordEncoderInterface $encoder, // L'interface du service de codage de mot de passe.
@@ -79,7 +87,6 @@ class UserController extends Controller
 
         // dernier username saisi (si il y en a un)
         $lastUsername = $this->authenticationUtils->getLastUsername();
-
         return $this->render( 'login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
@@ -96,6 +103,7 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+
         // On crée le formulaire
         $user = new User();
         $form = $this->createForm( UserType::class, $user );

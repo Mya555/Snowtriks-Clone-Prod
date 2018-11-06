@@ -42,10 +42,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class TricksController extends Controller
 {
 
+    /**
+     * @var TricksRepository
+     */
     private $trickRepo;
+    /**
+     * @var TokenStorageInterface
+     */
     private $tokenStorage;
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
-
 
 
     // CONSTRUCTEUR //
@@ -60,11 +68,13 @@ class TricksController extends Controller
         TricksRepository $trickRepo,
         EntityManagerInterface $entityManager,
         TokenStorageInterface $tokenStorage
+
     )
     {
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
         $this->trickRepo = $trickRepo;
+
     }
 
 
@@ -133,9 +143,19 @@ class TricksController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($trick->getImages() as $image){
+                if(!$image->getFile()) {
+                    $trick->getImages()->removeElement( $image );
+                }else{
                 $image->setTricks($trick);
                 $this->entityManager->persist($image);
+                }
             }
+            foreach ($trick->getMediaVideos() as $video){
+                if (!$video->getUrl()){
+                    $trick->getMediaVideos()->removeElement($video);
+                }
+            }
+
             $em = $this->entityManager;
             $em->persist($trick);
             $em->flush();
@@ -166,10 +186,9 @@ class TricksController extends Controller
      * @Route("/editer/{id}", name="edit")
      * @param $id
      * @param Request $request
-     * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit( $id, Request $request, ObjectManager $manager)
+    public function edit( $id, Request $request)
     {
         // Récupération des tricks pour l'affichage de multimédia associée
 
@@ -179,14 +198,13 @@ class TricksController extends Controller
             throw new NotFoundHttpException("Cette page n'existe pas");}
 
 
-
         $form = $this->createForm(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick = $form->getData();
-            $manager->persist($trick);
-            $manager->flush();
+
+            $this->entityManager->persist($trick);
+            $this->entityManager->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));

@@ -38,7 +38,7 @@ class Tricks
 
     private $imageFile;
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist", "remove"})
      */
     private $mediaVideos;
     /**
