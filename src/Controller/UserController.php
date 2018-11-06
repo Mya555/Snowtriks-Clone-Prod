@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
