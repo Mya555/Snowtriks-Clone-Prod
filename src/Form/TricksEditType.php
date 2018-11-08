@@ -18,6 +18,7 @@ class TricksEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('name');
+
     }
 
     public function getParent()

@@ -39,19 +39,19 @@
                                 <div class="row">
                                     <div class="{% if key > 0 %} hidden {% endif %}col-sm-12">
                                         <div class="panel panel-white post panel-shadow">
-                                            <div class="post-heading">
-                                                <div class="pull-left image image-comment">
+                                            <div class=" row post-heading">
+                                                <div class=" col-sm-3 image image-comment">
                                                     {% if commentaire.author.avatar|length > 0 %} <img src="/uploads/{{ commentaire.author.avatar }}" id="avatar" width="250" draggable="false"/>
                                                     {% else %}  <img src="{{ asset('img/icon.png')}}" id="avatar" width="250" draggable="false"/> {% endif %}
                                                 </div>
-                                                <div class="pull-left meta ">
-                                                    <div >
+                                                <div class="col-md-auto ">
+                                                    <div>
                                                         <p>Posté par <b>{{ commentaire.author.username }}</b></p>
                                                         <p><em class="text-muted date">le {{ commentaire.dateCom|date("d/m/Y") }}</em></p>
-                                                    </divcomment-data>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="post-description">
+                                            <div class="col-md-12 post-description">
                                                 <p>{{ commentaire.comment}}</p>
                                             </div>
                                         </div>
@@ -59,7 +59,8 @@
                                    <!-- <i class=" fa fa-refresh fa-spin"></i>-->
                                 </div>
                             </div>
-                        </div>
+
+
                             {# Bouton pour diminuer le nombre d'affichage #}
                         {% else %}
                             <p>Il n'y a aucun commentaire pour cette figure.{% if is_granted('IS_AUTHENTICATED_FULLY') %} Sois le premièr  a laisser ton avis.{% endif %}</p>
@@ -73,20 +74,9 @@
                         {% endif %}
                 </section>
             </div>
-        {% block javascripts %}
-            {# Bouton loadMore #}
-            <script>
-                var more = document.querySelector('#more')
-                more.addEventListener('click', function(e) {
-                    e.preventDefault()
-                    var commentaire = document.querySelectorAll('.hidden')
-                    for (var i = 0; i < commentaire.length; i++) {
-                        commentaire[i].classList.remove("hidden");
-                    }
-                    if ($(".more:hidden").length == 0) {
-                        $("#more").fadeOut('slow');
-                    }
-                })
-            </script>
 
+
+        {% block javascripts %}
+          {# Bouton Afficher Plus #}
+            <script type="text/javascript" src="{{ asset('vendor/js/commentLoadMore.js') }}"></script>
         {% endblock %}
