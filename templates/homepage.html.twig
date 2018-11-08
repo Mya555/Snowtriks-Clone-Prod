@@ -25,11 +25,16 @@
                 {% for  key,trick in tricks %}
 
                     <div class="{% if key > 9 %} hidden {% endif %}col-md-6 col-lg-4 col-sm-6 card-border ">
-                        <div class="card center-block">
+                        <div class="card center-block col-md-auto">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <div class="caption_button pull-right btn-group btn-group-sm edit-button row" role="group" aria-label="Basic example">
-                                    <div class="col-sm-6 edit-button-div"><a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
-                                    <div class="col-sm-6"><a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+
+                                <div class="row bouton-cadre">
+                                    <div>
+                                        <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div>
+                                        <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    </div>
                                 </div>
                             {% endif %}
                             <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
@@ -62,20 +67,7 @@
     {# Script pour le bouton 'Load More' #}
     {% block javascripts %}
         {{ parent() }}
-              <script>
-                var more = document.querySelector('#more')
-                more.addEventListener('click', function(e) {
-                    e.preventDefault()
-                    var tricks = document.querySelectorAll('.hidden')
-                    for (var i = 0; i < tricks.length; i++) {
-                        tricks[i].classList.remove("hidden");
-                    }
-                    if ($(".more:hidden").length == 0) {
-                        $("#more").fadeOut('slow');
-                    }
-                })
-             </script>
-
+        <script type="text/javascript" src="{{ asset('vendor/js/trickLoadMore.js') }}"></script>
     {% endblock %}
 
 
