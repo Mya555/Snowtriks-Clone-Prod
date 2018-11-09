@@ -2,36 +2,21 @@
 
 namespace App\Controller;
 
-use App\Repository\ImageRepository;
 use App\Repository\TricksRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\MediaVideo;
-use App\Entity\Video;
-use App\Form\ImageType;
 use App\Entity\Comment;
 use App\Entity\Image;
-use App\Repository\CommentRepository;
 use App\Entity\Tricks;
 use App\Form\CommentEditType;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
-use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use App\Form\UserType;
-use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
@@ -65,21 +50,19 @@ class TricksController extends Controller
      * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
-        TricksRepository $trickRepo,
+        TricksRepository $trickRepo, // Récupère le répository de Tricks.
         EntityManagerInterface $entityManager,
         TokenStorageInterface $tokenStorage
-
     )
     {
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
         $this->trickRepo = $trickRepo;
-
     }
 
-
-
+     ///////////////////////////////////////////////
     /// AFFICHER UNE LISTE DE FIGURES | ACCUEIL ///
+   ///////////////////////////////////////////////
 
     /**
      * @Route("/", name="homepage")
@@ -89,10 +72,12 @@ class TricksController extends Controller
         /* Récuperation de toutes les figures */
        $tricks = $this->trickRepo->findAll();
 
-        return $this->render('homepage.html.twig',  array('tricks' => $tricks));
+        return $this->render('index.html.twig',  array('tricks' => $tricks));
     }
 
+     ///////////////////////////
     /// AFFICHER UNE FIGURE ///
+   ///////////////////////////
 
     /**
      * @Route("/figure/{id}", name="show")
@@ -122,11 +107,12 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('trick' => $trick));
         }
-        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
+        return $this->render('trick/show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
     }
 
-
+     //////////////////////////
     /// AJOUTER UNE FIGURE ///
+   //////////////////////////
 
     /**
      * @Route("/ajout", name="add")
@@ -164,23 +150,13 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
         }
-        return $this->render('add.html.twig', array(
+        return $this->render('trick/add.html.twig', array(
             'form' => $form->createView()));
     }
 
-
-    /**
-     * @return string
-     */
-    private function generateUniqueFileName()
-    {
-        // md5 () réduit la similarité des noms de fichiers générés par
-        // uniqid (), basé sur timestamps(horodatages)
-        return md5(uniqid());
-    }
-
-
+     /////////////////////////
     /// EDITER UNE FIGURE ///
+   /////////////////////////
 
     /**
      * @Route("/editer/{id}", name="edit")
@@ -223,14 +199,15 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
         }
-        return $this->render('edit.html.twig', array(
+        return $this->render('trick/edit.html.twig', array(
             'trick' => $trick,
             'form'   => $form->createView(),
         ));
     }
 
-
+     ////////////////////////////
     /// SUPPRIMER UNE FIGURE ///
+   ////////////////////////////
 
     /**
      * @Route("/supprimer/{id}", name="delete")
@@ -252,8 +229,9 @@ class TricksController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
-
+     ///////////////////////////
     /// SUPPRIMER UNE IMAGE ///
+   ///////////////////////////
 
     /**
      * @Route("/supprimerImage/{id}", name="deleteImage")
@@ -275,8 +253,9 @@ class TricksController extends Controller
         return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
     }
 
-
-    /// SUPPRIMER UNE VIDEO ///
+     ////////////////////////////
+    /// SUPPRIMER UNE VIDEO ////
+   ////////////////////////////
 
     /**
      * @Route("/supprimerVideo/{id}", name="deleteVideo")
