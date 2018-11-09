@@ -29,9 +29,9 @@
                                     <h1 class="marge">Images</h1>
                                     <div class="row jumbotron">
                                     {% for image in trick.images %}
-                                        <div class="petite col-lg-4 media center-block">
-                                            <div class="row">
-                                                <div class="col-12">
+                                        <div class="petite col-lg-4 media center-block ">
+                                            <div class="row marge">
+                                                <div class="  col-12">
                                                     <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
                                                     <img src="{{ asset('uploads/'~image.path) }}"/></a>
                                                 </div>
