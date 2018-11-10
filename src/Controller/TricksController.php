@@ -141,30 +141,11 @@ class TricksController extends Controller
         $trick = new Tricks();
         $form   = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
-
         /*
         *  isMethod() vérifie si la requete est en méthode POST
         *  isValide valide les données saisies
         */
-        if ($form->isSubmitted() && $form->isValid())
-
-        /*
-         * Suppression automatique des champs restés vides pour images & videos avec removeElement()
-         * la vérification s'effectu sur l'existance de $file pour l'image et $url pour la vidéo
-         */
-        {foreach ($trick->getImages() as $image){
-                if(!$image->getFile()) {
-                    $trick->getImages()->removeElement( $image );
-                }else{
-                $image->setTricks($trick);
-                $this->entityManager->persist($image);
-                }
-            }
-            foreach ($trick->getMediaVideos() as $video){
-                if (!$video->getUrl()){
-                    $trick->getMediaVideos()->removeElement($video);
-                }
-            }
+        if ($form->isSubmitted() && $form->isValid()){
             /*
              * (em) recupère $entityManager pour gerer l'entrer des informations dans la base de donnée
              * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
@@ -203,7 +184,7 @@ class TricksController extends Controller
         * $form stock le nouveau formulaire créé avec createForm() via TricksEditType
         * handleRequest() récupére les valeurs des champs dans les inputs du formulaire via la variable $request
         */
-        $form = $this->createForm(TricksEditType::class, $trick);
+        $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
         /*
@@ -211,23 +192,7 @@ class TricksController extends Controller
         *  isValide valide les données saisies
         */
         if ($form->isSubmitted() && $form->isValid()) {
-            /*
-             * Suppression automatique des champs restés vides pour images & videos avec removeElement()
-             * la vérification s'effectu sur l'existance de $file pour l'image et $url pour la vidéo
-             */
-            foreach ($trick->getImages() as $image){
-                if(!$image->getFile()) {
-                    $trick->getImages()->removeElement( $image );
-                }else{
-                    $image->setTricks($trick);
-                    $this->entityManager->persist($image);
-                }
-            }
-            foreach ($trick->getMediaVideos() as $video){
-                if (!$video->getUrl()){
-                    $trick->getMediaVideos()->removeElement($video);
-                }
-            }
+
             /*
             * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
             * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction

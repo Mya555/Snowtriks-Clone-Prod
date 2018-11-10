@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * @property \DateTimeInterface date
@@ -43,7 +44,7 @@ class MediaVideo
 
     /**
      * @Assert\Regex(
-     *     pattern="^(http|https):\/\/(www\.youtube\.com|www\.dailymotion\.com)\/?",
+     *     pattern="#^(http|https):\/\/(www.youtube.com|www.dailymotion.com|vimeo.com)\/#",
      *     match=true,
      *     message="L'url doit correspondre à l'url d'une vidéo Youtube ou DailyMotion"
      * )
