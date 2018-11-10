@@ -55,7 +55,7 @@ class UserController extends Controller
     public function __construct(
         AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
         UserPasswordEncoderInterface $encoder, // L'interface du service de codage de mot de passe.
-        EntityManagerInterface $em, // Gère les relations entre entités.
+        EntityManagerInterface $em, // Gère les relations entre entités, sauvegarde & extrait les données de la base.
         EventDispatcherInterface $dispatcher, // Permets aux composants de communiquer entre eux en distribuant des événements et en les écoutant.
         TokenStorageInterface $token) // L'interface pour les informations d'authentification de l'utilisateur.
     {

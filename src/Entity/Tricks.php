@@ -36,6 +36,9 @@ class Tricks
      */
     private $images;
 
+    /**
+     * @var
+     */
     private $imageFile;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist", "remove"})
@@ -259,7 +262,11 @@ class Tricks
                 return true;
             }
         }
-        public function hasVideos(){
+
+    /**
+     * @return bool
+     */
+    public function hasVideos(){
         if ($this->getMediaVideos()->isEmpty()){
             return false;
         }else{

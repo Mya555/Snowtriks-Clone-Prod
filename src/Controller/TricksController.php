@@ -51,8 +51,8 @@ class TricksController extends Controller
      */
     public function __construct(
         TricksRepository $trickRepo, // Récupère le répository de Tricks.
-        EntityManagerInterface $entityManager,
-        TokenStorageInterface $tokenStorage
+        EntityManagerInterface $entityManager, // Gère les relations entre entités, sauvegarde & extrait les données de la base.
+        TokenStorageInterface $tokenStorage // L'interface pour les informations d'authentification de l'utilisateur.
     )
     {
         $this->tokenStorage = $tokenStorage;
@@ -69,8 +69,8 @@ class TricksController extends Controller
      */
     public function homepage()
     {
-        /* Récuperation de toutes les figures */
-       $tricks = $this->trickRepo->findAll();
+        // $tricks stock toutes les figures récupérées par la variable $trickRepo
+        $tricks = $this->trickRepo->findAll();
 
         return $this->render('index.html.twig',  array('tricks' => $tricks));
     }
@@ -85,22 +85,34 @@ class TricksController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-
     public function show(Request $request ,$id)
     {
-        /* Récuperation de la figure triées par $id */
-        $trick = $repository = $this->trickRepo->find($id);
-        //Si figure introuvable
+        // $tricks stock toutes les figures récupérées par la variable $trickRepo
+        $trick = $this->trickRepo->find($id);
+
         if (!$trick) {
             throw new NotFoundHttpException( 'Aucun résultat ne correspond à votre recherche' );
         }
-        /* Création du commentaire lié à la figure affichée */
+        /*
+         *  Nouvelle instance de l'objet Comment stocké dans $comment
+         *  La methode setTricks lie le commentaire à la figure
+         *  La variable $form stock le formulaire créé à partir de CommentType
+         */
         $comment = new Comment();
         $comment->setTricks($trick);
-        //Récuperation de l'utilisateur connecté
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
+        /*
+         *  isMethod() vérifie si la requete est en méthode POST
+         *  handleRequest() récupére les valeurs des champs dans les inputs du formulaire
+         *  isValide() valide les données saisies
+         */
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            /*
+             * la variable $comment récupère l'utilisateur connécté avec setAuthor() par son token
+             * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+             * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+             */
             $comment->setAuthor($this->tokenStorage->getToken()->getUser());
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
@@ -121,14 +133,26 @@ class TricksController extends Controller
      */
     public function add(Request $request)
     {
-        // CREATION DE NOUVELLE FIGURE
+        /*
+         * $trick stock la nouvelle instance de l'objet Tricks
+         * $form stock le nouveau formulaire créé avec createForm() via TricksType
+         * handleRequest() récupére les valeurs des champs dans les inputs du formulaire via la variable $request
+         */
         $trick = new Tricks();
         $form   = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Suppression automatique des wigdets restés vides pour images et videos
-            foreach ($trick->getImages() as $image){
+        /*
+        *  isMethod() vérifie si la requete est en méthode POST
+        *  isValide valide les données saisies
+        */
+        if ($form->isSubmitted() && $form->isValid())
+
+        /*
+         * Suppression automatique des champs restés vides pour images & videos avec removeElement()
+         * la vérification s'effectu sur l'existance de $file pour l'image et $url pour la vidéo
+         */
+        {foreach ($trick->getImages() as $image){
                 if(!$image->getFile()) {
                     $trick->getImages()->removeElement( $image );
                 }else{
@@ -141,7 +165,11 @@ class TricksController extends Controller
                     $trick->getMediaVideos()->removeElement($video);
                 }
             }
-
+            /*
+             * (em) recupère $entityManager pour gerer l'entrer des informations dans la base de donnée
+             * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+             * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+             */
             $em = $this->entityManager;
             $em->persist($trick);
             $em->flush();
@@ -166,19 +194,27 @@ class TricksController extends Controller
      */
     public function edit( $id, Request $request)
     {
-        // Récupération des tricks pour l'affichage de multimédia associée
-
+        // $trick stock toutes les figures récupérées par la variable $trickRepo
         $trick = $this->trickRepo->find($id);
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
-
-
+        /*
+        * $form stock le nouveau formulaire créé avec createForm() via TricksEditType
+        * handleRequest() récupére les valeurs des champs dans les inputs du formulaire via la variable $request
+        */
         $form = $this->createForm(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
+        /*
+        *   isSubmitted() vérifie si le formulaire est soumis
+        *  isValide valide les données saisies
+        */
         if ($form->isSubmitted() && $form->isValid()) {
-            // Suppression automatiques des wigdet resté vides pour images et videos
+            /*
+             * Suppression automatique des champs restés vides pour images & videos avec removeElement()
+             * la vérification s'effectu sur l'existance de $file pour l'image et $url pour la vidéo
+             */
             foreach ($trick->getImages() as $image){
                 if(!$image->getFile()) {
                     $trick->getImages()->removeElement( $image );
@@ -192,9 +228,13 @@ class TricksController extends Controller
                     $trick->getMediaVideos()->removeElement($video);
                 }
             }
-
+            /*
+            * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+            * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+            */
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
+
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
@@ -216,15 +256,22 @@ class TricksController extends Controller
      */
     public function delete($id)
     {
-        /* Récuperation de la figure */
+        /*
+         * (em) stock le gestionnaire d'entités (entityManager)
+         * (tricks) stock la liste des figure récupérées avec getRepositoty()
+         */
         $em = $this->entityManager;
         $tricks = $em->getRepository(Tricks::class)->find($id);
+
         if (null === $tricks) {
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
+        /*
+        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
+        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+        */
         $em->remove($tricks);
         $em->flush();
-
 
         return $this->redirectToRoute('homepage');
     }
@@ -244,6 +291,10 @@ class TricksController extends Controller
         if (null === $image) {
             throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
         }
+        /*
+        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
+        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+        */
         $em = $this->entityManager;
         $em->remove($image);
         $em->flush();
@@ -268,6 +319,10 @@ class TricksController extends Controller
         if (null === $mediaVideo) {
             throw new NotFoundHttpException("Imposible de trouver la vidéo.");
         }
+        /*
+        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
+        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+        */
         $em = $this->entityManager;
         $em->remove($mediaVideo);
         $em->flush();

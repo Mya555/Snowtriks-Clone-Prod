@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Image
 {
+    /********* CONSTANTE **********/
 
     const PATH_TO_IMAGE = 'uploads';
 
@@ -77,8 +78,10 @@ class Image
         return $this->path;
     }
 
-
-
+    /**
+     * @param string $path
+     * @return Image
+     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -106,7 +109,7 @@ class Image
 
     /**
      * @ORM\PrePersist() // Les événements suivant s’exécute avant que l’entité soit enregister
-     * @ORM\PreUpdate()
+     * @ORM\PreUpdate() // Les événements suivant s’exécute après que l’entité soit enregister
      */
     public function moveImage(){
         $fileName =  md5(uniqid()) . '.' . $this->file->guessExtension();
