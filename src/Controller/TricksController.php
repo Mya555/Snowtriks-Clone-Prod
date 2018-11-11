@@ -117,7 +117,7 @@ class TricksController extends Controller
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('show', array('trick' => $trick));
+            return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
         return $this->render('trick/show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
     }

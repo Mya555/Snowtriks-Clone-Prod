@@ -22,7 +22,7 @@ class Comment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
      */
     private $author;
 
@@ -37,11 +37,13 @@ class Comment
      */
     private $dateCom;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comment", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comments")
      * @ORM\JoinColumn(nullable=true)
      */
     private $tricks;
+
 
 
     /********** CONSTRUCTOR **********/
@@ -50,6 +52,7 @@ class Comment
     {
         $this->dateCom = new \Datetime();
     }
+
 
 
     /********** GETTERS & SETTERS **********/
@@ -70,6 +73,7 @@ class Comment
         $this->dateCom = $dateCom;
     }
 
+
     /**
      * @return mixed
      */
@@ -85,6 +89,7 @@ class Comment
     {
         $this->tricks = $tricks;
     }
+
 
     /**
      * @return mixed
@@ -119,12 +124,14 @@ class Comment
     }
 
     /**
+
      * @return mixed
      */
     public function getAuthor()
     {
         return $this->author;
     }
+
 
     /**
      * @param mixed $author
@@ -135,4 +142,7 @@ class Comment
         $this->author = $author;
         return $this;
     }
+
+
+
 }
