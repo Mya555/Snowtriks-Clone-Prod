@@ -180,11 +180,9 @@ class TricksController extends Controller
 
         if (null === $trick) {
             throw new NotFoundHttpException("Cette page n'existe pas");}
-        /*
-        * $form stock le nouveau formulaire créé avec createForm() via TricksEditType
-        * handleRequest() récupére les valeurs des champs dans les inputs du formulaire via la variable $request
-        */
-        $form = $this->get('form.factory')->create(TricksEditType::class, $trick);
+
+
+        $form = $this->createForm(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
         /*
