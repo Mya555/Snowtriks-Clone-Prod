@@ -241,10 +241,8 @@ class TricksController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
-     ///////////////////////////
-    /// SUPPRIMER UNE IMAGE ///
-   ///////////////////////////
 
+    /// SUPPRIMER UNE IMAGE ///
     /**
      * @Route("/supprimerImage/{id}", name="deleteImage")
      * @param Image $image
@@ -252,26 +250,18 @@ class TricksController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteImage(Image $image, Request $request){
-
         if (null === $image) {
             throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
         }
-        /*
-        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
-        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
-        */
         $em = $this->entityManager;
         $em->remove($image);
         $em->flush();
-
         $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
-
         return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
     }
 
-     ////////////////////////////
-    /// SUPPRIMER UNE VIDEO ////
-   ////////////////////////////
+
+    /// SUPPRIMER UNE VIDEO ///
 
     /**
      * @Route("/supprimerVideo/{id}", name="deleteVideo")
@@ -284,10 +274,6 @@ class TricksController extends Controller
         if (null === $mediaVideo) {
             throw new NotFoundHttpException("Imposible de trouver la vidéo.");
         }
-        /*
-        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
-        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
-        */
         $em = $this->entityManager;
         $em->remove($mediaVideo);
         $em->flush();

@@ -37,7 +37,7 @@ class MediaVideo
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\tricks", inversedBy="mediaVideos", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\tricks", inversedBy="mediaVideos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
