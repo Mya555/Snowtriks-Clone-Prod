@@ -202,20 +202,7 @@ class TricksController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Suppression automatiques des wigdet resté vides pour images et videos
-            foreach ($trick->getImages() as $image){
-                if(!$image->getFile()) {
-                    $trick->getImages()->removeElement( $image );
-                }else{
-                    $image->setTricks($trick);
-                    $this->entityManager->persist($image);
-                }
-            }
-            foreach ($trick->getMediaVideos() as $video){
-                if (!$video->getUrl()){
-                    $trick->getMediaVideos()->removeElement($video);
-                }
-            }
+
 
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
