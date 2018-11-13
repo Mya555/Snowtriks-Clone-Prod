@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,16 +11,11 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use App\Event\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
@@ -61,7 +55,7 @@ class UserController extends Controller
     public function __construct(
         AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
         UserPasswordEncoderInterface $encoder, // L'interface du service de codage de mot de passe.
-        EntityManagerInterface $em, // Gère les relations entre entités.
+        EntityManagerInterface $em, // Gère les relations entre entités, sauvegarde & extrait les données de la base.
         EventDispatcherInterface $dispatcher, // Permets aux composants de communiquer entre eux en distribuant des événements et en les écoutant.
         TokenStorageInterface $token) // L'interface pour les informations d'authentification de l'utilisateur.
     {
@@ -86,7 +80,7 @@ class UserController extends Controller
 
         // dernier username saisi (si il y en a un)
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        return $this->render( 'login.html.twig', array(
+        return $this->render( 'user/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
         ) );
@@ -134,10 +128,10 @@ class UserController extends Controller
             //Et on le déclanche
             $this->dispatcher->dispatch( UserCreatedEvent::NAME, $event );
 
-            return $this->render( 'afterRegister.html.twig' );
+            return $this->render( 'user/afterRegister.html.twig' );
         }
         return $this->render(
-            'registration.html.twig',
+            'user/registration.html.twig',
             array('form' => $form->createView())
         );
     }
@@ -220,7 +214,7 @@ class UserController extends Controller
             return $this->redirect( $this->generateUrl( 'homepage' ) );
         }
         return $this->render(
-            'user.html.twig',
+            'user/user.html.twig',
             array('form' => $form->createView())
         );
     }

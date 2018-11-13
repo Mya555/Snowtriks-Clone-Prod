@@ -26,7 +26,6 @@ class ImageType extends AbstractType
         $builder->add('file', FileType::class,array(
             'label'=>'Fichier d\'image',
             'required' => false,
-
         ));
     }
     public function configureOptions(OptionsResolver $resolver)

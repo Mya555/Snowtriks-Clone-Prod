@@ -25,6 +25,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 
@@ -46,10 +47,12 @@ class TricksType extends AbstractType
                 'mapped' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'required' => false,
                 ])
             ->add('mediaVideos',      CollectionType::class, [
                 'entry_type' => MediaVideoType::class,
                 'prototype' => true,
+                'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'mapped' => true,

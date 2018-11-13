@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 .erreur
 {
     color: #0a333d;
@@ -13,7 +7,6 @@
     margin-top:10px;
     margin-bottom:10px;
 }
-
 .btn-signup {
     color:white;
     background-color: #5b8f9f;
@@ -21,10 +14,7 @@
     border-radius: 4px;
     padding: 4px 10px;
     margin-top: 20px;
-
-
 }
-
 .backsecond {
     margin-top: 60px;
     margin-bottom:60px;
@@ -32,7 +22,6 @@
     border-radius: 12px;
     border: 1px solid transparent;
 }
-
 .form-control-signup {
     display: block;
     width: 100%;
@@ -47,7 +36,6 @@
     border-radius: 4px;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-
 /* logout */
 .regist
 {
@@ -56,9 +44,7 @@
 .regist-border
 {
     margin-top: 1.5em;
-
 }
-
 .regist-border-2{
     margin-bottom: 1.5em;
 }

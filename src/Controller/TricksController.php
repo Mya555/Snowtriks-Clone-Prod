@@ -2,36 +2,21 @@
 
 namespace App\Controller;
 
-use App\Repository\ImageRepository;
 use App\Repository\TricksRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\MediaVideo;
-use App\Entity\Video;
-use App\Form\ImageType;
 use App\Entity\Comment;
 use App\Entity\Image;
-use App\Repository\CommentRepository;
 use App\Entity\Tricks;
 use App\Form\CommentEditType;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
-use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use App\Form\UserType;
-use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
@@ -65,34 +50,34 @@ class TricksController extends Controller
      * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
-        TricksRepository $trickRepo,
-        EntityManagerInterface $entityManager,
-        TokenStorageInterface $tokenStorage
-
+        TricksRepository $trickRepo, // Récupère le répository de Tricks.
+        EntityManagerInterface $entityManager, // Gère les relations entre entités, sauvegarde & extrait les données de la base.
+        TokenStorageInterface $tokenStorage // L'interface pour les informations d'authentification de l'utilisateur.
     )
     {
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
         $this->trickRepo = $trickRepo;
-
     }
 
-
-
+     ///////////////////////////////////////////////
     /// AFFICHER UNE LISTE DE FIGURES | ACCUEIL ///
+   ///////////////////////////////////////////////
 
     /**
      * @Route("/", name="homepage")
      */
     public function homepage()
     {
-        /* Récuperation de toutes les figures */
-       $tricks = $this->trickRepo->findAll();
+        // $tricks stock toutes les figures récupérées par la variable $trickRepo
+        $tricks = $this->trickRepo->findAll();
 
-        return $this->render('homepage.html.twig',  array('tricks' => $tricks));
+        return $this->render('index.html.twig',  array('tricks' => $tricks));
     }
 
+     ///////////////////////////
     /// AFFICHER UNE FIGURE ///
+   ///////////////////////////
 
     /**
      * @Route("/figure/{id}", name="show")
@@ -100,33 +85,46 @@ class TricksController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-
     public function show(Request $request ,$id)
     {
-        /* Récuperation de la figure triées par $id */
-        $trick = $repository = $this->trickRepo->find($id);
-        //Si figure introuvable
+        // $tricks stock toutes les figures récupérées par la variable $trickRepo
+        $trick = $this->trickRepo->find($id);
+
         if (!$trick) {
             throw new NotFoundHttpException( 'Aucun résultat ne correspond à votre recherche' );
         }
-        /* Création du commentaire lié à la figure affichée */
+        /*
+         *  Nouvelle instance de l'objet Comment stocké dans $comment
+         *  La methode setTricks lie le commentaire à la figure
+         *  La variable $form stock le formulaire créé à partir de CommentType
+         */
         $comment = new Comment();
         $comment->setTricks($trick);
-        //Récuperation de l'utilisateur connecté
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
 
+        /*
+         *  isMethod() vérifie si la requete est en méthode POST
+         *  handleRequest() récupére les valeurs des champs dans les inputs du formulaire
+         *  isValide() valide les données saisies
+         */
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            /*
+             * la variable $comment récupère l'utilisateur connécté avec setAuthor() par son token
+             * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+             * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+             */
             $comment->setAuthor($this->tokenStorage->getToken()->getUser());
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('show', array('trick' => $trick));
+            return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
-        return $this->render('show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
+        return $this->render('trick/show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
     }
 
-
+     //////////////////////////
     /// AJOUTER UNE FIGURE ///
+   //////////////////////////
 
     /**
      * @Route("/ajout", name="add")
@@ -135,27 +133,24 @@ class TricksController extends Controller
      */
     public function add(Request $request)
     {
-        // CREATION DE NOUVELLE FIGURE
+        /*
+         * $trick stock la nouvelle instance de l'objet Tricks
+         * $form stock le nouveau formulaire créé avec createForm() via TricksType
+         * handleRequest() récupére les valeurs des champs dans les inputs du formulaire via la variable $request
+         */
         $trick = new Tricks();
         $form   = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Suppression automatique des wigdets restés vides pour images et videos
-            foreach ($trick->getImages() as $image){
-                if(!$image->getFile()) {
-                    $trick->getImages()->removeElement( $image );
-                }else{
-                $image->setTricks($trick);
-                $this->entityManager->persist($image);
-                }
-            }
-            foreach ($trick->getMediaVideos() as $video){
-                if (!$video->getUrl()){
-                    $trick->getMediaVideos()->removeElement($video);
-                }
-            }
-
+        /*
+        *  isMethod() vérifie si la requete est en méthode POST
+        *  isValide valide les données saisies
+        */
+        if ($form->isSubmitted() && $form->isValid()){
+            /*
+             * (em) recupère $entityManager pour gerer l'entrer des informations dans la base de donnée
+             * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+             * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+             */
             $em = $this->entityManager;
             $em->persist($trick);
             $em->flush();
@@ -164,23 +159,13 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
         }
-        return $this->render('add.html.twig', array(
+        return $this->render('trick/add.html.twig', array(
             'form' => $form->createView()));
     }
 
-
-    /**
-     * @return string
-     */
-    private function generateUniqueFileName()
-    {
-        // md5 () réduit la similarité des noms de fichiers générés par
-        // uniqid (), basé sur timestamps(horodatages)
-        return md5(uniqid());
-    }
-
-
+     /////////////////////////
     /// EDITER UNE FIGURE ///
+   /////////////////////////
 
     /**
      * @Route("/editer/{id}", name="edit")
@@ -190,8 +175,7 @@ class TricksController extends Controller
      */
     public function edit( $id, Request $request)
     {
-        // Récupération des tricks pour l'affichage de multimédia associée
-
+        // $trick stock toutes les figures récupérées par la variable $trickRepo
         $trick = $this->trickRepo->find($id);
 
         if (null === $trick) {
@@ -201,23 +185,32 @@ class TricksController extends Controller
         $form = $this->createForm(TricksEditType::class, $trick);
         $form->handleRequest($request);
 
+        /*
+        *   isSubmitted() vérifie si le formulaire est soumis
+        *  isValide valide les données saisies
+        */
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            /*
+            * (persist) Demande au gestionnaire d'entités(entityManager) de suivre les modifications apportées à l'objet
+            * (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+            */
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
+
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
         }
-        return $this->render('edit.html.twig', array(
+        return $this->render('trick/edit.html.twig', array(
             'trick' => $trick,
             'form'   => $form->createView(),
         ));
     }
 
-
+     ////////////////////////////
     /// SUPPRIMER UNE FIGURE ///
+   ////////////////////////////
 
     /**
      * @Route("/supprimer/{id}", name="delete")
@@ -226,22 +219,28 @@ class TricksController extends Controller
      */
     public function delete($id)
     {
-        /* Récuperation de la figure */
+        /*
+         * (em) stock le gestionnaire d'entités (entityManager)
+         * (tricks) stock la liste des figure récupérées avec getRepositoty()
+         */
         $em = $this->entityManager;
         $tricks = $em->getRepository(Tricks::class)->find($id);
+
         if (null === $tricks) {
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
+        /*
+        *  remove vas supprimer la figure de la base de donnée à l'aide entityManager stocké dans (em)
+        *  (flush) Pousse les modifications des objets d’entités qu’il suit dans la base de données en une seule transaction
+        */
         $em->remove($tricks);
         $em->flush();
-
 
         return $this->redirectToRoute('homepage');
     }
 
 
     /// SUPPRIMER UNE IMAGE ///
-
     /**
      * @Route("/supprimerImage/{id}", name="deleteImage")
      * @param Image $image
@@ -249,16 +248,13 @@ class TricksController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteImage(Image $image, Request $request){
-
         if (null === $image) {
             throw new NotFoundHttpException("Imposible de supprimer la vidéo.");
         }
         $em = $this->entityManager;
         $em->remove($image);
         $em->flush();
-
         $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
-
         return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
     }
 

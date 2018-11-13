@@ -36,13 +36,16 @@ class Tricks
      */
     private $images;
 
+    /**
+     * @var
+     */
     private $imageFile;
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", orphanRemoval=true,  cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $mediaVideos;
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="tricks", cascade={"persist", "remove"} )
      */
     private $comments;
     /**
@@ -259,7 +262,11 @@ class Tricks
                 return true;
             }
         }
-        public function hasVideos(){
+
+    /**
+     * @return bool
+     */
+    public function hasVideos(){
         if ($this->getMediaVideos()->isEmpty()){
             return false;
         }else{
