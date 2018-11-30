@@ -255,7 +255,7 @@ class TricksController extends Controller
         $em->remove($image);
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', 'L\'image a bien été supprimée.');
-        return $this->redirectToRoute('show', ['id' => $image->getTricks()->getId()]);
+        return $this->redirectToRoute('edit', ['id' => $image->getTricks()->getId()]);
     }
 
 
@@ -278,6 +278,6 @@ class TricksController extends Controller
 
         $request->getSession()->getFlashBag()->add('notice', 'La vidéo a bien été supprimée.');
 
-        return $this->redirectToRoute('show', ['id' => $mediaVideo->getTrick()->getId()]);
+        return $this->redirectToRoute('edit', ['id' => $mediaVideo->getTrick()->getId()]);
     }
 }
