@@ -23,6 +23,9 @@
             <link href="{{ asset('css/business-casual.css')}}" rel="stylesheet">
             <link href="{{ asset('css/lightbox.css')}}" rel="stylesheet">
             <link href="{{ asset('css/login.css')}}" rel="stylesheet">
+            <link href="{{ asset('css/bouton.css')}}" rel="stylesheet">
+            <link href="{{ asset('css/avatar.css')}}" rel="stylesheet">
+            <link href="{{ asset('css/fleche.css')}}" rel="stylesheet">
         {% endblock %}
     </head>
 
@@ -35,7 +38,7 @@
                         <nav class="navbar navbar-toggleable-sm dropdown petit-menu" >
                             <h2 data-toggle="dropdown"><span class="badge badge-info">Menu</span></h2>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('list_add') }}">Accueil</a>
+                                <a class="dropdown-item" href="{{ path('homepage') }}">Accueil</a>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
                                 {% endif %}
@@ -53,11 +56,11 @@
                         </nav>
                         <!-- fin navigation petit écran -->
 
-                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('list_add') }}">Jimmy's Tricks</a>
+                        <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('homepage') }}">Jimmy's Tricks</a>
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav mx-auto">
                                     <li class="nav-item active px-lg-4">
-                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('list_add') }}">Accueil
+                                        <a class="nav-link text-uppercase text-expanded" href="{{ path('homepage') }}">Accueil
                                             <span class="sr-only">(current)</span>
                                         </a>
                                     </li>
@@ -110,10 +113,10 @@
                 {% if app.session.flashBag.has('notice') %}
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {% for msg in app.session.flashBag.get('notice') %}
-                        {{ msg }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     {% endfor %}
                 </div>
                 {% endif %}
@@ -126,43 +129,32 @@
             <!--Footer-->
             <div class="copyright">
                 <div class="container">
-
                     <div class="row text-center">
-                        <p>Copyright &copy; Jimmy's Tricks 2018 | Tous droits résérvés</p>
+                        <p id="copyright-text">Copyright &copy; Jimmy's Tricks 2018 | Tous droits résérvés</p>
                     </div>
-
                 </div>
             </div>
             {% endblock %}
 
             {% block javascripts %}
-
                 <!-- menu déroulant -->
                 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.0/umd/popper.min.js"></script>
                 <script src="js/bootstrap.min.js"></script>
-                <script>
-                    $('h1').mouseover(function() {
-                        $(this).dropdown('toggle')
-                    })
-                </script>
-                <!-- Les flocons de neiges -->
-                <script type="text/javascript" src="{{ asset('vendor/jquery/snow.js') }}"></script>
-                <script type="text/javascript">window.onload = function(){snow.init(30);};</script>
-                    <!--Les tags-->
-                <script type="text/javascript" src="{{ asset('vendor/jquery/images.js') }}"></script>
+                <script> $('h1').mouseover(function() {$(this).dropdown('toggle')})</script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
                 <script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
                 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-                    <!-- flèche pour remonter -->
+                <!-- Les flocons de neiges -->
+                <script type="text/javascript" src="{{ asset('vendor/js/snow.js') }}"></script>
+                <!--Les tags-->
+                <script type="text/javascript" src="{{ asset('vendor/js/images.js') }}"></script>
+                <!-- flèche pour remonter -->
                 <script type="text/javascript" src="{{ asset('vendor/js/arrow.js') }}"></script>
                 <!-- L'agrandissement des images -->
-                <script type="text/javascript" src="{{ asset('vendor/jquery/lightbox.js') }}">
-                        lightbox.option({
-                            'alwaysShowNavOnTouchDevices' : true
-                        })
-                    </script>
+                <script type="text/javascript" src="{{ asset('vendor/js/lightbox.js') }}">
+                        lightbox.option({'alwaysShowNavOnTouchDevices' : true})</script>
             {% endblock %}
         {% endblock %}
     </body>

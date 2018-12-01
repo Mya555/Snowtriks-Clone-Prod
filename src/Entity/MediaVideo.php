@@ -5,8 +5,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
+ * @property \DateTimeInterface date
  * @ORM\Table(name="media_video")
  * @ORM\Entity(repositoryClass="App\Repository\MediaVideoRepository")
  * @ORM\HasLifecycleCallbacks // Permet d’utiliser des événements
@@ -42,7 +44,7 @@ class MediaVideo
 
     /**
      * @Assert\Regex(
-     *     pattern="#^(http|https)://(www.youtube.com|www.dailymotion.com)/#",
+     *     pattern="#^(http|https):\/\/(www.youtube.com|www.dailymotion.com|vimeo.com)\/#",
      *     match=true,
      *     message="L'url doit correspondre à l'url d'une vidéo Youtube ou DailyMotion"
      * )
@@ -72,6 +74,9 @@ class MediaVideo
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
@@ -126,11 +131,18 @@ class MediaVideo
         return $this->identif;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return MediaVideo
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -138,11 +150,18 @@ class MediaVideo
         return $this;
     }
 
+    /**
+     * @return tricks|null
+     */
     public function getTrick(): ?tricks
     {
         return $this->trick;
     }
 
+    /**
+     * @param tricks|null $trick
+     * @return MediaVideo
+     */
     public function setTrick(?tricks $trick): self
     {
         $this->trick = $trick;
@@ -158,6 +177,9 @@ class MediaVideo
 
     // YouTube
 
+    /**
+     * @param $url
+     */
     private function youtubeId($url)
     {
         $tableaux = explode("=", $url);  // découpe l’url en deux  avec le signe ‘=’
@@ -168,6 +190,9 @@ class MediaVideo
 
     // Dailymotion
 
+    /**
+     * @param $url
+     */
     private function dailymotionId($url)
     {
         $cas = explode("/", $url); // On sépare la première partie de l'url des 2 autres
@@ -208,6 +233,9 @@ class MediaVideo
 
     // Générer les url des vidéos
 
+    /**
+     * @return string
+     */
     private  function url()
     {
         $control = $this->getType();  // on récupère le type de la vidéo
@@ -227,7 +255,10 @@ class MediaVideo
 
         // Générer les url des thumbmails
 
-        public function image()
+    /**
+     * @return string
+     */
+    public function image()
         {
             $control = $this->getType();  // on récupère le type de la vidéo
             $id = strip_tags($this->getIdentif()); // on récupère son identifiant
@@ -244,7 +275,10 @@ class MediaVideo
 
         // Générer le code d’intégration
 
-            public function video()
+    /**
+     * @return string
+     */
+    public function video()
         {
             $video = "<iframe width='100%' height='100%' src='".$this->url()."'  frameborder='0'  allowfullscreen></iframe>";
             return $video;

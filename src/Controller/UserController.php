@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Avatar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +11,11 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use App\Event\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
@@ -48,11 +41,23 @@ class UserController extends Controller
      */
     private $token;
 
-    public function __construct(AuthenticationUtils $authenticationUtils,
-                                UserPasswordEncoderInterface $encoder,
-                                EntityManagerInterface $em,
-                                EventDispatcherInterface $dispatcher,
-                                TokenStorageInterface $token)
+
+    // CONSTRUCTEUR //
+
+    /**
+     * UserController constructor.
+     * @param AuthenticationUtils $authenticationUtils
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $em
+     * @param EventDispatcherInterface $dispatcher
+     * @param TokenStorageInterface $token
+     */
+    public function __construct(
+        AuthenticationUtils $authenticationUtils, // Extrait les erreurs de sécurité.
+        UserPasswordEncoderInterface $encoder, // L'interface du service de codage de mot de passe.
+        EntityManagerInterface $em, // Gère les relations entre entités, sauvegarde & extrait les données de la base.
+        EventDispatcherInterface $dispatcher, // Permets aux composants de communiquer entre eux en distribuant des événements et en les écoutant.
+        TokenStorageInterface $token) // L'interface pour les informations d'authentification de l'utilisateur.
     {
         $this->authenticationUtils = $authenticationUtils;
         $this->encoder = $encoder;
@@ -61,116 +66,79 @@ class UserController extends Controller
         $this->token = $token;
     }
 
-
+    /////////////////
+    /// CONNEXION ///
+    /////////////////
     /**
      * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function login()
     {
         // Afficher l'erreur si il y en a une
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $this->authenticationUtils->getLastAuthenticationError();
 
         // dernier username saisi (si il y en a un)
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('login.html.twig', array(
+        $lastUsername = $this->authenticationUtils->getLastUsername();
+        return $this->render( 'user/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
-        ));
+        ) );
     }
 
-
+    ///////////////////
+    /// INSCRIPTION ///
+    ///////////////////
     /**
      * @Route("/register", name="user_registration")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param EventDispatcherInterface $eventDispatcher
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function register(Request $request,
-                             UserPasswordEncoderInterface $passwordEncoder,
-                             EventDispatcherInterface $eventDispatcher)
+    public function register(Request $request)
     {
-        // 1) build the form
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
 
-        // 2) handle the submit (will only happen on POST)
-        $form->handleRequest($request);
+        // On crée le formulaire
+        $user = new User();
+        $form = $this->createForm( UserType::class, $user );
+
+        // On gére la soumission du formulaire
+        $form->handleRequest( $request );
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            //On récupère l'utilisateur depuis le formulaire
             $user = $form->getData();
-            // 3) Encode the password (you could also do this via Doctrine listener)
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $user->setIsActive(false);
-            $user->setPlainPassword(null);
+
+            // On encode le mot de passe
+            $password = $this->encoder->encodePassword( $user, $user->getPlainPassword() );
+            $user->setPassword( $password );
+            $user->setIsActive( false );
+            $user->setPlainPassword( null );
 
             //Par defaut l'utilisateur aura toujours le rôle ROLE_USER
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles( ['ROLE_USER'] );
 
-
-            // 4) On enregistre l'utilisateur dans la base
+            // On enregistre l'utilisateur dans la base
             $entityManager = $this->getDoctrine()->getManager();
-
-            $entityManager->persist($user);
+            $entityManager->persist( $user );
             $entityManager->flush();
-            //On déclenche l'event
-            $event = new UserCreatedEvent($user);
-            $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
 
-            return $this->redirectToRoute('list_add');
+            //On déclenche l'évènement
+            $event = new UserCreatedEvent( $user );
+
+            //Et on le déclanche
+            $this->dispatcher->dispatch( UserCreatedEvent::NAME, $event );
+
+            return $this->render( 'user/afterRegister.html.twig' );
         }
-
         return $this->render(
-            'registration.html.twig',
+            'user/registration.html.twig',
             array('form' => $form->createView())
         );
-
     }
 
-    /**
-     * @Route("/user/{id}", name="update_user")
-     * @param Request $request
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-
-    public function avatarUpload(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $user = $em->find($id);
-
-        $form = $this->get('form.factory')->create(UserEditType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-
-            $file = $request->files->get('user_edit')['avatar_file'];
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-
-            $file->move($this->getParameter('img_directory'), $fileName);
-
-            $user->setAvatar($fileName);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('list_add'));
-    }
-
-
-        return $this->render(
-            'user.html.twig',
-            array('form' => $form->createView())
-        );
-
-    }
-
+    ////////////////////////////
+    /// ACTIVATION DU COMPTE ///
+    ////////////////////////////
     /**
      * @Route("/activate/{token}", name="activate")
      * @param $token
@@ -178,21 +146,77 @@ class UserController extends Controller
      */
     public function activate($token)
     {
-        $user = $this->em->getRepository(User::class)
-            ->findOneBy(['token' => $token])
-        ;
+        // Récupération de l'utilisateur par son token
+        $user = $this->em->getRepository( User::class )
+            ->findOneBy( ['token' => $token] );
+
+        // Si l'utilisateur n'existe pas, l'erreur est retournée
         if (!$user) {
-            throw new NotFoundHttpException("User not exist");
+            throw new NotFoundHttpException( "L'utilisateur n'existe pas" );
         }
-        $user->setIsActive(true)
-            ->setToken(null);
-        $this->em->persist($user);
+        // Activation de l'utilisateur
+        $user->setIsActive( true )
+            ->setToken( null );
+
+        // On enregistre l'utilisateur dans la base
+        $this->em->persist( $user );
         $this->em->flush();
+
         // L'utilisateur est automatiquement connécté.
         // Pour cela crée le token avec UsernamePasswordToken, on récupèrant le mot de passe lié au $user,
         // en indiquant le farewall à utiliser 'main' pour y passer et en récupèrant le role lié à cet utilisateur.
-        $this->token->setToken(new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles()));
-        return $this->redirect('/liste_add');
+        $this->token->setToken( new UsernamePasswordToken( $user, $user->getPassword(), 'main', $user->getRoles() ) );
+
+        return $this->redirect( '/' );
+    }
+
+    ///////////////////////
+    /// AJOUT DE AVATAR ///
+    ///////////////////////
+    /**
+     * @Route("/avatar/{id}", name="update_user")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function avatarUpload(Request $request, $id)
+    {
+        // On récupère l'utilisateur par son id
+        $em = $this->getDoctrine()->getRepository( User::class );
+        $user = $em->find( $id );
+
+        // On crée le formulaire d'édition à partir de UserEditType
+        $form = $this->get( 'form.factory' )->create( UserEditType::class, $user );
+
+        // On gére la soumission du formulaire
+        $form->handleRequest( $request );
+
+        if ($form->isSubmitted()) {
+
+            // On récupère le tableau des avatars de l'utilisateur
+            $file = $request->files->get( 'user_edit' )['avatar_file'];
+
+            // On hashe le nom & on concatène avec guessExtension qui devine et rajoute l'extension du fichier chargé
+            $fileName = md5( uniqid() ) . '.' . $file->guessExtension();
+
+            // On définie le dossier dans le quel sera stocké le fichier,
+            // enregistré ceci (img_directory) est le nom du parametre qui contient le nom du dossier ou sont stocké les images
+            $file->move( $this->getParameter( 'img_directory' ), $fileName );
+
+            //On modifie le nom du fichier de l'avatar
+            $user->setAvatar( $fileName );
+
+            // On enregistre l'utilisateur dans la base
+            $em = $this->getDoctrine()->getManager();
+            $em->persist( $user );
+            $em->flush();
+
+            return $this->redirect( $this->generateUrl( 'homepage' ) );
+        }
+        return $this->render(
+            'user/user.html.twig',
+            array('form' => $form->createView())
+        );
     }
 }
 

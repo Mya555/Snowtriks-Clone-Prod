@@ -1,0 +1,20 @@
+/* ----- FLECHE REMONTER ----- */
+.scrollup {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    display: none;
+    color: white;
+    background-color: #3a3f51;
+    border: 1px solid #3a3f51;
+    font-size: 20px;
+    text-align: center;
+    line-height: 37px;
+    margin-bottom: 7em;
+}
+.scrollup:hover {
+    color: white;
+}
+/* fin arrow */

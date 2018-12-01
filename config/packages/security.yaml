@@ -20,6 +20,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            # User_checker verifie si l'utilisateur est actif
             user_checker: App\Security\UserChecker
             # La connexion n'est pas requise sur toutes les pages
             # par exemple la page d'accueil
@@ -37,12 +38,12 @@ security:
                 # Securisation des formulaires
                 csrf_token_generator: security.csrf.token_manager
                 # La page par defaut apres une connexion reussie
-                default_target_path: list_add
+                default_target_path: /
             logout:
                 # La route où se trouve le process de deconnexion
                 path: /logout
                 # La route sur laquelle doit etre rediriger l'utilisateur apres une deconnexion
-                target: list_add
+                target: /
 
 
 
@@ -51,3 +52,6 @@ security:
             # Là dans ce cas seul les utilisateurs ayant le rôle ROLE_USER
             # peuvent acceder à toutes les pages commençant par ce path :
         - { path: ^/ajout, roles: ROLE_USER }
+        - { path: ^/editer, roles: ROLE_USER }
+        - { path: ^/avatar, roles: ROLE_USER }
+        - { path: ^/avatar, roles: ROLE_USER }

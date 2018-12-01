@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Email déjà pris")
  * @UniqueEntity(fields="username", message="Ce nom est déjà pris")
- *  @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface,  \Serializable
 {
@@ -32,18 +32,29 @@ class User implements UserInterface,  \Serializable
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(
+     *     message = "Ce mail '{{ value }}' est invalide.",
+     *     checkMX = true,
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage = "Il faut plus de 4 caractères",
+     *      maxMessage = "{{ limit }} caractères c'est trop long, Il en faut moins de 255")
+     * @Assert\Regex(
+     *     pattern = "/^\S+$/",
+     *     message = "Les espaces blancs sont interdits")
      */
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user",  cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -51,7 +62,12 @@ class User implements UserInterface,  \Serializable
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 4096,
+     *      maxMessage = "Wow  mot de passe trop long",
+     *      minMessage = "Il faut plus de 6 caractères"
+     * )
      */
     private $plainPassword;
 
@@ -71,6 +87,9 @@ class User implements UserInterface,  \Serializable
     private $avatar;
 
 
+    /**
+     * @var
+     */
     private $avatarFile;
 
     /**
@@ -92,9 +111,9 @@ class User implements UserInterface,  \Serializable
     private $token;
 
 
-
-
-
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -173,6 +192,9 @@ class User implements UserInterface,  \Serializable
      * @return string
      */
     // le ? signifie que cela peur aussi retourner null
+    /**
+     * @return null|string
+     */
     public function getAvatar(): ?string
     {
         return $this->avatar;
@@ -186,6 +208,10 @@ class User implements UserInterface,  \Serializable
         $this->avatar = $avatar;
     }
 
+    /**
+     * @param Avatar $avatar
+     * @return User
+     */
     public function addAvatar(Avatar $avatar): self
     {
         if (!$this->avatar->contains($avatar)) {
@@ -214,42 +240,67 @@ class User implements UserInterface,  \Serializable
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param $email
+     */
     public function setEmail($email)
     {
         $this->email = $email;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
     }
 
+    /**
+     * @param $username
+     */
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param $password
+     */
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
 
+    /**
+     * @param $password
+     * @return $this
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -271,6 +322,9 @@ class User implements UserInterface,  \Serializable
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;

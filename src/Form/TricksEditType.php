@@ -8,8 +8,8 @@
 
 namespace App\Form;
 
-
-
+use App\Entity\Tricks;
+use App\Form\TricksType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -17,7 +17,8 @@ class TricksEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->remove('date')->remove('name');
+        $builder->remove('name');
+
     }
 
     public function getParent()
