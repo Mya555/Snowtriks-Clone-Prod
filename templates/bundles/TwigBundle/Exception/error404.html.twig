@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Oops ! Une erreur s'est produite</h1>
 
-    <p>
-        La page demandée n'a pas été trouvée.
-        Le serveur retourne - {{ status_code }}{{ status_text }}.
-    </p>
+    <div class="container error-section">
+        <div  class="bg-faded-error rounded p-5 text-center">
+            <h4>
+                <p>Oops ! <span class="error-code"> Une erreur</span> s'est produite</p>
+                <p>La page est introuvable</p>
+                <p>Le serveur retourne - <span class="error-code">{{ status_code }} : {{ status_text }}</span>.</p>
+                <img src="{{ asset('img/error.jpg')}}">
+                <p>Revenir sur la page <a class="error-code" href="{{ path('homepage') }}">d'accueil</a></p>
+            </h4>
+        </div>
+    </div>
+
 {% endblock %}
