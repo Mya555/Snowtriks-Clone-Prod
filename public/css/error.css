@@ -1,0 +1,11 @@
+.error-section{
+    font-family: 'Sedgwick Ave', cursive;
+    margin-top: 6em;
+    margin-bottom: 6em;
+}
+.error-code{
+    color: #c70004;
+}
+.bg-faded-error {
+    background-color: white;
+}
