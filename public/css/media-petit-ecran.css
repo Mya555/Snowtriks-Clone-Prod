@@ -1,0 +1,15 @@
+@media (max-width: 770px) {
+    .media-petit-ecran {
+        color: #55b1bd;
+        margin-bottom: 0.5em;
+        margin-top: 1em;
+        font-family:'Sedgwick Ave', cursive; ;
+    }
+}
+
+@media (min-width: 770px) {
+    .media-petit-ecran {
+        display: none;
+    }
+}
+

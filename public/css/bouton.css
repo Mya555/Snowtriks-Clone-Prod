@@ -1,7 +1,22 @@
 /* ----- ICON POUR BOUTON EDIT ET SUPPRIMER ----- */
+.fa-pencil, .fa-trash-o{
+    margin: 0 13px 5px 0;
+    color: #3cbdac;
+}
+.fa-pencil:hover,
+.fa-pencil:active,
+.fa-pencil.hover {
+    color: #c0392b;
+}
+.fa-trash-o:hover,
+.fa-trash-o:active,
+.fa-trash-o.hover {
+    color: #c0392b;
+}
 .bouton-cadre{
-    padding-left: 0.5em;
+    padding-left: 1em;
     margin-top: -0.5em;
+    z-index: 1000;
 }
 .ajout-media{
     margin-left: 7em;
@@ -9,67 +24,7 @@
 .supprimer{
     margin-top: 7em;
 }
-.snip1489 {
-    position: relative;
-    font-size: 0.9em;
-    color: #14dce2;
-    width: 2em;
-    z-index: 1000;
-    height: 2em;
-    line-height: 2em;
-    display: inline-block;
-    text-align: center;
-    -webkit-perspective: 50em;
-    perspective: 50em;
-    text-decoration: none;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.snip1489:after {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border: 2px solid #e6e6e6;
-    content: '';
-    z-index: -1;
-    border-radius: 50%;
-}
-.snip1489:before {
-    color: #041641;
-}
-.snip1489:before,
-.snip1489:after {
-    -webkit-transition: all 0.45s ease-in-out;
-    transition: all 0.45s ease-in-out;
-}
-.snip1489:hover,
-.snip1489:active,
-.snip1489.hover {
-    color: #c0392b;
-}
-.snip1489:hover:after,
-.snip1489:active:after,
-.snip1489.hover:after {
-    border-color: transparent #c0392b;
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-}
 /* fin icon*/
-
-
-/* ----- BOUTON ICON DANS EDITE ----- */
-
-.edit-button{
-    margin-right: 0.5em;
-    margin-top: 2em;
-}
-.edit-button{
-    margin: 5px 5px;
-}
-/* fin bouton edite */
-
 
 
 /* ----- BOUTON ----- */

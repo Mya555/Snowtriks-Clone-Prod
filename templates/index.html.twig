@@ -3,7 +3,7 @@
     {% block content %}
 
         <section class="page-section about-heading list-head">
-            <header class="masthead" style="background-image: url('{{ asset('img/mont.jpg ')}}')">
+            <header class="masthead" style="background-image: url('{{ asset('img/mont.jpg ')}}');">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row">
@@ -30,10 +30,10 @@
 
                                 <div class="row bouton-cadre">
                                     <div>
-                                        <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <a href="{{ path('edit', {'id': trick.id}) }}" class=" "> <i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </div>
                                     <div>
-                                        <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <a href="{{ path('delete', {'id': trick.id}) }}" class=""> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             {% endif %}

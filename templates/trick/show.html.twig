@@ -1,94 +1,175 @@
 {% extends 'base.html.twig' %}
 
-       {% block content %}
-           <section class="page-section about-heading">
-               <div class="container">
-                   <div class="row  p-5" id="box-search">
-                       <div class="sm-faded rounded center-block col-lg-6">
-                           <div>
-                               <h2 class="section-heading mb-4">
-                                   <span class="section-heading-upper">Figure</span>
-                                   <span class="titre section-heading-lower">{{ trick.name }}</span>
-                               </h2>
-                           </div>
-                           <div class="thumbnail text-center first-image-container center-block col-lg-10 ">
-                                <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{asset(trick.coverPath)}}" alt=""/>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="about-heading-content">
-                       <div class="row">
-                           <div class="col-xl-10 col-lg-11 mx-auto">
-                               {# Bouton d'édition visible uniquement aux inscrits #}
-                               {% if is_granted('ROLE_USER') %}
-                                   <div class="caption_button pull-right btn-group btn-group-sm edit-button row" role="group" aria-label="Basic example">
-                                       <div><a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
-                                       <div><a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
-                                   </div>
-                               {% endif %}
-                               <div class="bg-faded rounded p-5">
-                                   <div class="album">
-                                       <div class="container">
-                                   {# Images et vidéos de la figure , affichées si elles existent #}
-                                   {% if trick.hasImages  %}{# Si images existent #}
-                                            <div>
-                                                <div>
-                                           <h1>Images</h1>
-                                           <div class="row jumbotron">
-                                               {# Affichage des images #}
-                                               {% for image in trick.images %}
-                                                   <div class="petite col-lg-4 media center-block marge">
-                                                       <div class="row marge">
-                                                           <div class=" col-12">
-                                                               <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
-                                                                   <img class="marge" src="{{ asset('uploads/'~image.path) }}"/></a>
-                                                           </div>
+{% block content %}
+<section class="page-section about-heading">
+    <div class="container">
+        <div class="row  p-5" id="box-search">
+            <div class="sm-faded rounded center-block col-lg-6">
+                <div>
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Figure</span>
+                        <span class="titre section-heading-lower">{{ trick.name }}</span>
+                    </h2>
+                </div>
+                <div class="thumbnail text-center first-image-container center-block col-lg-10 ">
+                     <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{asset(trick.coverPath)}}" alt=""/>
+                </div>
+            </div>
+        </div>
+        <div class="about-heading-content">
+            <div class="row">
+                <div class="col-xl-10 col-lg-11 mx-auto">
+                    <div class="bg-faded rounded p-5">
+                {# Bouton d'édition visible uniquement aux inscrits #}
+                {% if is_granted('ROLE_USER') %}
+                    <div class="row pull-right" role="group" >
+                        <div><a href="{{ path('edit', {'id': trick.id}) }}" > <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+                        <div><a href="{{ path('delete', {'id': trick.id}) }}" > <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                    </div>
+                {% endif %}
+
+
+
+                        <div class="album">
+                            <div class="container ">
+
+                            {# PETIT ECRAN - CONTAINER IMAGES #}
+                            {% if trick.hasImages  %}{# Si images éxistants #}
+                            <div class="container media-petit-ecran">
+                                <div class="panel panel-default">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div class="row toggle" id="dropdown-detail-1" data-toggle="detail-1">
+                                                <div class="col-xs-10">
+                                                    Images
+                                                </div>
+                                                <div class="col-xs-2"><i class="fa fa-chevron-down pull-right"></i></div>
+                                            </div>
+                                            <div id="detail-1">
+                                                <hr></hr>
+                                                <div class="container">
+                                                    <div class="fluid-row">
+                                                        <div class="col-xs-5">
+                                                            {# Liste images #}
+                                                            {% for image in trick.images %}
+                                                            <div class="petite col-lg-4 media center-block marge">
+                                                                <div class="row marge">
+                                                                    <div class=" col-12">
+                                                                        <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                                        <img class="marge" src="{{ asset('uploads/'~image.path) }}"/></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {# Fin petit ecran images #}
+                            {# PETIT ECRAN - CONTAINER VIDEOS #}
+                            {% if trick.hasVideos  %}{# Si elles existents #}
+                            <div class="container media-petit-ecran">
+                                <div class="panel panel-default">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div class="row toggle" id="dropdown-detail-2" data-toggle="detail-2">
+                                                <div class="col-xs-10">
+                                                    Videos
+                                                </div>
+                                                <div class="col-xs-2"><i class="fa fa-chevron-down pull-right"></i></div>
+                                            </div>
+                                            <div id="detail-2">
+                                                <hr></hr>
+                                                <div class="container">
+                                                    <div class="fluid-row">
+                                                        <div class="col-xs-5">
+                                                        {# Liste videos #}
+                                                        {% for video in trick.mediaVideos %}
+                                                        <div class="petite col-lg-4 media center-block ">
+                                                            <div class="row">
+                                                                <div class="col-12 marge">
+                                                                    {{ video.video|raw }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {# Fin petit ecran videos #}
+                            {# GRAND ECRAN - CONTAINER IMAGES & VIDEOS  #}
+                            {% if trick.hasImages  %}{# Si elles existents #}
+                                <div>
+                                    <div>
+                                    <h1 class="media-grand-ecran">Images</h1>
+                                        <div class="row jumbotron media-grand-ecran">
+                                           {# AFFICHAGE IMAGES #}
+                                           {% for image in trick.images %}
+                                               <div class="petite col-lg-4 media center-block marge">
+                                                   <div class="row marge">
+                                                       <div class=" col-12">
+                                                           <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                                                               <img class="marge" src="{{ asset('uploads/'~image.path) }}"/></a>
                                                        </div>
                                                    </div>
-                                               {% endfor %}
-                                           </div>
-                                           {% endif %}
-                                           {# Affichage des videos #}
-                                           {% if trick.hasVideos  %}{# Si videos existent #}
-                                               <h1>Videos</h1>
-                                               <div class="row jumbotron">
-                                                   {% for video in trick.mediaVideos %}
-                                                       <div class="petite col-lg-4 media center-block ">
-                                                           <div class="row">
-                                                               <div class="col-12 marge">
-                                                                   {{ video.video|raw }}
-                                                               </div>
-                                                           </div>
-                                                       </div>
-                                                   {% endfor %}
                                                </div>
-                                           {% endif %}
-                                       </div>
-                                       <div class="container">
-                                           <div class="row jumbotron text-center">
-                                               <div>{{ trick.description }}</div>
-                                           </div>
-                                           <div class="row section-heading mb-4 text-center center-div ">
-                                               <div class="col-lg-12 label-div">
-                                                   <span class="col-lg-4 badge badge-primary">{{ trick.groupe }}</span>
-                                                   <span class="col-lg-4 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
-                                                   {% if trick.updatedAt == true %}
-                                                       <span class="col-lg-4 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
-                                                   {% else %}
-                                                       <span class="col-lg-4 badge badge-warning">Aucune modification</span>
-                                                   {% endif %}
-                                               </div>
-                                           </div>
-                                           {# Page incluant les commentaires #}
-                                           {% include 'comment/commentaire.html.twig' %}
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   </div>
-                   </div>
-               </div>
-           </section>
-       {% endblock %}
+                                           {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                        {# AFFICHAGE VIDEOS #}
+                                        {% if trick.hasVideos  %}{# Si videos existent #}
+                                        <h1 class="media-grand-ecran">Videos</h1>
+                                        <div class="row jumbotron media-grand-ecran">
+                                        {% for video in trick.mediaVideos %}
+                                            <div class="petite col-lg-4 media center-block ">
+                                                <div class="row">
+                                                    <div class="col-12 marge">
+                                                        {{ video.video|raw }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    <div class="row jumbotron text-center description">
+                                        <div>{{ trick.description }}</div>
+                                    </div>
+                                    <div class="row section-heading mb-4 text-center center-div ">
+                                        <div class="col-lg-12 label-div">
+                                            <span class="col-lg-4 badge badge-primary">{{ trick.groupe }}</span>
+                                            <span class="col-lg-4 badge badge-success">Créé le {{ trick.date|date("d/m/Y") }}</span>
+                                            {% if trick.updatedAt == true %}
+                                                <span class="col-lg-4 badge badge-warning">Modifié le {{ trick.updatedAt|date("d/m/Y") }}</span>
+                                            {% else %}
+                                                <span class="col-lg-4 badge badge-warning">Aucune modification</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {# PAGE COMMENTAIRES #}
+                                    {% include 'comment/commentaire.html.twig' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('vendor/js/petit_ecran_media.js') }}"></script>
+{% endblock %}
