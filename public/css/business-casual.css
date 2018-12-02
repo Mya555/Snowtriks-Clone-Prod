@@ -112,6 +112,19 @@ footer{
 
 
 /* ----- PETIT MENU & AFFICHAGE DE LA FIGURE ----- */
+.lien-login{
+  color: #8a0016;
+  margin-left: 0.5em;
+  font-family:'Sedgwick Ave', cursive; ;
+}
+.fa-sign-in{
+  color: #e9e9e9;
+  margin-right: 0.7em;
+}
+.fa-sign-out{
+  color: #8a0016;
+  margin-right: 0.7em;
+}
 .petit-menu{
   margin-right: 2%;
 }
@@ -127,8 +140,6 @@ footer{
   font-weight: bold;
   color: #c70004;
   font-family: "Mongolian Baiti";
-
-
 }
 .marge
 {

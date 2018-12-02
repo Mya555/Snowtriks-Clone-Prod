@@ -39,23 +39,23 @@
                     <div class="container">
                         <!-- Navigation petit écran -->
                         <nav class="navbar navbar-toggleable-sm dropdown petit-menu" >
+                            {# BOUTON SIGN-IN & SIGN-OUT #}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></a>
+                            {% else %}
+                            <a href="{{ path('login') }}"><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></a>
+                            {% endif %}
+                            {# FIN BOUTON #}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <h2 data-toggle="dropdown"><span class="badge badge-info">Menu</span></h2>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ path('homepage') }}">Accueil</a>
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('add') }}">Ajouter</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                                    <a class="dropdown-item" href="{{ path('login') }}">Login</a>
-                                    <a class="dropdown-item" href="{{ path('user_registration') }}">S'inscrire</a>
-                                {% endif %}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <a class="dropdown-item" href="{{ path('logout') }}">Sortir</a>
-                                {% endif %}
+                                <a class="dropdown-item" href="{{ path('update_user', {'id': app.user.id}) }}">Avatar</a>
+                                <a class="dropdown-item" href="{{ path('add') }}">Ajouter</a>
                             </div>
+                            {% else %}
+                                <a class="navbar-brand text-uppercase text-expanded font-weight-bold" href="{{ path('homepage') }}">Accueil</a>
+                            {% endif %}
                         </nav>
                         <!-- fin navigation petit écran -->
 
