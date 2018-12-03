@@ -104,9 +104,15 @@ footer{
 
 
 /* ----- LISTE AJOUT MEDIA ----- */
+.ajout-media{
+  margin-top: 7em;
+  margin-bottom: 7em;
+
+}
 .list_ul
 {
-  margin: 2em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
 }
 /* fin media */
 
@@ -389,11 +395,6 @@ p {
   display: none;
 }
 
-/* SPAN DE LA PAGE EDIT */
-.edit-span{
-  margin-bottom: 3.5em;
-}
-
 /* ALERT SUCCESS */
 .alert{
   margin-top: -11em;
@@ -436,6 +437,9 @@ margin-top: 2em;
   margin-top: 9em;
   max-height: 320px;
 }
+.bannierRegister{
+  margin-top: 9em;
+}
 .media{
   max-width: 15em;
   margin: 5px 0px;
@@ -451,3 +455,5 @@ margin-top: 2em;
   margin-bottom: 5em;
 }
 /* fin homepage */
+
+

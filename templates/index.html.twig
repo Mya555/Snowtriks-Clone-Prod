@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </header>
-            <div class="barre"></div>
+            </div><a href="#list"><div><i class="fa fa-arrow-circle-down pull-right"></i></div></a><div class="barre"></div>
         </section>
         <div class="album text-muted">
             <div class="container">
@@ -25,7 +25,7 @@
                 {% for  key,trick in tricks %}
 
                     <div class="{% if key > 9 %} hidden {% endif %}col-md-6 col-lg-4 col-sm-6 card-border ">
-                        <div class="card center-block col-md-auto">
+                         <div  id="list" class="card center-block col-md-auto">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                                 <div class="row bouton-cadre">
