@@ -29,12 +29,12 @@
                                                 </form>
                                             </div> <!-- Message d'erreur-->
                                             <div class="col-md-12 col-sm-12 textup erreur">
-
                                                 {% if error %}
                                                       <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                                                 {% endif %}
-
                                              </div>
+                                        <p>Pas encore inscrit?<a class="lien-login" href="{{ path('user_registration') }}">S'inscrire</a></p>
+                                        <p><a class="lien-login" href="{{ path('forgot') }}">Mot de passe oublié?</a></p>
                                         </div>
                                     </div>
                                 </div>

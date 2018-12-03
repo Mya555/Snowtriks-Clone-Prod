@@ -18,3 +18,19 @@
     color: white;
 }
 /* fin arrow */
+
+/* arrow pour defiler en bas sur index */
+@media (max-width: 630px) {
+    .fa-arrow-circle-down {
+        z-index: 1000;
+        margin: 4px;
+        font-size: 40px;
+        color: #8a0016;
+    }
+}
+@media (min-width: 630px) {
+    .fa-arrow-circle-down{
+        display: none;
+    }
+}
+

@@ -18,7 +18,7 @@ class MediaVideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url',TextType::class,array('label'=>'URL de la video',
+            ->add('url',TextType::class,array('label'=>'URL',
                 'required' => false,
                 'constraints' => [
                     new Regex('#^(http|https):\/\/(www.youtube.com|www.dailymotion.com|vimeo.com)\/#'),

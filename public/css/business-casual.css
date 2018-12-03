@@ -6,8 +6,8 @@ body {
   background-size: cover;
   font-family: 'Raleway', sans-serif;
   min-width: 450px;
-}
 
+}
 /* ----- AFFICHER PLUS ----- */
 .afficher
 {
@@ -104,14 +104,23 @@ footer{
 
 
 /* ----- LISTE AJOUT MEDIA ----- */
+.ajout-media{
+  margin-top: 7em;
+  margin-bottom: 7em;
+
+}
 .list_ul
 {
-  margin: 2em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
 }
 /* fin media */
 
 
 /* ----- PETIT MENU & AFFICHAGE DE LA FIGURE ----- */
+.description{
+  margin-top: 2em;
+}
 .petit-menu{
   margin-right: 2%;
 }
@@ -127,8 +136,6 @@ footer{
   font-weight: bold;
   color: #c70004;
   font-family: "Mongolian Baiti";
-
-
 }
 .marge
 {
@@ -303,6 +310,7 @@ p {
 .about-heading .about-heading-img{
   position: relative;
   z-index: 0;
+
 }
 @media (min-width: 992px) {
   .about-heading .about-heading-img {
@@ -387,11 +395,6 @@ p {
   display: none;
 }
 
-/* SPAN DE LA PAGE EDIT */
-.edit-span{
-  margin-bottom: 3.5em;
-}
-
 /* ALERT SUCCESS */
 .alert{
   margin-top: -11em;
@@ -432,6 +435,10 @@ margin-top: 2em;
 /* ----- IMAGE HOMEPAGE ENTETE ----- */
 .bannier{
   margin-top: 9em;
+  max-height: 320px;
+}
+.bannierRegister{
+  margin-top: 9em;
 }
 .media{
   max-width: 15em;
@@ -442,9 +449,11 @@ margin-top: 2em;
   margin: 0 auto;}
 
 .album{
-  margin-top: 2em;
+  margin-top: 3em;
 }
 .label-div{
   margin-bottom: 5em;
 }
 /* fin homepage */
+
+
