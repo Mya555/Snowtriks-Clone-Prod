@@ -126,6 +126,19 @@
                 </div>
                 {% endif %}
                 <!-- fin flashBag -->
+
+                <!-- FlashBag -->
+                {% if app.session.flashBag.has('reset_mdp') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {% for msg in app.session.flashBag.get('reset_mdp') %}
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <!-- fin flashBag -->
             {% endblock %}
 
             {% block content %}{% endblock %}

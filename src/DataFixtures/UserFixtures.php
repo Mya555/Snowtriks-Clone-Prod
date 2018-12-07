@@ -36,6 +36,7 @@ class UserFixtures extends Fixture
             $user->setEmail($email);
             $user->setRoles($roles);
             $user->setIsActive(true);
+            $user->setToken(null);
 
             $manager->persist($user);
         $this->addReference($username, $user);
@@ -47,7 +48,7 @@ class UserFixtures extends Fixture
     private function getUserData(): array
     {
         return[
-            ['jane', '123456', 'jane@gmail.com', ['ROLE_USER']],
+            ['jane', '123456', 'connexion3@protonmail.com', ['ROLE_USER']],
             ['jone', '123456', 'jone@gmail.com', ['ROLE_USER']],
         ];
     }

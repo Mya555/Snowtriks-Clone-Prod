@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\ResetPassType;
+use App\Events;
+use App\Event\ForgotPassEvent;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Form\ForgotPasswordType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Form\FormError;
 
 class UserController extends Controller
 {
@@ -118,11 +124,11 @@ class UserController extends Controller
             $user->setRoles( ['ROLE_USER'] );
 
             // On enregistre l'utilisateur dans la base
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist( $user );
-            $entityManager->flush();
+            $em = $this->em;
+            $em->persist( $user );
+            $em->flush();
 
-            //On déclenche l'évènement
+            //On crée l'évènement
             $event = new UserCreatedEvent( $user );
 
             //Et on le déclanche
@@ -156,7 +162,7 @@ class UserController extends Controller
         }
         // Activation de l'utilisateur
         $user->setIsActive( true )
-            ->setToken( null );
+             ->setToken( null );
 
         // On enregistre l'utilisateur dans la base
         $this->em->persist( $user );
@@ -170,8 +176,110 @@ class UserController extends Controller
         return $this->redirect( '/' );
     }
 
-    ///////////////////////
-    /// AJOUT DE AVATAR ///
+
+
+         ///////////////////////////
+        /// MOT DE PASSE OUBLIE ///
+       ///////////////////////////
+
+        /**
+         * @Route("/forgot", name="forgot")
+         * @param Request $request
+         * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+         */
+        public function forgotPass(Request $request){
+
+            // Récupération de entityManager
+            // Création du formulaire
+            // Gestion de la soumission du formulaire
+            $em = $this->em;
+            $form = $this->createForm(ForgotPasswordType::class);
+            $form->handleRequest($request);
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // Récupération des données du formulaire
+                // Liaison des login du formulaire et celui de l'utilisateur de la base de donnée
+                // Si l'utilisateur n'existe pas, l'erreur est retournée
+                $username = $form->getData();
+                $user = $em->getRepository(User::class)->findOneByUsername($username);
+                if (!$user) {
+                    throw new NotFoundHttpException( "L'utilisateur n'existe pas" );
+                }
+                // Encodage du mot de passe
+                // Enregistrement de l'utilisateur dans la base
+                $user->setResetToken($this->encoder->encodePassword( $user, $user->getResetToken()));
+                $em->persist($user);
+                $em->flush();
+
+                // Création de l'evenement
+                // Déclanchement de l'événement
+                $event = new ForgotPassEvent($user);
+                $this->dispatcher->dispatch(ForgotPassEvent::FORGOT_PASS, $event);
+
+                return $this->render(
+                    'user/confirmEmailPass.html.twig');
+
+        }
+            return $this->render(
+                'user/forgotPassword.html.twig',
+                ['form' => $form->createView()]
+            );
+
+        }
+
+         /////////////////////////////////////
+        /// REINITIALISER LE MOT DE PASSE ///
+       /////////////////////////////////////
+
+        /**
+         * @Route("/reset/{token}", name="reset_pass")
+         * @param Request $request
+         * @param $token
+         * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+         */
+        public function resetPassword(Request $request, $token)
+        {
+            // Récupération de entityManager
+            // Liaison des login du token et de l'utilisateur
+            // Si l'utilisateur n'existe pas, l'erreur est retournée
+            $em = $this->em;
+            $user = $em->getRepository(User::class)->findOneByResetToken($token);
+            if (is_null($user)) {
+                throw new NotFoundHttpException('Utilisateur introuvable');
+            }
+            // Récupération des données de l'entité user
+            // Création du formulaire
+            // Gestion de la soumission du formulaire
+            $email = $user->getEmail();
+            $form = $this->createForm(ResetPassType::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // Si l'utilisateur n'existe pas, l'erreur est retournée
+                if ($email != $form->getData()) {
+                    $form->get('email')->addError(new FormError("Cette adresse est invalide"));
+                }
+                    // Encodage du mot de passe
+                    $password = $this->encoder->encodePassword($user, $form->getData()['password']);
+                    $user->setPassword($password);
+                    $user->setResetToken(null);
+                    $em->persist($user);
+                    $em->flush();
+
+                    return $this->redirectToRoute('homepage');
+            }
+            return $this->render(
+                'user/resetPassword.html.twig',
+                ['form' => $form->createView()]
+            );
+        }
+
+
+      ///////////////////////
+     /// AJOUT DE AVATAR ///
     ///////////////////////
     /**
      * @Route("/avatar/{id}", name="update_user")
