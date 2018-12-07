@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<section class="page-section about-heading">
+    <div class="container">
+        <div class="row  p-5" id="box-search">
+            <div class="sm-faded rounded center-block col-lg-6">
+                <div>
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Figure</span>
+                        <span class="titre section-heading-lower">{{ trick.name }}</span>
+                    </h2>
+                </div>
+                <div class="thumbnail text-center first-image-container center-block col-lg-10 ">
+                    <img class="img-responsive thumbnail text-center img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{{asset(trick.coverPath)}}" alt=""/>
+                </div>
+            </div>
+        </div>
+        <div class="about-heading-content">
+            <div class="row">
+                <div class="col-xl-10 col-lg-11 mx-auto">
+                    <div class="bg-faded rounded p-5">
+                        {# Bouton d'édition visible uniquement aux inscrits #}
+                        {% if is_granted('ROLE_USER') %}
+                            <div class="row pull-right" role="group" >
+                                <div><a href="{{ path('edit', {'id': trick.id}) }}" > <i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+                                <div><a href="{{ path('delete', {'id': trick.id}) }}" > <i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                            </div>
+                        {% endif %}
+                        <div class="album">
+                            <div class="container ">
+
+                            {% block show_content %}{% endblock %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('vendor/js/petit_ecran_media.js') }}"></script>
+{% endblock %}

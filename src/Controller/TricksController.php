@@ -119,7 +119,7 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId($id)));
         }
-        return $this->render('trick/show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
+        return $this->render('trick/show/show.html.twig', array('trick' => $trick,  'form' => $form->createView(), 'id' => $trick->getId($id), 'comment' => $comment));
     }
 
      //////////////////////////
@@ -159,7 +159,7 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId(), 'trick' => $trick));
         }
-        return $this->render('trick/add.html.twig', array(
+        return $this->render('trick/add/add.html.twig', array(
             'form' => $form->createView()));
     }
 
@@ -202,7 +202,7 @@ class TricksController extends Controller
 
             return $this->redirectToRoute('show', array('id' => $trick->getId()));
         }
-        return $this->render('trick/edit.html.twig', array(
+        return $this->render('trick/edit/edit.html.twig', array(
             'trick' => $trick,
             'form'   => $form->createView(),
         ));
