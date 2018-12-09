@@ -1,0 +1,18 @@
+{% if trick.hasVideos  %}
+    <h1 class="marge media-grand-ecran">Videos</h1>
+    <div class="row media-grand-ecran jumbotron">
+        {% for video in trick.mediaVideos %}
+            <div class="col-lg-4 media marge">
+                <div class="row ">
+                    <div class="col-12">
+                        {{ video.video|raw }}
+                    </div>
+                    <div class="col-12" id="videos">
+                        <a href="{{ path('deleteVideo', {'id': video.id}) }}" class="btn btn-danger btn-block delete-item" data-id="{{ video.id }}">
+                            Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

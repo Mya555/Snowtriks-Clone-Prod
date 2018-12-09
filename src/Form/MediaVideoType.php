@@ -22,7 +22,6 @@ class MediaVideoType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex('#^(http|https):\/\/(www.youtube.com|www.dailymotion.com|vimeo.com)\/#'),
-
                  ]
                 ));
     }

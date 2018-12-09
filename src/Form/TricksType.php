@@ -49,7 +49,7 @@ class TricksType extends AbstractType
                 'by_reference' => false,
                 'required' => false,
                 ])
-            ->add('mediaVideos',      CollectionType::class, [
+            ->add('mediaVideos', CollectionType::class, [
                 'entry_type' => MediaVideoType::class,
                 'prototype' => true,
                 'required' => false,

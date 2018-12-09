@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<section class="page-section about-heading">
+    <div class="container">
+        <div class="row" id="box-search">
+            <div class="thumbnail text-center">
+                <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0"  src="{{ asset('img/sky.jpg') }}" alt="trick">
+                <div class="caption">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Edite ta figure</span>
+                        <span class="titre section-heading-lower">{{ trick.name }}</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="about-heading-content">
+            <div class="row">
+                <div class="col-xl-9 col-lg-10 mx-auto">
+                    <div class="bg-faded rounded p-5">
+                    <span class="col-lg-3 badge badge-success">Créé le 10/10/2018</span>
+
+                    {% block edit_content %}{% endblock %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('vendor/js/petit_ecran_media.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/js/add_media.js') }}"></script>
+{% endblock %}
+
+
+
+
