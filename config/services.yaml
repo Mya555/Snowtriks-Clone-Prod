@@ -1,7 +1,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'fr'
     comment_nb: 100
     img_directory: '%kernel.project_dir%/public/uploads'
     app.notifications.email_sender: connexion3@protonmail.com
@@ -33,6 +32,10 @@ services:
 
     App\EventSubscriber\RegistrationNotifySubscriber:
         $sender: '%app.notifications.email_sender%'
+
+    App\EventSubscriber\ForgotPassNotifySubscriber:
+        $sender: '%app.notifications.email_sender%'
+
 
 
 

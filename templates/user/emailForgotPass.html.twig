@@ -1,0 +1,9 @@
+Réinitialisation de mot de passe
+
+
+Tu as oublié ton mot de passe {{ user.username|upper }} ?
+Pas de soucis , avec ce lien tu peux le réinitialiser pour t'en créer un nouveau :
+
+ {{ absolute_url(path('reset_pass', {"token": user.getResetToken()})) }}
+
+Envoyé par SnowTricks ♥

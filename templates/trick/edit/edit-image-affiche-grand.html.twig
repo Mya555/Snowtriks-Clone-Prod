@@ -1,0 +1,22 @@
+{% if trick.hasImages  %}
+    <h1 class="marge media-grand-ecran">Images</h1>
+    <div class="row media-grand-ecran jumbotron">
+        {% for image in trick.images %}
+            <div class="petite col-lg-4 media center-block ">
+                <div class="row marge">
+                    <div class="  col-12">
+                        <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                            <img src="{{ asset('uploads/'~image.path) }}"/></a>
+                    </div>
+                    <div class="col-12">
+                        <a href="{{ path('deleteImage', {'id': image.id}) }}" >
+                            <button class="btn btn-danger btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Supprimer
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

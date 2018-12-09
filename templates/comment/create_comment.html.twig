@@ -1,0 +1,10 @@
+{% extends trick/show.html.twig %}
+
+{% block title %} Ajoute un commentaire {% endblock %}
+
+{%  block body %}
+    <h1>Ajoute le commentaire pour le Trick {{ comment.tricks.title }}"</h1>
+
+    {% include 'comment/form.html.twg' with {'form': form} %}
+
+{% endblock %}

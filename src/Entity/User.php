@@ -110,6 +110,13 @@ class User implements UserInterface,  \Serializable
      */
     private $token;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $resetToken = null;
+
 
     /**
      * User constructor.
@@ -121,6 +128,24 @@ class User implements UserInterface,  \Serializable
 
     /********** GETTERS & SETTERS **********/
 
+
+    /**
+     * @return string
+     */
+    public function getResetToken()
+    {
+        return $this->resetToken;
+    }
+    /**
+     * @param string $resetToken
+     *
+     * @return self
+     */
+    public function setResetToken($resetToken)
+    {
+        $this->resetToken = $resetToken;
+        return $this;
+    }
 
     public function getToken(): ?string
     {

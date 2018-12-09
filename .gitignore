@@ -6,6 +6,7 @@
 public/uploads/
 .idea/
 
+
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###
@@ -19,6 +20,7 @@ public/uploads/
 
 ###> phpunit/phpunit ###
 /phpunit.xml
+ /bin/.phpunit
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###

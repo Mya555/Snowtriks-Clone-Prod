@@ -1,4 +1,7 @@
 {
+    "symfony/contracts": {
+        "version": "v1.0.2"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -7,5 +10,20 @@
             "version": "4.1",
             "ref": "0e548dd90adba18fabd4ef419b14d361fe4d6c74"
         }
+    },
+    "symfony/security-core": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-guard": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-http": {
+        "version": "v4.2.1"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.2.1"
     }
 }

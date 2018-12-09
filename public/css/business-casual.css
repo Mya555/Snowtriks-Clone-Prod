@@ -1,4 +1,5 @@
 body {
+  height:100vh;
   font-family: 'Lora';
   background: linear-gradient(rgba(5, 15, 47, 0.65), rgba(6, 21, 47, 0.65)), url("../img/bg.jpg");
   background-attachment: fixed;
@@ -6,8 +7,8 @@ body {
   background-size: cover;
   font-family: 'Raleway', sans-serif;
   min-width: 450px;
-}
 
+}
 /* ----- AFFICHER PLUS ----- */
 .afficher
 {
@@ -21,17 +22,16 @@ body {
   font-size:12px;
   padding:15px 0 10px 0;
 }
-.footer {
-  background-color: rgba(8, 24, 47, 0.9);
-}
-footer{
-  background-color:#222222;
-}
 .copyright{
-  margin-top: 13em;
-  height: 60px;
-  bottom: 0;
+
+  position: absolute;
+  left: 0;
+  margin-bottom: 0;
+  height: 80px;
   width: 100%;
+  overflow: hidden;
+  color: white;
+  text-align: center;
   background-color: rgba(6, 21, 47, 0.7);
 }
 #copyright-text{
@@ -104,14 +104,23 @@ footer{
 
 
 /* ----- LISTE AJOUT MEDIA ----- */
+.ajout-media{
+  margin-top: 7em;
+  margin-bottom: 7em;
+
+}
 .list_ul
 {
-  margin: 2em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
 }
 /* fin media */
 
 
 /* ----- PETIT MENU & AFFICHAGE DE LA FIGURE ----- */
+.description{
+  margin-top: 2em;
+}
 .petit-menu{
   margin-right: 2%;
 }
@@ -127,8 +136,6 @@ footer{
   font-weight: bold;
   color: #c70004;
   font-family: "Mongolian Baiti";
-
-
 }
 .marge
 {
@@ -195,6 +202,10 @@ p {
   font-weight: 100;
   line-height: 4rem;
 }
+.page-section{
+  margin-top: 3em;
+  margin-bottom: 20em;
+}
 
 
 .section-heading {
@@ -225,9 +236,9 @@ p {
   font-family: 'Raleway';
 }
 #mainNav .navbar-brand {
-  color: #8ae6e3;
+  color: #8ae6e3;}
 
-}
+
 #mainNav .navbar-nav .nav-item .nav-link {
   color: rgba(255, 255, 255, 0.7);
   font-weight: 800;
@@ -303,6 +314,7 @@ p {
 .about-heading .about-heading-img{
   position: relative;
   z-index: 0;
+
 }
 @media (min-width: 992px) {
   .about-heading .about-heading-img {
@@ -387,11 +399,6 @@ p {
   display: none;
 }
 
-/* SPAN DE LA PAGE EDIT */
-.edit-span{
-  margin-bottom: 3.5em;
-}
-
 /* ALERT SUCCESS */
 .alert{
   margin-top: -11em;
@@ -432,6 +439,10 @@ margin-top: 2em;
 /* ----- IMAGE HOMEPAGE ENTETE ----- */
 .bannier{
   margin-top: 9em;
+  max-height: 320px;
+}
+.bannierRegister{
+  margin: 9em 9em;
 }
 .media{
   max-width: 15em;
@@ -442,9 +453,11 @@ margin-top: 2em;
   margin: 0 auto;}
 
 .album{
-  margin-top: 2em;
+  margin-top: 3em;
 }
 .label-div{
   margin-bottom: 5em;
 }
 /* fin homepage */
+
+

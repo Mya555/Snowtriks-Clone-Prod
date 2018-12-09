@@ -2,8 +2,8 @@
 
     {% block content %}
 
-        <section class="page-section about-heading list-head">
-            <header class="masthead" style="background-image: url('{{ asset('img/mont.jpg ')}}')">
+        <section class=" about-heading list-head">
+            <header class="masthead" style="background-image: url('{{ asset('img/mont.jpg ')}}');">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </header>
-            <div class="barre"></div>
+            </div><a href="#list"><div><i class="fa fa-arrow-circle-down pull-right"></i></div></a><div class="barre"></div>
         </section>
         <div class="album text-muted">
             <div class="container">
@@ -25,15 +25,15 @@
                 {% for  key,trick in tricks %}
 
                     <div class="{% if key > 9 %} hidden {% endif %}col-md-6 col-lg-4 col-sm-6 card-border ">
-                        <div class="card center-block col-md-auto">
+                         <div  id="list" class="card center-block col-md-auto">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                                 <div class="row bouton-cadre">
                                     <div>
-                                        <a href="{{ path('edit', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <a href="{{ path('edit', {'id': trick.id}) }}" class=" "> <i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </div>
                                     <div>
-                                        <a href="{{ path('delete', {'id': trick.id}) }}" class="snip1489"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <a href="{{ path('delete', {'id': trick.id}) }}" class=""> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             {% endif %}
@@ -53,6 +53,7 @@
                 <div><a href="#" title="Haut de page" class="scrollup"><i class="fa fa-arrow-up"></i></a></div>
 
                 {# Bouton pour diminuer le nombre d'affichage #}
+                {% if tricks|length > 14 %}
                 <div class="container">
                     <div class="wrap">
                         <a href="#"  id="more" class="button2">Afficher Plus</a>
@@ -61,6 +62,7 @@
 
                 {# Flèche pour remonter en haut #}
                      <div><a href="#" title="Haut de page" class="scrollup"><i class="fa fa-arrow-up"></i></a></div>
+                 {% endif %}
         </div>
     </div>
 </div>

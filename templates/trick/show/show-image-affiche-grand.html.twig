@@ -1,0 +1,16 @@
+{% if trick.hasImages  %}{# Si elles existents #}
+    <h1 class="media-grand-ecran">Images</h1>
+    <div class="row jumbotron media-grand-ecran">
+        {# AFFICHAGE IMAGES #}
+        {% for image in trick.images %}
+            <div class="petite col-lg-4 media center-block marge">
+                <div class="row marge">
+                    <div class=" col-12">
+                        <a href="{{ asset('uploads/'~image.path) }}" data-lightbox="roadtrip">
+                            <img class="marge" src="{{ asset('uploads/'~image.path) }}"/></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
