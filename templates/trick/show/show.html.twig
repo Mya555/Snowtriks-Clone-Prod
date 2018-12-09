@@ -1,0 +1,10 @@
+{% extends 'trick/show/show-base.html.twig' %}
+
+{% block show_content %}
+    {% include 'trick/show/show-image-affiche-petit.html.twig' %}{# AFFICHAGE DES IMAGES - PETIT ECRAN #}
+    {% include 'trick/show/show-video-affiche-petit.html.twig' %}{# AFFICHAGE DES VIDEOS - PETIT ECRAN #}
+    {% include 'trick/show/show-image-affiche-grand.html.twig' %}{# AFFICHAGE DES IMAGES - GRAND ECRAN #}
+    {% include 'trick/show/show-video-affiche-grand.html.twig' %}{# AFFICHAGE DES VIDEOS - GRAND ECRAN #}
+    {% include 'trick/show/show-description-tag.html.twig' %}{# DESCRIPTION & TAGS #}
+    {% include 'comment/commentaire.html.twig' %}{# COMMENTAIRES #}
+{% endblock %}

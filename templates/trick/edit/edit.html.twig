@@ -1,0 +1,10 @@
+
+{% extends 'trick/edit/edit-base.html.twig' %}
+
+{% block edit_content %}
+    {% include 'trick/edit/edit-image-affiche-petit.html.twig' %}{# AFFICHAGE DES IMAGES - PETIT ECRAN #}
+    {% include 'trick/edit/edit-video-affiche-petit.html.twig' %}{# AFFICHAGE DES VIDEOS - PETIT ECRAN #}
+    {% include 'trick/edit/edit-image-affiche-grand.html.twig' %}{# AFFICHAGE DES IMAGES - GRAND ECRAN #}
+    {% include 'trick/edit/edit-video-affiche-grand.html.twig' %}{# AFFICHAGE DES VIDEOS - GRAND ECRAN #}
+    {% include 'trick/edit/edit-form.html.twig' %}{# AFFICHAGE DU FORMULAIRE #}
+{% endblock %}

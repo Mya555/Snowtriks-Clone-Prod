@@ -1,4 +1,5 @@
 body {
+  height:100vh;
   font-family: 'Lora';
   background: linear-gradient(rgba(5, 15, 47, 0.65), rgba(6, 21, 47, 0.65)), url("../img/bg.jpg");
   background-attachment: fixed;
@@ -21,17 +22,16 @@ body {
   font-size:12px;
   padding:15px 0 10px 0;
 }
-.footer {
-  background-color: rgba(8, 24, 47, 0.9);
-}
-footer{
-  background-color:#222222;
-}
 .copyright{
-  margin-top: 13em;
-  height: 60px;
-  bottom: 0;
+
+  position: absolute;
+  left: 0;
+  margin-bottom: 0;
+  height: 80px;
   width: 100%;
+  overflow: hidden;
+  color: white;
+  text-align: center;
   background-color: rgba(6, 21, 47, 0.7);
 }
 #copyright-text{
@@ -202,6 +202,10 @@ p {
   font-weight: 100;
   line-height: 4rem;
 }
+.page-section{
+  margin-top: 3em;
+  margin-bottom: 20em;
+}
 
 
 .section-heading {
@@ -232,9 +236,9 @@ p {
   font-family: 'Raleway';
 }
 #mainNav .navbar-brand {
-  color: #8ae6e3;
+  color: #8ae6e3;}
 
-}
+
 #mainNav .navbar-nav .nav-item .nav-link {
   color: rgba(255, 255, 255, 0.7);
   font-weight: 800;
@@ -438,7 +442,7 @@ margin-top: 2em;
   max-height: 320px;
 }
 .bannierRegister{
-  margin-top: 9em;
+  margin: 9em 9em;
 }
 .media{
   max-width: 15em;
