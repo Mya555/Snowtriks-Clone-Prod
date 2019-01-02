@@ -54,7 +54,7 @@ class User implements UserInterface,  \Serializable
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user",  cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author",  cascade={"persist", "remove"})
      */
     private $comments;
 

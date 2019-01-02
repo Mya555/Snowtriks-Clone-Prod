@@ -1,7 +1,7 @@
-{% if trick.hasVideos  %}{# Si videos existent #}
+{% if trick.mediaVideos  %}{# Si videos existent #}
     <h1 class="media-grand-ecran">Videos</h1>
     <div class="row jumbotron media-grand-ecran">
-        {% for video in trick.mediaVideos %}
+        {% for video in trick.mediaVideos if video.id %}
             <div class="petite col-lg-4 media center-block ">
                 <div class="row">
                     <div class="col-12 marge">

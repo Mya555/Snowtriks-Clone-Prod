@@ -4,6 +4,7 @@ parameters:
     comment_nb: 100
     img_directory: '%kernel.project_dir%/public/uploads'
     app.notifications.email_sender: connexion3@protonmail.com
+    locale: 'fr'
 
 services:
         # default configuration for services in *this* file
@@ -35,6 +36,8 @@ services:
 
     App\EventSubscriber\ForgotPassNotifySubscriber:
         $sender: '%app.notifications.email_sender%'
+
+
 
 
 

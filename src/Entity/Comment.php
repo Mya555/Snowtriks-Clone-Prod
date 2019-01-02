@@ -31,6 +31,7 @@ class Comment
      */
     private $comment;
 
+
      /**
      * Date de la creation du commentaire
      * @ORM\Column(name="dateCom", type="datetime", options={"default"="CURRENT_TIMESTAMP"})

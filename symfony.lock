@@ -1,6 +1,15 @@
 {
+    "symfony/browser-kit": {
+        "version": "v4.2.1"
+    },
     "symfony/contracts": {
         "version": "v1.0.2"
+    },
+    "symfony/css-selector": {
+        "version": "v4.2.1"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.2.1"
     },
     "symfony/phpunit-bridge": {
         "version": "4.1",
@@ -22,6 +31,15 @@
     },
     "symfony/security-http": {
         "version": "v4.2.1"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "1fb02a6e1c8f3d4232cce485c9afa868d63b115a"
+        }
     },
     "symfony/var-exporter": {
         "version": "v4.2.1"
