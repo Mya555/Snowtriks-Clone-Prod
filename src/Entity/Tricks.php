@@ -42,6 +42,7 @@ class Tricks
     private $imageFile;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MediaVideo", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $mediaVideos;
     /**

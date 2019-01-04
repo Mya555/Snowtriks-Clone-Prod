@@ -18,17 +18,16 @@ class TricksControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', '/');
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     /**
-     * @param $url
+     * @dataProvider provideUrls
      */
-    public function testPageIsSuccessful($url)
+    public function testPageIsSuccessful()
     {
         $client = self::createClient();
-        $client->request('GET', $url);
+        $client->request('GET', '/');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
     }

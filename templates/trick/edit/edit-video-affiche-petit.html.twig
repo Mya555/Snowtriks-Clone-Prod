@@ -14,7 +14,7 @@
                             <div class="fluid-row">
                                 <div class="col-xs-5">
                                     {# Liste videos #}
-                                    {% for video in trick.mediaVideos if video.id%}
+                                    {% for video in trick.mediaVideos  if video.id is not empty %}
                                         <div class="petite col-lg-4 media center-block ">
                                             <div class="row marge">
                                                 <div class="col-12">

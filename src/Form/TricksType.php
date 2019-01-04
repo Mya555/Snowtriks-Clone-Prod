@@ -55,7 +55,6 @@ class TricksType extends AbstractType
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => false,
-                'mapped' => true,
                 'by_reference' => false,
             ])
             ->add('groupe',      TextType::class)
