@@ -64,17 +64,17 @@ class MediaVideo
     {
         $control = $this->getType();  // on récupère le type de la vidéo
         $id = strip_tags($this->getIdentif()); // on récupère son identifiant
-
+        $embed ="";
         if($control == 'youtube')
         {
             $embed = "https://www.youtube.com/watch?v=".$id;
-            return $embed;
         }
         else if ($control == 'dailymotion')
         {
             $embed = "https://www.dailymotion.com/video/".$id;
-            return $embed;
         }
+        $this->url = $embed;
+        return $this->url;
     }
 
     /**
