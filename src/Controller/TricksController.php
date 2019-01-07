@@ -12,8 +12,8 @@ use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Form\TricksEditType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @property TokenStorageInterface tokenStorage
  * @property TricksRepository trickRepo
  */
-class TricksController extends Controller
+class TricksController extends AbstractController
 {
 
     /**

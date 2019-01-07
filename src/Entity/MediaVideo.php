@@ -43,6 +43,7 @@ class MediaVideo
     private $trick;
 
     /**
+     * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="#^(http|https):\/\/(www.youtube.com|www.dailymotion.com|vimeo.com)\/#",
      *     match=true,
@@ -61,6 +62,18 @@ class MediaVideo
      */
     public function getUrl()
     {
+        $control = $this->getType();  // on récupère le type de la vidéo
+        $id = strip_tags($this->getIdentif()); // on récupère son identifiant
+        $embed ="";
+        if($control == 'youtube')
+        {
+            $embed = "https://www.youtube.com/watch?v=".$id;
+        }
+        else if ($control == 'dailymotion')
+        {
+            $embed = "https://www.dailymotion.com/video/".$id;
+        }
+        $this->url = $embed;
         return $this->url;
     }
 
@@ -219,7 +232,7 @@ class MediaVideo
     public function extractIdentif()
     {
 
-        $url = $this->getUrl();  // on récupère l’url
+        $url = $this->url;  // on récupère l’url
         if (preg_match("#^(http|https)://www.youtube.com/#", $url))  // Si c’est une url Youtube on execute la fonction correspondante
         {
             $this->youtubeId($url);

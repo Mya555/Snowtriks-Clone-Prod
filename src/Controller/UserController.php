@@ -7,8 +7,8 @@ use App\Events;
 use App\Event\ForgotPassEvent;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use App\Form\ForgotPasswordType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Form\FormError;
 
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * @var AuthenticationUtils
