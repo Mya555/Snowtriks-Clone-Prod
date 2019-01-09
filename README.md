@@ -2,7 +2,7 @@
 
 <p>The projet is created for the curcus of OpenClassrooms.</p>
 <p>The project must be created about the snow trick community , and without any Bundle.</p>
-<p>Developped with the Symfony 4 framework</p>
+<p>Developped with the Symfony 4 framework.</p>
 
 # The quality of the code
 
