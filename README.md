@@ -15,26 +15,26 @@ Developped with the Symfony 4 framework
 1 - Download or clone the repository git
 https://github.com/Mya555/Snowtricks-Projet-6.git
 
-2 - Download dependencies
+2 - Download dependencies :
 composer install 
 
-3 - Create database
+3 - Create database :
 php bin/console doctrine:database:create
 
-4 - Create schema
+4 - Create schema :
 php bin/console doctrine:schema:update --force
 
-5 - Fixtures of data
+5 - Load fixtures :
 php bin/console doctrine:fixtures:load
 
-6 - Server
+6 - Run the server :
 PHP -S localhost:8080
 
 # Existing users
 
-login-1: jane = password : 123456
+login 1: jane = password : 123456
 
-login-2: jone = password : 123456
+login 2: jone = password : 123456
 
 
 
