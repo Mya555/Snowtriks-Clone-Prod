@@ -3,10 +3,12 @@
     data-widget-tags="{{ '<li></li>'|e }}">
 
     {% for video in form.mediaVideos %}
-        <div {% if video.vars.data.id is not empty %} class="hidden">{% endif %}
-            {{ form_errors(video) }}
-            {{ form_widget(video) }}
-        </div>
+        <li>
+            <div {% if video.vars.data.id is not empty %} class="hidden">{% endif %}
+                {{ form_errors(video) }}
+                {{ form_widget(video) }}
+            </div>
+        </li>
     {% endfor %}
 </ul>
 <div class="col-sm-7">

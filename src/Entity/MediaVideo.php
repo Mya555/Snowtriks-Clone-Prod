@@ -62,6 +62,7 @@ class MediaVideo
      */
     public function getUrl()
     {
+
         $control = $this->getType();  // on récupère le type de la vidéo
         $id = strip_tags($this->getIdentif()); // on récupère son identifiant
         $embed ="";
