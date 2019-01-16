@@ -3,7 +3,7 @@
     data-widget-tags="{{ '<li></li>'|e }}">
 
     {% for video in form.mediaVideos %}
-        <li>
+        <li style="list-style-type: none">
             <div {% if video.vars.data.id is not empty %} class="hidden">{% endif %}
                 {{ form_errors(video) }}
                 {{ form_widget(video) }}

@@ -3,7 +3,7 @@
     data-widget-tags="{{ '<li></li>'|e }}">
 
 {% for image in form.images %}
-   <li>
+   <li style="list-style-type: none">
        <div {% if image.vars.data.id is not empty %} class="hidden">{% endif %}
         {{ form_errors(image) }}
         {{ form_widget(image) }}

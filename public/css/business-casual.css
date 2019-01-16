@@ -374,17 +374,17 @@ p {
 }
 
 .text-primary {
-  color: #2bbee6 !important;
+  color: #2bbee6;
 }
 .bg-primary {
-  background-color: #326ee6 !important;
+  background-color: #326ee6;
 }
 .btn {
   box-shadow: 0px 3px 3px 0px rgba(33, 37, 41, 0.1);
 }
 
 .font-weight-light {
-  font-weight: 100 !important;
+  font-weight: 100;
 }
 .list-head{
   margin-top: -178px;

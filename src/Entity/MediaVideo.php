@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Entity;
-
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Regex;
-
 /**
  * @property \DateTimeInterface date
  * @ORM\Table(name="media_video")
@@ -16,32 +12,25 @@ use Symfony\Component\Validator\Constraints\Regex;
 class MediaVideo
 {
     /********** ATTRIBUTS **********/
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $type;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $identif;
-
-
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\tricks", inversedBy="mediaVideos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Regex(
@@ -51,18 +40,12 @@ class MediaVideo
      * )
      */
     private $url;
-
-
-
     /********** GETTERS & SETTERS **********/
-
-
     /**
      * @return mixed
      */
     public function getUrl()
     {
-
         $control = $this->getType();  // on récupère le type de la vidéo
         $id = strip_tags($this->getIdentif()); // on récupère son identifiant
         $embed ="";
@@ -77,7 +60,6 @@ class MediaVideo
         $this->url = $embed;
         return $this->url;
     }
-
     /**
      * @param $url
      * @return mixed
@@ -86,8 +68,6 @@ class MediaVideo
     {
         return $this->url = $url;
     }
-
-
     /**
      * @return mixed
      */
@@ -95,7 +75,6 @@ class MediaVideo
     {
         return $this->id;
     }
-
     /**
      * Set type
      *
@@ -106,10 +85,8 @@ class MediaVideo
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
-
     /**
      * Get type
      *
@@ -119,8 +96,6 @@ class MediaVideo
     {
         return $this->type;
     }
-
-
     /**
      * Set identif
      *
@@ -131,10 +106,8 @@ class MediaVideo
     public function setIdentif($identif)
     {
         $this->identif = $identif;
-
         return $this;
     }
-
     /**
      * Get identif
      *
@@ -144,7 +117,6 @@ class MediaVideo
     {
         return $this->identif;
     }
-
     /**
      * @return \DateTimeInterface|null
      */
@@ -152,7 +124,6 @@ class MediaVideo
     {
         return $this->date;
     }
-
     /**
      * @param \DateTimeInterface $date
      * @return MediaVideo
@@ -160,10 +131,8 @@ class MediaVideo
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
-
         return $this;
     }
-
     /**
      * @return tricks|null
      */
@@ -171,7 +140,6 @@ class MediaVideo
     {
         return $this->trick;
     }
-
     /**
      * @param tricks|null $trick
      * @return MediaVideo
@@ -179,52 +147,35 @@ class MediaVideo
     public function setTrick(?tricks $trick): self
     {
         $this->trick = $trick;
-
         return $this;
     }
-
-
     /********** AUTRES METHODES **********/
-
     //Ajouter pour chaque plateforme une fonction pour extraire l’identifiant de la vidéo.
-
-
     // YouTube
-
     /**
      * @param $url
      */
     private function youtubeId($url)
     {
         $tableaux = explode("=", $url);  // découpe l’url en deux  avec le signe ‘=’
-
         $this->setIdentif($tableaux[1]);  // ajoute l’identifiant à l’attribut identif
         $this->setType('youtube');  // signale qu’il s’agit d’une video youtube et l’inscrit dans l’attribut $type
     }
-
     // Dailymotion
-
     /**
      * @param $url
      */
     private function dailymotionId($url)
     {
         $cas = explode("/", $url); // On sépare la première partie de l'url des 2 autres
-
         $idb = $cas[4];  // On récupère la partie qui nous intéressent
-
         $bp = explode("_", $idb);  // On sépare l'identifiant du reste
-
         $id = $bp[0]; // On récupère l'identifiant
-
         $this->setIdentif($id);  // ajoute l’identifiant à l’attribut identif
-
         $this->setType('dailymotion'); // signale qu’il s’agit d’une video dailymotion et l’inscrit dans l’attribut $type
     }
-
     // Fonction qui fera le lien entre l’url qui sera reçu lors de l’envoie du formulaire et contenu dans l’attribut $url.
     // Cette fonction sera exécuté avant chaque enregistrement de l’entité en base de donné.
-
     /**
      * @ORM\PrePersist() // Les trois événement suivant s’exécute avant que l’entité soit enregister
      * @ORM\PreUpdate()
@@ -232,7 +183,6 @@ class MediaVideo
      */
     public function extractIdentif()
     {
-
         $url = $this->url;  // on récupère l’url
         if (preg_match("#^(http|https)://www.youtube.com/#", $url))  // Si c’est une url Youtube on execute la fonction correspondante
         {
@@ -242,11 +192,8 @@ class MediaVideo
         {
             $this->dailymotionId($url);
         }
-
     }
-
     // Générer les url des vidéos
-
     /**
      * @return string
      */
@@ -254,7 +201,6 @@ class MediaVideo
     {
         $control = $this->getType();  // on récupère le type de la vidéo
         $id = strip_tags($this->getIdentif()); // on récupère son identifiant
-
         if($control == 'youtube')
         {
             $embed = "https://www.youtube-nocookie.com/embed/".$id;
@@ -266,37 +212,29 @@ class MediaVideo
             return $embed;
         }
     }
-
-        // Générer les url des thumbmails
-
+    // Générer les url des thumbmails
     /**
      * @return string
      */
     public function image()
-        {
-            $control = $this->getType();  // on récupère le type de la vidéo
-            $id = strip_tags($this->getIdentif()); // on récupère son identifiant
-
-            if ($control == 'youtube') {
-                $image = 'https://img.youtube.com/vi/' . $id . '/hqdefault.jpg';
-                return $image;
-            } else if ($control == 'dailymotion') {
-                $image = 'https://www.dailymotion.com/thumbnail/150x120/video/' . $id . '';
-                return $image;
-            }
+    {
+        $control = $this->getType();  // on récupère le type de la vidéo
+        $id = strip_tags($this->getIdentif()); // on récupère son identifiant
+        if ($control == 'youtube') {
+            $image = 'https://img.youtube.com/vi/' . $id . '/hqdefault.jpg';
+            return $image;
+        } else if ($control == 'dailymotion') {
+            $image = 'https://www.dailymotion.com/thumbnail/150x120/video/' . $id . '';
+            return $image;
         }
-
-
-        // Générer le code d’intégration
-
+    }
+    // Générer le code d’intégration
     /**
      * @return string
      */
     public function video()
-        {
-            $video = "<iframe width='100%' height='100%' src='".$this->url()."'  frameborder='0'  allowfullscreen></iframe>";
-            return $video;
-        }
-
-
+    {
+        $video = "<iframe width='100%' height='100%' src='".$this->url()."'  frameborder='0'  allowfullscreen></iframe>";
+        return $video;
+    }
 }
