@@ -270,8 +270,6 @@ class Tricks
     public function hasVideos(){
         if ($this->getMediaVideos()->isEmpty()){
             return false;
-        }else{
-            return true;
         }
         }
 
@@ -284,8 +282,6 @@ class Tricks
         if ($this->getImages()->isEmpty()){
             return 'img/bg.jpg';
         }
-        else{
-          return 'uploads/' . $this->getImages()->first()->getPath();
-        }
+       
     }
 }
